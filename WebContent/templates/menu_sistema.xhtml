@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+
+	<h:form id="FormNovo">
+		<div id='cssmenu'>
+			<ul>
+				<li><a href='index.jsf'><span>Home</span></a></li>
+				<li class='has-sub'><a href='#'><span>Cadastros</span></a>
+					<ul>
+						<li><a href='cadastroAtleta.jsf'><span>Cadastrar Atletas</span></a></li>
+						<li><a href='cadastroComissao.jsf'><span>Cadastrar C. Técnica</span></a></li>
+						<li><a href='cadastroClubes.jsf'><span>Cadastrar Clubes</span></a></li>
+						<li><a href='cadastroEstadio.jsf'><span>Cadastrar Estádios</span></a></li>
+						<li><a href='cadastroJogos.jsf'><span>Cadastrar Jogos</span></a></li>
+						<li class='last'><a href='cadastroEscalacao.jsf'><span>Cadastrar Escalações</span></a></li>
+					</ul>
+				</li>
+
+				<li class='has-sub'><a href='#'><span>Scout</span></a>
+					<ul>
+						<li><a href='novoScout.jsf'><span>Novo Scout</span></a></li>
+						<li><a href='consultarScouts.jsf'><span>Consultar Scouts</span></a></li>
+						<li class='last'><a href='relatoriosScouts.jsf'><span>Relatórios</span></a></li>
+					</ul></li>
+			</ul>
+		</div>
+	</h:form>
+</ui:composition>
+</html>
