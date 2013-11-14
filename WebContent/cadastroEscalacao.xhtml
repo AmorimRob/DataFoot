@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/templates/template.xhtml">
+	<ui:define name="titulo">
+Datafoot Scouts Online e Notícias de Futebol
+</ui:define>
+	<ui:define name="corpo">
+		<p:panel header="Cadastrar/Modificar Escalação do Jogo">
+
+			<f:facet name="actions">
+				<h:outputText value="Competição: " />
+				<p:selectOneMenu style="width: 200px;" />
+
+				<p:spacer width="20px" />
+
+				<h:outputText value="Jogo: " />
+				<p:selectOneMenu style="width: 200px;" />
+
+			</f:facet>
+			<h:form id="FormEscalacao">
+				<p:panelGrid>
+					<p:row>
+						<p:column colspan="4" style="border-bottom-style: hidden;">
+							<p:messages id="messages" showDetail="true" autoUpdate="true"
+								closable="true" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<!--  Escalação do time mandante  -->
+						<p:column>
+							<h:outputText value="Jogadores" />
+							<p:spacer width="20px" />
+
+							<p:commandButton icon="ui-icon-circle-plus"
+								value="Adicionar/Modificar Escalação"
+								onclick="PF('dialogEscalacao').show();" />
+
+							<p:dialog id="cadastroEscalacao"
+								header="Adicionar/Mofidicar Escalação"
+								widgetVar="dialogEscalacao" modal="true" height="180"
+								resizable="false">
+								<h:outputText value="Atletas" />
+								<br />
+								<br />
+								
+								<!-- 	
+							<p:panelGrid>
+									<p:row>
+										<p:column>
+										
+											<p:pickList id="listaAtletas" value="#{escalCtrl.listaAtleta}"
+												var="atleta" effect="bounce" itemValue="#{atleta}"
+												itemLabel="#{atleta.nome}" converter="atleta"
+												showSourceControls="true" showTargetControls="true"
+												showCheckbox="true" showSourceFilter="true"
+												showTargetFilter="true" filterMatchMode="contains">
+
+
+												<f:facet name="sourceCaption">Available</f:facet>
+												<f:facet name="targetCaption">Starting</f:facet>
+
+												<p:ajax event="transfer" listener="#{pickListBean.onTransfer}" update="msg" />
+												
+												
+												<p:column style="width:25%">
+													<p:graphicImage value="/images/barca/#{atleta.photo}" width="30" height="40" />
+												</p:column>
+
+												<p:column style="width:75%;"> 
+													<h:outputText value="#{atleta.nome}"/> 
+            									
+        										</p:column>
+        										
+											</p:pickList>
+										</p:column>
+									</p:row>
+								</p:panelGrid>
+								-->
+							</p:dialog>
+							
+							<br />
+							<br />
+							<p:dataTable id="escalMandante" var="escal"
+								value="#{escalCtrl.escalMandante}" editable="true"
+								editMode="row">
+								<p:ajax event="rowEdit" listener="#{tableBean.onEdit}" />
+								<p:ajax event="rowEditCancel" listener="#{tableBean.onCancel}" />
+
+								<p:column headerText="Número" style="width:30%">
+									<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{escal.numero}" />
+										</f:facet>
+										<f:facet name="input">
+											<p:inputText value="#{escal.numero}" style="width:100%" />
+										</f:facet>
+									</p:cellEditor>
+								</p:column>
+
+								<p:column headerText="Nome" style="width:30%">
+									<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{escal.Nome}" />
+										</f:facet>
+										<f:facet name="input">
+											<p:inputText value="#{escal.Nome}" style="width:100%" />
+										</f:facet>
+									</p:cellEditor>
+								</p:column>
+
+								<p:column headerText="Posição" style="width:30%">
+									<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{escal.posicao}" />
+										</f:facet>
+										<f:facet name="input">
+											<p:inputText value="#{escal.posicao}" style="width:100%" />
+										</f:facet>
+									</p:cellEditor>
+								</p:column>
+							</p:dataTable>
+						</p:column>
+
+						<!--  Escalação do time visitante  -->
+						<p:column>
+							<h:outputText value="Jogadores" />
+							<p:spacer width="20px" />
+
+							<p:commandButton icon="ui-icon-circle-plus"
+								value="Adicionar/Modificar Escalação"
+								onclick="PF('dialogEscalacaoVisitante').show();" />
+
+							<p:dialog id="cadastroEscalacaoVisitante"
+								header="Adicionar/Mofidicar Escalação"
+								widgetVar="dialogEscalacaoVisitante" modal="true" height="180"
+								resizable="false">
+								<h:outputText value="Atletas" />
+								<br />
+								<br />
+							</p:dialog>
+							<br />
+							<br />
+
+							<p:dataTable id="escalVisitante" var="escal"
+								value="#{escalCtrl.escalVisitante}" editable="true"
+								editMode="row">
+								<p:ajax event="rowEdit" listener="#{tableBean.onEdit}" />
+								<p:ajax event="rowEditCancel" listener="#{tableBean.onCancel}" />
+
+								<p:column headerText="Número" style="width:30%">
+									<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{escal.numero}" />
+										</f:facet>
+										<f:facet name="input">
+											<p:inputText value="#{escal.numero}" style="width:100%" />
+										</f:facet>
+									</p:cellEditor>
+								</p:column>
+
+								<p:column headerText="Nome" style="width:30%">
+									<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{escal.Nome}" />
+										</f:facet>
+										<f:facet name="input">
+											<p:inputText value="#{escal.Nome}" style="width:100%" />
+										</f:facet>
+									</p:cellEditor>
+								</p:column>
+
+								<p:column headerText="Posição" style="width:30%">
+									<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{escal.posicao}" />
+										</f:facet>
+										<f:facet name="input">
+											<p:inputText value="#{escal.posicao}" style="width:100%" />
+										</f:facet>
+									</p:cellEditor>
+								</p:column>
+							</p:dataTable>
+						</p:column>
+					</p:row>
+
+
+					<p:row>
+
+						<!-- COMISSÃO TECNICA DO TIME MANDANTE  -->
+						<p:column>
+							<h:outputText value="Comissão Técnica" />
+							<br />
+							<br />
+
+							<p:dataTable id="comissaoMandante" var="comissao"
+								value="#{escalCtrl.comissaoMandante}" editable="true"
+								editMode="row">
+								<p:ajax event="rowEdit" listener="#{tableBean.onEdit}" />
+								<p:ajax event="rowEditCancel" listener="#{tableBean.onCancel}" />
+
+								<p:column headerText="Nome" style="width:30%">
+									<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{comissao.nome}" />
+										</f:facet>
+										<f:facet name="input">
+											<p:inputText value="#{comissao.nome}" style="width:100%" />
+										</f:facet>
+									</p:cellEditor>
+								</p:column>
+
+								<p:column headerText="Função" style="width:30%">
+									<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{comissao.funcao}" />
+										</f:facet>
+										<f:facet name="input">
+											<p:inputText value="#{comissao.funcao}" style="width:100%" />
+										</f:facet>
+									</p:cellEditor>
+								</p:column>
+							</p:dataTable>
+						</p:column>
+
+						<!-- COMISSÃO TECNICA DO TIME VISITANTE  -->
+						<p:column>
+							<h:outputText value="Comissão Técnica" />
+							<br />
+							<br />
+
+							<p:dataTable id="comissaoVisitante" var="comissao"
+								value="#{escalCtrl.comissaoVisitante}" editable="true"
+								editMode="row">
+								<p:ajax event="rowEdit" listener="#{tableBean.onEdit}" />
+								<p:ajax event="rowEditCancel" listener="#{tableBean.onCancel}" />
+
+								<p:column headerText="Nome" style="width:30%">
+									<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{comissao.nome}" />
+										</f:facet>
+										<f:facet name="input">
+											<p:inputText value="#{comissao.nome}" style="width:100%" />
+										</f:facet>
+									</p:cellEditor>
+								</p:column>
+
+								<p:column headerText="Função" style="width:30%">
+									<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{comissao.funcao}" />
+										</f:facet>
+										<f:facet name="input">
+											<p:inputText value="#{comissao.funcao}" style="width:100%" />
+										</f:facet>
+									</p:cellEditor>
+								</p:column>
+							</p:dataTable>
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>
+</html>

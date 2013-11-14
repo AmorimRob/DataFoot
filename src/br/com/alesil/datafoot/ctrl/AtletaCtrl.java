@@ -17,17 +17,18 @@ public class AtletaCtrl {
 	private Atleta atleta;
 	private AtletaDao dao;
 
-	public AtletaCtrl(Atleta atleta, AtletaDao dao) {
+	public AtletaCtrl() {
 		this.atleta = new Atleta();
 		this.dao = new AtletaDao();
 	}
+	
 
 	public String salvar() {
 		try {
 			dao.executaTransacao(atleta, 1);
-			exibeMensagem("FormAtleta", "Cadastro Realizado!");
+			exibeMensagem("FormAtleta", "Atleta salvo/atualizado com sucesso!");
 		} catch (Exception erro) {
-			exibeMensagem("FormAtleta", "Erro ao Cadastrar!");
+			exibeMensagem("FormAtleta", "Erro ao salvar/atualizar, Verifique os campos de cadastro e tente novamente.");
 		}
 
 		return null;

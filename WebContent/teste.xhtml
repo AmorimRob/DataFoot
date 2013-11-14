@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/templates/template.xhtml">
+	<ui:define name="titulo">
+Datafoot Scouts Online e Notícias de Futebol
+</ui:define>
+	<ui:define name="corpo">
+
+<h:form prependId="false">
+	<p:panelGrid columns="2">
+			 	<p:row>
+					<p:column>
+						<p:panel>
+							<h:graphicImage id="player" value="resources/imagens/alesil.png" />
+							<p:draggable for="player" revert="true" />
+						</p:panel>
+					</p:column>
+					<p:column>
+						<p:panel>
+							<h:graphicImage id="player2" value="resources/imagens/alesil.png" />
+							<p:draggable for="player2" revert="true" />
+						</p:panel>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputPanel id="A1" styleClass="slot" />	
+						<p:droppable for="A1">
+							<p:ajax listener="#{barcelona.onDrop}"/>
+						
+						</p:droppable> 
+					</p:column>
+					<p:column>
+						<p:outputPanel id="A2" styleClass="slot2" />	
+						<p:droppable for="A2" /> 
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+
+	</h:form>
+</ui:define>
+</ui:composition>
+</html>

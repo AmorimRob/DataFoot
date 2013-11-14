@@ -1,4 +1,4 @@
-body, td, th {
+body{
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 14px;
 	background: url(#{resource['imagens:fundo.png']}); 
@@ -6,8 +6,8 @@ body, td, th {
 }
 
 /*
-th {
-	background: url(#{resource['imagens:fundo.JPG']}); 
+th, td {
+	background-color: red; 
 	min-height: 25px;
 	padding: 0px;
 }
@@ -64,18 +64,34 @@ img {
 	color: red;
 }
 
+#cssmenu .has-sub {
+  z-index: 1;
+}
+
+
 #cssmenu ul {
   margin: 0;
   padding: 0;
+  position: relative;
 }
 #cssmenu li {
   margin: 0;
   padding: 0;
+  position: relative;
 }
 #cssmenu a {
   margin: 0;
   padding: 0;
+  position: relative;
+  
 }
+
+#cssmenu spam {
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
 #cssmenu ul {
   list-style: none;
 }

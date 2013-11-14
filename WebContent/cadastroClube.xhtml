@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/templates/template.xhtml">
+	<ui:define name="titulo">
+Datafoot Scouts Online e Notícias de Futebol
+</ui:define>
+	<ui:define name="corpo">
+		<p:panel header="Cadastro de Clubes">
+			<p:panelGrid>
+				<p:row>
+					<p:column style="border-right-style: hidden;" >
+						<h:outputText value="Nome do Clube: " /> 
+					</p:column>
+					
+					<p:column style="border-right-style: hidden;">
+						<p:inputText value="#{clubeCtrl.clube.nomeClube}" style="width: 400px"/>
+					</p:column>
+
+					<p:column rowspan="6" colspan="2" style="text-align: center">
+						<p:graphicImage value="resources/imagens/sem-foto.jpg" width="300px" height="200px"/> 
+					</p:column>					
+
+				</p:row>
+				
+				<p:row>
+					<p:column style="border-right-style: hidden;">
+						<h:outputText value="Nome curto: "/>
+					</p:column> 
+					<p:column style="border-right-style: hidden;">
+						<p:inputText value="#{clubeCtrl.clube.nomeCurto}" style="width: 400px" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column style="border-right-style: hidden;">
+						<h:outputText value="Estado: "/>
+					</p:column>
+					
+					<p:column  style="border-right-style: hidden;" >
+						<p:selectOneMenu style="width: 200px;" /> 
+					</p:column>
+				</p:row>
+				
+				<p:row>
+					<p:column style="border-right-style: hidden;">
+						<h:outputText value="Cidade: "/>  
+					</p:column>
+					
+					<p:column style="border-right-style: hidden;">
+						<p:selectOneMenu style="width: 200px;" /> 
+						<p:spacer width="10px"/>
+						<p:commandButton icon="ui-icon-circle-plus" onclick="PF('dialogCidade').show();" style="position: absolute;" />  
+
+						<p:dialog id="cadastroCidade" header="Adicionar Cidade" widgetVar="dialogCidade"
+							modal="true" height="180" resizable="false">
+							<h:outputText value="Informe o nome da cidade" /><br/><br/>
+							
+							<h:outputText value="Cidade: " />
+							<h:inputText value="#{cidadeCtrl.cidade.nomeCidade}"/><br/><br/>
+							
+							<h:outputText value="Estado: " />
+							<p:selectOneMenu style="width: 200px;" /><br/><br/>
+							<center>
+									<p:commandButton icon="ui-icon-check" value="Salvar"/><p:spacer width="20px"/>
+									<p:commandButton icon="ui-icon-trash" value="Excluir"/><p:spacer width="20px"/>
+									<p:commandButton icon="ui-icon-search" value="Pesquisar"/>
+								</center>
+						</p:dialog>
+					</p:column>
+				</p:row>
+				
+				<p:row>
+					<p:column style="border-right-style: hidden;">
+						<h:outputText value="Estádio: "/> 
+					</p:column>
+					
+					<p:column style="border-right-style: hidden;">
+						<p:selectOneMenu style="width: 200px;" />
+					</p:column>				
+				</p:row>
+				
+				<p:row>
+					<p:column style="border-right-style: hidden;">
+						<h:outputText value="Website: "/> 
+					</p:column>
+					
+					<p:column style="border-right-style: hidden;">
+						<p:inputText value="#{clubeCtrl.clube.website}" />
+					</p:column>				
+				</p:row>
+				
+				<p:row>
+						<p:column colspan="4" style="text-align: center">
+							<p:commandButton icon="ui-icon-check" value="Salvar"/><p:spacer width="20px"/>
+							<p:commandButton icon="ui-icon-trash" value="Excluir"/><p:spacer width="20px"/>
+							<p:commandButton icon="ui-icon-search" value="Pesquisar"/>
+						</p:column>
+					</p:row>	
+					
+			</p:panelGrid>
+		</p:panel>
+	</ui:define>
+</ui:composition>
+</html>
