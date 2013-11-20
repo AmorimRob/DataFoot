@@ -3,9 +3,11 @@ package br.com.alesil.datafoot.dao;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 
+
 public class HibernateUtil {
 	public static final SessionFactory sessionFactory = buildSessionFactory();
 
+	@SuppressWarnings("deprecation")
 	public static SessionFactory buildSessionFactory(){
 		try{
 			AnnotationConfiguration cfg = new AnnotationConfiguration();

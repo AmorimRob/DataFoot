@@ -2,6 +2,7 @@ package br.com.alesil.datafoot.ctrl;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.ActionEvent;
 
 import br.com.alesil.datafoot.dao.CidadeDao;
 import br.com.alesil.datafoot.model.Cidade;
@@ -21,6 +22,7 @@ public class CidadeCtrl {
 	
 	public void salvar (){
 		operacao.salvar(cidade, dao, "FormCidade");
+		System.out.print("teste passou por aqui");
 	}
 	
 	public void excluir (){

@@ -5,12 +5,12 @@ import java.util.UUID;
 import javax.persistence.*;
 
 @Entity
-@Table(name="DF_CLUBE")
+@Table(name="df_clube")
 public class Clube {
 
 	@Id
 	@Column(name="CL_GUID_CLUBE")
-	private UUID guidClube;
+	private String guidClube;
 	
 	@Column(name="CL_NOME_CLUBE")
 	private String nomeClube;
@@ -30,11 +30,11 @@ public class Clube {
 	@Column(name="CL_WEBSITE")
 	private String website;
 
-	public UUID getGuidClube() {
+	public String getGuidClube() {
 		return guidClube;
 	}
 
-	public void setGuidClube(UUID guidClube) {
+	public void setGuidClube(String guidClube) {
 		this.guidClube = guidClube;
 	}
 

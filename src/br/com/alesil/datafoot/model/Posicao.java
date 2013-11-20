@@ -10,16 +10,16 @@ public class Posicao {
 	
 	@Id
 	@Column(name="POS_GUID_POSICAO")
-	private UUID guidPosicao;
+	private String guidPosicao;
 	
 	@Column(name="POS_NOME_POSICAO")
 	private String nome_posicao;
 
-	public UUID getGuidPosicao() {
+	public String getGuidPosicao() {
 		return guidPosicao;
 	}
 
-	public void setGuidPosicao(UUID guidPosicao) {
+	public void setGuidPosicao(String guidPosicao) {
 		this.guidPosicao = guidPosicao;
 	}
 

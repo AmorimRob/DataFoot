@@ -15,11 +15,25 @@
         <property name="format_sql">true</property>
         <property name="generate_statistics">true</property>
         <property name="use_sql_comments">true</property>
-        
-        <mapping resource = "br/com/mcsjava/dados/UsuarioBean.hbm.xml"/>
-        <mapping class = "br.com.mcsjava.dados.ProdutoBean"/>
-        <mapping class = "br.com.mcsjava.dados.VendaBean"/>
-        </session-factory>
+		
+        <mapping class = "br.com.alesil.datafoot.model.Atleta"/>
+        <mapping class = "br.com.alesil.datafoot.model.Categoria"/>
+        <mapping class = "br.com.alesil.datafoot.model.Cidade"/>
+        <mapping class = "br.com.alesil.datafoot.model.Clube"/>
+        <mapping class = "br.com.alesil.datafoot.model.ComissaoTecnica"/>
+
+        <mapping class = "br.com.alesil.datafoot.model.Competicao"/>
+
+        <mapping class = "br.com.alesil.datafoot.model.Esquema"/>
+        <mapping class = "br.com.alesil.datafoot.model.Estadio"/>
+        <mapping class = "br.com.alesil.datafoot.model.FuncaoComissaoTecnica"/>
+        <mapping class = "br.com.alesil.datafoot.model.Jogo"/>
+        <mapping class = "br.com.alesil.datafoot.model.Posicao"/>
+        <mapping class = "br.com.alesil.datafoot.model.Scout"/>
+        <mapping class = "br.com.alesil.datafoot.model.ScoutAcao"/>
+        <mapping class = "br.com.alesil.datafoot.model.ScoutDetalhes"/>
+        	
+     </session-factory>
 </hibernate-configuration>
 
 

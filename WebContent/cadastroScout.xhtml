@@ -6,225 +6,52 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 <ui:composition template="/templates/template.xhtml">
-	<ui:define name="titulo">
+<ui:define name="titulo">
 Datafoot Scouts Online e Notícias de Futebol
 </ui:define>
-	<ui:define name="corpo">
-		<p:panel header="Scout">
-			<f:facet name="actions">
+<ui:define name="corpo">
+	<p:panel header="Cadastro Scout">
+		<f:facet name="jogos">
+			<h:outputText value="Jogo: " />
+			<p:selectOneMenu style="width: 200px;" />
+		</f:facet>
+		
+		<h:form id="FormScout">
+			<p:panelGrid>
+				<p:row>
+					<p:column colspan="4"  style="border-right-style: hidden; border-top-style:hidden; border-left-style:hidden">
+						<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+					</p:column>
+				</p:row>
 
-				<h:outputText value="Jogo: " />
-				<p:selectOneMenu style="width: 200px;" />
-
-			</f:facet>
-
-			<h:form id="FormScout">
-				<p:panelGrid>
-					<p:row>
-						<p:column colspan="4" style="border-bottom-style: hidden;">
-							<p:messages id="messages" showDetail="true" autoUpdate="true"
-								closable="true" />
-						</p:column>
-					</p:row>
-
-					<p:row>
-						<p:column style="border-right-style: hidden;">
-							<p:carousel id="tabsCarousel" numVisible="1" circular="true"
-								itemStyle="height:900px;width:850px;" effect="easeInStrong">
-								<p:tab title="Mandante">
-									<p:panelGrid style="width: 800px ">
-										<p:row>
-											<p:column>
-												<h:outputText value="Número: " />
-												<p:selectOneMenu />
-											</p:column>
-
-											<p:column rowspan="2">
-												<h:graphicImage value="resources/imagens/sem-estadio.jpg" />
-											</p:column>
-										</p:row>
-
-										<p:row>
-											<p:column>
-												<h:outputText value="Código da ocorrência: " />
-												<p:commandButton value="Ok!" />
-											</p:column>
-										</p:row>
-
-										<p:row>
-											<p:column>
-												<p:panel>
-												<p:dataGrid value="#{scoutCtrl.operacoes}">
-														<p:panel>
-															<p:panelGrid>
-																<p:commandButton value="#{scout.operacao}" />
-															</p:panelGrid>
-														</p:panel>
-													</p:dataGrid>
-												</p:panel>												
-											</p:column>
-			
-											<p:column>
-												<p:panelGrid columns="2">
-													<p:column>
-														<p:dataGrid value="#{scoutCtrl.escalMandante}" var="scout">
-															<p:graphicImage value="scout.foto"/>
-														</p:dataGrid>
-														<p:graphicImage id="imgAlesil" value="resources/imagens/alesil.png"/>
-														<p:draggable for="imgAlesil" revert="true"/>
-													</p:column>
-													
-													<p:column>
-														<p:panelGrid columns="1" >
-															<p:panel style="width: 420px; height:800px; background: url(#{resource['imagens:campo.png']}); ">
-																<p:spacer height="10px"/>
-																<h:panelGroup style="width: 420px;">
-																	<h:panelGrid columns="3" style="width: 420px;">
-																			<p:outputPanel id="a1" styleClass="slot">
-																				<p:droppable for="a1" />
-																			</p:outputPanel>
-																			
-																			<p:outputPanel id="b1" styleClass="slot">
-																				<p:droppable for="b1" />
-																			</p:outputPanel>
-																			
-																			<p:outputPanel id="c1" styleClass="slot">
-																				<p:droppable for="c1" />
-																			</p:outputPanel>
-																	</h:panelGrid>
-																	
-																	<h:panelGrid columns="3" style="width: 420px;">
-																			<p:outputPanel id="a2" styleClass="slot">
-																				<p:droppable for="a2" />
-																			</p:outputPanel>
-																			
-																			<p:outputPanel id="b2" styleClass="slot">
-																				<p:droppable for="b2" />
-																			</p:outputPanel>
-																			
-																			<p:outputPanel id="c2" styleClass="slot">
-																				<p:droppable for="c2" />
-																			</p:outputPanel>
-																	</h:panelGrid>	
-																				
-																	<h:panelGrid columns="5" style="width: 220px;">
-																			<p:outputPanel id="a3" styleClass="slot">
-																				<p:droppable for="a3" />
-																			</p:outputPanel>
-																			
-																			<p:outputPanel id="b3" styleClass="slot">
-																				<p:droppable for="b3" />
-																			</p:outputPanel>
-																			
-																			<p:outputPanel id="c3" styleClass="slot">
-																				<p:droppable for="c3" />
-																			</p:outputPanel>
-																			
-																			<p:outputPanel id="d3" styleClass="slot">
-																				<p:droppable for="d3" />
-																			</p:outputPanel>
-																			
-																			<p:outputPanel id="e3" styleClass="slot">
-																				<p:droppable for="e3" />
-																			</p:outputPanel>
-																			
-																	</h:panelGrid>
-																	
-																	<h:panelGrid columns="3" style="width: 220px; margin-left:60px;">
-																			<p:outputPanel id="a4" styleClass="slot">
-																				<p:droppable for="a4" />
-																			</p:outputPanel>
-																			
-																			<p:outputPanel id="b4" styleClass="slot">
-																				<p:droppable for="b4" />
-																			</p:outputPanel>
-																			
-																			<p:outputPanel id="c4" styleClass="slot">
-																				<p:droppable for="c4" />
-																			</p:outputPanel>
-																	</h:panelGrid>	
-																	
-																	<h:panelGrid columns="3" style="width: 420px;">
-																			<p:outputPanel id="a5" styleClass="slot">
-																				<p:droppable for="a5" />
-																			</p:outputPanel>
-																			
-																			<p:outputPanel id="b5" styleClass="slot">
-																				<p:droppable for="b5" />
-																			</p:outputPanel>
-																			
-																			<p:outputPanel id="c5" styleClass="slot">
-																				<p:droppable for="c5" />
-																			</p:outputPanel>
-																	</h:panelGrid>	
-																	
-																	<h:panelGrid columns="3" style="width: 220px; margin-left:60px;">
-																			<p:outputPanel id="a6" styleClass="slot">
-																				<p:droppable for="a6" />
-																			</p:outputPanel>
-																			
-																			<p:outputPanel id="b6" styleClass="slot">
-																				<p:droppable for="b6" />
-																			</p:outputPanel>
-																			
-																			<p:outputPanel id="c6" styleClass="slot">
-																				<p:droppable for="c6" />
-																			</p:outputPanel>
-																	</h:panelGrid>
-																	
-																	<h:panelGrid columns="3" style="width: 420px;">
-																			<p:outputPanel id="a7" styleClass="slot" style="visibility: hidden;">
-																			
-																			</p:outputPanel>
-																			
-																			<p:outputPanel id="b7" styleClass="slot">
-																				<p:droppable for="b7" />
-																			</p:outputPanel>
-																			
-																			<p:outputPanel id="c7" styleClass="slot" style="visibility: hidden;">
-																			
-																			</p:outputPanel>
-																	</h:panelGrid>
-																</h:panelGroup>											
-															</p:panel>
-														</p:panelGrid>
-													</p:column>
-												</p:panelGrid>
-											</p:column>
-										</p:row>
-
-										<p:spacer width="100px"/>
-										
-										<p:row>
-											<p:column colspan="2">
-												<h:outputText value="LEGENDA MANDANTE" />
-											</p:column>
-										</p:row>
-									</p:panelGrid>
-								</p:tab>
-				
-								<p:tab title="Visitante">
-									<p:panelGrid>
-										<p:row>
-											<p:column>
-												<h:outputText value="Número: " />
-												<p:selectOneMenu />
-											</p:column>
-
-											<p:column rowspan="2">
-												<h:graphicImage value="resources/imagens/sem-estadio.jpg" />
-											</p:column>
-										</p:row>
-
-										<p:row>
-											<p:column>
-												<h:outputText value="Código da ocorrência: " />
-												<p:commandButton value="Ok!" />
-											</p:column>
-										</p:row>
-
-										<p:row>
-											<p:column>
+				<p:row>
+					<p:column>
+						<p:carousel id="tabsCarousel" numVisible="1" circular="true" itemStyle="height:940px;width:800px;" effect="easeInStrong">		
+							<p:tab title="Mandante">
+								<p:panelGrid style="width: 800px;">
+									<p:row>
+										<p:column style="border-right-style: hidden; border-bottom-style: hidden; border-top-style:hidden; border-left-style:hidden">
+											<h:outputText value="Número: " /><br/>
+											<p:autoComplete id="dd" dropdown="true" /> 
+											<br/><br/>
+					
+											<h:outputText value="Código da ocorrência: " /><br/>
+											<p:inputText/>
+											<p:commandButton value="Ok!" />
+										</p:column>
+											
+										<p:column rowspan="3" style="border-top-style:hidden; border-right-style: hidden;"> 
+											<p:panelGrid columns="1" style="border-right-style: hidden; border-bottom-style: hidden; border-top-style:hidden; border-left-style:hidden;">
+												<p:column>
+													<iframe src="scoutCampoMandante.jsf" width="485" height="930"></iframe>		
+												</p:column>
+											</p:panelGrid>
+										</p:column>
+									</p:row>
+											
+									<p:row>
+										<p:column  style="border-right-style: hidden; border-bottom-style: hidden; border-left-style:hidden">
+											<p:panel header="Operações disponíveis">
 												<p:dataGrid value="#{scoutCtrl.operacoes}">
 													<p:panel>
 														<p:panelGrid>
@@ -232,50 +59,99 @@ Datafoot Scouts Online e Notícias de Futebol
 														</p:panelGrid>
 													</p:panel>
 												</p:dataGrid>
-											</p:column>
-
-											<p:column>
-												<p:dataGrid value="#{scout.escalacaoTitular}">
+													
+													<p:commandButton value="FC" styleClass="botoesScout"/><p:spacer width="20px"/>
+													<p:commandButton value="PC" styleClass="botoesScout"/><p:spacer width="20px"/><br/><br/>
+													<p:commandButton value="PE" styleClass="botoesScout"/><p:spacer width="20px"/>
+													<p:commandButton value="FS" styleClass="botoesScout"/><p:spacer width="20px"/><br/><br/>
+													<p:commandButton value="D" styleClass="botoesScout"/><p:spacer width="20px"/>
+													<p:commandButton value="GF" styleClass="botoesScout"/><p:spacer width="20px"/><br/><br/>
+													<p:commandButton value="GC" styleClass="botoesScout"/><p:spacer width="20px"/>
+													<p:commandButton value="CV" styleClass="botoesScout"/><p:spacer width="20px"/><br/><br/>
+													<p:commandButton value="CV" styleClass="botoesScout"/>
+											</p:panel>
+										</p:column>
+											
+											
+									</p:row>
+									<p:row>
+										<p:column  style="border-right-style: hidden; border-bottom-style: hidden; border-left-style:hidden">
+											<h:outputText value="FC - FALTA COMETIDA // D - DESARME // PC - PASSE CERTO"/>
+										</p:column>
+									</p:row>
+								</p:panelGrid>
+							</p:tab>
+							
+							<p:tab title="Visitante">
+								<p:panelGrid style="width: 800px;">
+									<p:row>
+										<p:column style="border-right-style: hidden; border-bottom-style: hidden; border-top-style:hidden; border-left-style:hidden">
+											<h:outputText value="Número: " /><br/>
+											<p:autoComplete id="atletaVisitante" dropdown="true" /> 
+											<br/><br/>
+					
+											<h:outputText value="Código da ocorrência: " /><br/>
+											<p:inputText/>
+											<p:commandButton value="Ok!" />
+										</p:column>
+											
+										<p:column rowspan="3" style="border-top-style:hidden; border-right-style: hidden;"> 
+											<p:panelGrid columns="1" style="border-right-style: hidden; border-bottom-style: hidden; border-top-style:hidden; border-left-style:hidden;">
+												<p:column>
+													<iframe src="scoutCampoVisitante.jsf" width="485" height="930"></iframe>		
+												</p:column>
+											</p:panelGrid>
+										</p:column>
+									</p:row>
+											
+									<p:row>
+										<p:column  style="border-right-style: hidden; border-bottom-style: hidden; border-left-style:hidden">
+											<p:panel header="Operações disponíveis">
+												<p:dataGrid value="#{scoutCtrl.operacoes}">
 													<p:panel>
-														<p:outputPanel id="areaCampo" styleClass="slot">
-															<p:droppable tolerance="fit"
-																activeStyleClass="slotActive" scope="forward"
-																onDrop="handleDrop" datasource="availablePlayers">
-
-																<p:ajax listener="#{barcelona.onDrop}"
-																	update="selectedPlayers growl" />
-															</p:droppable>
-														</p:outputPanel>
+														<p:panelGrid>
+															<p:commandButton value="#{scout.operacao}" />
+														</p:panelGrid>
 													</p:panel>
 												</p:dataGrid>
-											</p:column>
-										</p:row>
-
-										<p:row>
-											<p:column colspan="2">
-												<h:outputText value="LEGENDA VISITANTE" />
-											</p:column>
-										</p:row>
-									</p:panelGrid>
-								</p:tab>
-
-							</p:carousel>
-						</p:column>
-					</p:row>
-
-					<p:row>
-						<p:column colspan="4" style="text-align: center">
-							<p:commandButton icon="ui-icon-check" value="Salvar" />
-							<p:spacer width="20px" />
-							<p:commandButton icon="ui-icon-trash" value="Excluir" />
-							<p:spacer width="20px" />
-							<p:commandButton icon="ui-icon-search" value="Pesquisar" />
-						</p:column>
-					</p:row>
-				</p:panelGrid>
+													
+													<p:commandButton value="FC" styleClass="botoesScout"/><p:spacer width="20px"/>
+													<p:commandButton value="PC" styleClass="botoesScout"/><p:spacer width="20px"/><br/><br/>
+													<p:commandButton value="PE" styleClass="botoesScout"/><p:spacer width="20px"/>
+													<p:commandButton value="FS" styleClass="botoesScout"/><p:spacer width="20px"/><br/><br/>
+													<p:commandButton value="D" styleClass="botoesScout"/><p:spacer width="20px"/>
+													<p:commandButton value="GF" styleClass="botoesScout"/><p:spacer width="20px"/><br/><br/>
+													<p:commandButton value="GC" styleClass="botoesScout"/><p:spacer width="20px"/>
+													<p:commandButton value="CV" styleClass="botoesScout"/><p:spacer width="20px"/><br/><br/>
+													<p:commandButton value="CV" styleClass="botoesScout"/>
+											</p:panel>
+										</p:column>
+															
+									</p:row>
+									<p:row>
+										<p:column  style="border-right-style: hidden; border-bottom-style: hidden; border-left-style:hidden">
+											<h:outputText value="FC - FALTA COMETIDA // D - DESARME // PC - PASSE CERTO"/>
+										</p:column>
+									</p:row>
+								</p:panelGrid>
+							</p:tab>		
+						</p:carousel>
+					</p:column>
+				</p:row>
 				
-			</h:form>
-		</p:panel>	
-	</ui:define>
+				<p:row>
+					<p:column colspan="4" style="text-align: center">
+						<h:commandButton icon="ui-icon-check" value="Salvar" />
+						<p:spacer width="20px" />
+						<p:commandButton icon="ui-icon-trash" value="Excluir" />
+						<p:spacer width="20px" />
+						<p:commandButton icon="ui-icon-search" value="Pesquisar" />
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+
+		</h:form>
+	</p:panel>
+</ui:define>
 </ui:composition>
 </html>

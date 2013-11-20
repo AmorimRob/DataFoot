@@ -15,7 +15,7 @@ public class Scout {
 	@Column(name="SC_CLUBE")
 	private String clube;
 	
-	@Id
+	
 	@Column(name="SC_GUID_SCOUT_DETALHES")
 	private UUID guidScoutDetalhes;
 

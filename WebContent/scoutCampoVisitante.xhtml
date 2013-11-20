@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<style type="text/css">
+.slot {
+	background: #FF9900;
+	opacity: 0.7;
+	width: 60px;
+	height: 80px;
+	display: block;
+}
+
+
+.ui-panelgrid td {
+border-width: 0px;
+border-style: solid;
+border-color: inherit;
+padding: 4px 10px;
+}
+
+</style>
+
+<script type="text/javascript">
+	function handleDrop(event, ui) {
+		var draggable = ui.draggable, helper = ui.helper, position = ui.position, offset = ui.offset;
+	}
+</script>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Campo</title>
+</h:head>
+<h:body>
+<h:form prependId="false">
+	<h:panelGrid columns="2">
+		<h:outputText value="Selecione o esquema: " />
+		
+		<p:selectOneMenu value="#{scoutCtrll.esquema}" style="position: relative">
+			<f:selectItem itemLabel="Selecione um esquema" itemValue="0" />
+			<f:selectItems value="#{scoutCtrll.comboEsquema}" />														
+		</p:selectOneMenu>
+	</h:panelGrid>
+	<br/>
+	
+	<p:panel id="pnl" header="Time Visitante" toggleable="true" closable="true" toggleSpeed="500" closeSpeed="500" >
+		<p:dataGrid value="#{scoutCtrl.escalMandante}" var="scout">
+			<p:graphicImage value="scout.foto" />
+		</p:dataGrid>
+		
+		<p:graphicImage id="imgAlesil" value="/resources/imagens/#{scoutCtrll.atl.foto}" style="filter:alpha(opacity=40)"/>
+		<p:draggable for="imgAlesil" revert="true" />
+	</p:panel>
+	
+	<p:panelGrid columns="1" style="margin-left:10px">
+		<p:panel style="width: 420px; height:650px; background: url(#{resource['imagens:campo.png']}) no-repeat;"> 	
+			<h:panelGroup style="width: 420px;">				
+				<h:panelGrid columns="3" style="width: 420px;">
+					<p:outputPanel id="a1" styleClass="slot" style="visibility: #{scoutCtrll.esquema.a1}; ">
+						<h:outputText id="numero" value="#{scoutCtrll.numeroTeste}" />
+						<p:droppable for="a1" onDrop="handleDrop">
+							<p:ajax listener="#{scoutCtrll.onDrop}" update="numero, imgAlesil"/>		
+						</p:droppable>
+					</p:outputPanel>
+					
+					<p:outputPanel id="b1" styleClass="slot" style="visibility: #{scoutCtrll.esquema.b1};">
+						<p:droppable for="b1" />
+					</p:outputPanel>
+
+					<p:outputPanel id="c1" styleClass="slot" style="visibility: #{scoutCtrll.esquema.c1};">
+							<p:droppable for="c1" />
+					</p:outputPanel>	
+				</h:panelGrid>
+
+				<h:panelGrid columns="3" style="width: 420px;">
+					<p:outputPanel id="a2" styleClass="slot" style="visibility: #{scoutCtrll.esquema.a2};">
+						<p:droppable for="a2" />
+					</p:outputPanel>
+
+					<p:outputPanel id="b2" styleClass="slot" style="visibility: #{scoutCtrll.esquema.b2};">
+						<p:droppable for="b2" />
+					</p:outputPanel>
+
+					<p:outputPanel id="c2" styleClass="slot" style="visibility: #{scoutCtrll.esquema.c2};">
+						<p:droppable for="c2" />
+					</p:outputPanel>
+				</h:panelGrid>
+
+				<h:panelGrid columns="4" style="width: 220px; margin-left:20px;">
+					<p:outputPanel id="a3" styleClass="slot" style="visibility: #{scoutCtrll.esquema.a3};">
+						<p:droppable for="a3" />
+					</p:outputPanel>
+
+					<p:outputPanel id="b3" styleClass="slot" style="visibility: #{scoutCtrll.esquema.b3};">
+						<p:droppable for="b3" />
+					</p:outputPanel>
+
+					<p:outputPanel id="c3" styleClass="slot" style="visibility: #{scoutCtrll.esquema.c3};">
+						<p:droppable for="c3" />
+					</p:outputPanel>
+
+					<p:outputPanel id="d3" styleClass="slot" style="visibility: #{scoutCtrll.esquema.d3};">
+						<p:droppable for="d3" />
+					</p:outputPanel>
+				</h:panelGrid>
+
+				<h:panelGrid columns="3" style="width: 220px; margin-left:60px;">
+					<p:outputPanel id="a4" styleClass="slot" style="visibility: #{scoutCtrll.esquema.a4};">
+						<p:droppable for="a4" />
+					</p:outputPanel>
+
+					<p:outputPanel id="b4" styleClass="slot" style="visibility: #{scoutCtrll.esquema.b4};">
+						<p:droppable for="b4" />
+					</p:outputPanel>
+
+					<p:outputPanel id="c4" styleClass="slot" style="visibility: #{scoutCtrll.esquema.c4};">
+						<p:droppable for="c4" />
+					</p:outputPanel>
+				</h:panelGrid>
+
+				<h:panelGrid columns="3" style="width: 420px;">
+					<p:outputPanel id="a5" styleClass="slot" style="visibility: #{scoutCtrll.esquema.a5};">
+						<p:droppable for="a5" />
+					</p:outputPanel>
+
+					<p:outputPanel id="b5" styleClass="slot" style="visibility: #{scoutCtrll.esquema.b5};">
+						<p:droppable for="b5" />
+					</p:outputPanel>
+
+					<p:outputPanel id="c5" styleClass="slot" style="visibility: #{scoutCtrll.esquema.c5};">
+						<p:droppable for="c5" />
+					</p:outputPanel>				
+				</h:panelGrid>
+
+				<h:panelGrid columns="3" style="width: 220px; margin-left:60px;">
+					<p:outputPanel id="a6" styleClass="slot" style="visibility: #{scoutCtrll.esquema.a6};">
+						<p:droppable for="a6" />
+					</p:outputPanel>
+
+					<p:outputPanel id="b6" styleClass="slot" style="visibility: #{scoutCtrll.esquema.b6};">
+						<p:droppable for="b6" />
+					</p:outputPanel>
+
+					<p:outputPanel id="c6" styleClass="slot" style="visibility: #{scoutCtrll.esquema.c6};">
+						<p:droppable for="c6" />
+					</p:outputPanel>
+				</h:panelGrid>
+
+				<h:panelGrid columns="3" style="width: 420px;">
+					<p:outputPanel id="a7" styleClass="slot" style="visibility: hidden;"/>
+					
+					<p:outputPanel id="b7" styleClass="slot">
+						<p:droppable for="b7" />
+					</p:outputPanel>
+
+					<p:outputPanel id="c7" styleClass="slot" style="visibility: hidden"/>
+				</h:panelGrid>
+			</h:panelGroup>
+		</p:panel>
+	</p:panelGrid>
+</h:form>
+</h:body>
+</html>

@@ -1,5 +1,7 @@
 package br.com.alesil.datafoot.ctrl;
 
+import java.util.UUID;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
@@ -20,6 +22,8 @@ public class ClubeCtrl{
 	}
 	
 	public void salvar (){
+		if(clube.getGuidClube() == null)
+			clube.setGuidClube(UUID.randomUUID().toString());
 		operacao.salvar(clube, dao, "FormClube");
 	}
 	

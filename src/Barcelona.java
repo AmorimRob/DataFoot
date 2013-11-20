@@ -21,6 +21,9 @@ public class Barcelona  implements Serializable{
 	/**
 	 * 
 	 */
+	
+	
+	
 	 private List<Player> players;  
 	  
 	    private List<Player> selectedPlayers;  

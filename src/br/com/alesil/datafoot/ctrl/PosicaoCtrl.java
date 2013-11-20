@@ -1,5 +1,7 @@
 package br.com.alesil.datafoot.ctrl;
 
+import java.util.UUID;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
@@ -16,10 +18,17 @@ public class PosicaoCtrl {
 	public PosicaoCtrl() {
 		this.posicao = new Posicao();
 		this.dao = new PosicaoDao();
+		this.operacao = new CtrlPadrao();
 	}
 
 	public void salvar (){
-		operacao.salvar(posicao, dao, "FormPosicao");
+		posicao.setGuidPosicao(dao.buscarPosicao(posicao.getNome_posicao()));
+		operacao.exibeMensagem("FormPosicao", "Posição já cadastrada na base de dados.");
+		if(posicao.getGuidPosicao() == null){
+			posicao.setGuidPosicao(UUID.randomUUID().toString());
+			operacao.salvar(posicao, dao, "FormPosicao");
+			
+		}
 	}
 	
 	public void excluir (){
