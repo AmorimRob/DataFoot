@@ -2,10 +2,13 @@ package br.com.alesil.datafoot.model;
 
 import java.util.UUID;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
-@Table(name="df_clube")
+@Table(name="DF_CLUBE")
 public class Clube {
 
 	@Id
@@ -21,8 +24,8 @@ public class Clube {
 	@Column(name="CL_ESTADO")
 	private String estado;
 	
-	@Column(name="CL_CIDADE")
-	private String cidade;
+	@Column(name="CL_GUID_CIDADE")
+	private String guidCidade;
 	
 	@Column(name="CL_GUID_ESTADIO")
 	private UUID estadio;
@@ -62,12 +65,12 @@ public class Clube {
 		this.estado = estado;
 	}
 
-	public String getCidade() {
-		return cidade;
+	public String getGuidCidade() {
+		return guidCidade;
 	}
 
-	public void setCidade(String cidade) {
-		this.cidade = cidade;
+	public void setGuidCidade(String cidade) {
+		this.guidCidade = cidade;
 	}
 
 	public UUID getEstadio() {
@@ -90,7 +93,7 @@ public class Clube {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((cidade == null) ? 0 : cidade.hashCode());
+		result = prime * result + ((guidCidade == null) ? 0 : guidCidade.hashCode());
 		result = prime * result + ((estadio == null) ? 0 : estadio.hashCode());
 		result = prime * result + ((estado == null) ? 0 : estado.hashCode());
 		result = prime * result
@@ -112,10 +115,10 @@ public class Clube {
 		if (getClass() != obj.getClass())
 			return false;
 		Clube other = (Clube) obj;
-		if (cidade == null) {
-			if (other.cidade != null)
+		if (guidCidade == null) {
+			if (other.guidCidade != null)
 				return false;
-		} else if (!cidade.equals(other.cidade))
+		} else if (!guidCidade.equals(other.guidCidade))
 			return false;
 		if (estadio == null) {
 			if (other.estadio != null)

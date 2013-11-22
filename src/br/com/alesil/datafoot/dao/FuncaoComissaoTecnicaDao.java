@@ -5,26 +5,26 @@ import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 
-import br.com.alesil.datafoot.model.Estadio;
+import br.com.alesil.datafoot.model.FuncaoComissaoTecnica;
 
-public class EstadioDao extends HibernateDAO{
-
-	public String buscarEstadio(String estadio){
+public class FuncaoComissaoTecnicaDao extends HibernateDAO{
+	
+	public String buscarFuncao(String funcao){
 		Query consulta;
-		Estadio resultado;
+		FuncaoComissaoTecnica resultado;
 		
 		try{
 			sessao = HibernateUtil.getSessionFactory().openSession();
-			consulta = sessao.createQuery("from Estadio e where e.nomeCompleto = :n");
-			consulta.setString("n", estadio);
+			consulta = sessao.createQuery("from FuncaoComissaoTecnica c where c.nomeFuncao = :n");
+			consulta.setString("n", funcao);
 
-			resultado = (Estadio) consulta.uniqueResult();
+			resultado = (FuncaoComissaoTecnica) consulta.uniqueResult();
 			
 			if(resultado==null){
-				resultado = new Estadio();
-				resultado.setNomeCompleto(estadio);
+				resultado = new FuncaoComissaoTecnica();
+				resultado.setNomeFuncao(funcao);
 			}
-			return resultado.getGuidCidade();
+			return resultado.getGuidFuncao();
 
 		}catch(HibernateException erro){
 				System.out.println("Erro ao executar transação: " + erro.getMessage());
@@ -38,13 +38,14 @@ public class EstadioDao extends HibernateDAO{
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Estadio> listaEstadio(){
+	public List<FuncaoComissaoTecnica> listaFuncoes(){
 		Query consulta;
-		List<Estadio> resultado;
+		List<FuncaoComissaoTecnica> resultado;
 		
 		try{
 			sessao = HibernateUtil.getSessionFactory().openSession();
-			consulta = sessao.createQuery("from Estadio");
+			consulta = sessao.createQuery("from FuncaoComissaoTecnica");
+			
 			resultado = consulta.list();
 			return resultado;
 			
@@ -56,6 +57,8 @@ public class EstadioDao extends HibernateDAO{
 		finally{
 				try{ sessao.close(); }
 				catch(Throwable erro){ System.out.println("Erro ao fechar a sessao");}
-			}
+			
+		}
 	}
+
 }

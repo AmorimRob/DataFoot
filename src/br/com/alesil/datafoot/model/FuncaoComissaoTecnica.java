@@ -1,7 +1,9 @@
 package br.com.alesil.datafoot.model;
 
-import java.util.UUID;
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name="DF_FUNCAO_COMISSAO_TECNICA")
@@ -9,15 +11,15 @@ public class FuncaoComissaoTecnica {
 	
 	@Id
 	@Column(name="FCT_GUID_FUNCAO")
-	private UUID guidFuncao;
+	private String guidFuncao;
 	
 	@Column(name="FCT_NOME_FUNCAO")
 	private String nomeFuncao;
 	
-	public UUID getGuidFuncao() {
+	public String getGuidFuncao() {
 		return guidFuncao;
 	}
-	public void setGuidFuncao(UUID guidFuncao) {
+	public void setGuidFuncao(String guidFuncao) {
 		this.guidFuncao = guidFuncao;
 	}
 	public String getNomeFuncao() {

@@ -14,6 +14,11 @@ Datafoot Scouts Online e Notícias de Futebol
 			<h:form id="FormComissao">
 				<p:panelGrid>
 					<p:row>
+						<p:column colspan="4" style="border-bottom-style: hidden;">
+							<p:messages id="messages" autoUpdate="true" closable="true" />  
+						</p:column>
+					</p:row>
+					<p:row>
 						<p:column style="border-right-style: hidden;" >
 							<h:outputText value="Nome: " /> 
 						</p:column>
@@ -42,21 +47,12 @@ Datafoot Scouts Online e Notícias de Futebol
 						</p:column>
 						
 						<p:column  style="border-right-style: hidden;" >
-							<p:selectOneMenu style="width: 200px;" /> 
+							<p:selectOneMenu value="#{comissaoCtrl.comissao.guidFuncao}" style="position: relative; width: 200px;" >
+								<f:selectItem itemLabel="Selecione uma função" />
+								<f:selectItems value="#{comissaoCtrl.comboFuncoes}" />														
+							</p:selectOneMenu>
 							<p:spacer width="10px"/>
 							<p:commandButton icon="ui-icon-circle-plus" onclick="PF('dialogfuncao').show();" style="position: absolute;" />  
-							<p:dialog id="cadastroFuncao" header="Adicionar Função" widgetVar="dialogfuncao"
-								modal="true" height="130" resizable="false">
-								<h:outputText value="Informe o nome da função" /><br/><br/>
-								
-								<h:outputText value="Função: " />
-								<h:inputText /><br/><br/>
-								<center>
-										<p:commandButton icon="ui-icon-check" value="Salvar"/><p:spacer width="20px"/>
-										<p:commandButton icon="ui-icon-trash" value="Excluir"/><p:spacer width="20px"/>
-										<p:commandButton icon="ui-icon-search" value="Pesquisar"/>
-								</center>
-							</p:dialog>
 						</p:column>
 					</p:row>
 					
@@ -66,21 +62,97 @@ Datafoot Scouts Online e Notícias de Futebol
 						</p:column>
 						
 						<p:column style="border-right-style: hidden;">
-							<p:selectOneMenu style="width: 200px;" /> 
-							<p:spacer width="10px"/>
-							<p:commandButton icon="ui-icon-circle-plus" style="position: absolute;" />  
+							<p:selectOneMenu value="#{comissaoCtrl.comissao.guidClube}" style="position: relative; width: 200px;" >
+								<f:selectItem itemLabel="Selecione um clube" />
+								<f:selectItems value="#{comissaoCtrl.comboClubes}" />														
+							</p:selectOneMenu> 
 						</p:column>
 					</p:row>
 					
 					<p:row>
 						<p:column colspan="4" style="text-align: center">
-							<p:commandButton icon="ui-icon-check" value="Salvar"/><p:spacer width="20px"/>
+							<p:commandButton icon="ui-icon-check" value="Salvar" action="#{comissaoCtrl.salvar}"/><p:spacer width="20px"/>
 							<p:commandButton icon="ui-icon-trash" value="Excluir"/><p:spacer width="20px"/>
-							<p:commandButton icon="ui-icon-search" value="Pesquisar"/>
+							<p:commandButton icon="ui-icon-search" value="Pesquisar" onclick="PF('dialogPesquisar').show();"/>
 						</p:column>
 					</p:row>	
 					
 				</p:panelGrid>
+			</h:form>
+			
+			<h:form id="FormFuncao">
+				<p:dialog id="cadastroFuncao" header="Adicionar Função" widgetVar="dialogfuncao"
+					modal="true" height="200" width="400" resizable="false">
+				
+					<p:messages id="messages" autoUpdate="true" closable="true" />  
+					<h:outputText value="Informe o nome da função" /><br/><br/>
+									
+					<h:outputText value="Função: " />
+					<p:inputText value="#{funcaoCtrl.funcao.nomeFuncao}" /><br/><br/>
+					<center>
+						<p:commandButton icon="ui-icon-check" value="Salvar" action="#{funcaoCtrl.salvar}" update=":FormComissao, :FormFuncao"/><p:spacer width="20px"/>
+						<p:commandButton icon="ui-icon-trash" value="Excluir" action="#{funcaoCtrl.excluir}" update=":FormComissao"/><p:spacer width="20px"/>
+						<p:commandButton icon="ui-icon-search" value="Listar" update="dataTableFunc" action="#{funcaoCtrl.consultar}"/>
+						<br/><br/>
+						<p:dataTable id="dataTableFunc" var="pesq"  scrollable="true" scrollWidth="300" scrollHeight="150" value="#{funcaoCtrl.listaFuncao}" emptyMessage="Nenhuma posição localizada">
+							<p:column headerText="Função" resizable="false" width="150">
+								<h:outputText value="#{pesq.nomeFuncao}" />
+							</p:column>
+											
+							<p:column resizable="false" width="110">
+								<p:commandButton id="selecionar" update=":FormFuncao" icon="ui-icon-search" title="View" oncomplete="PF('dialogfuncao').show();">  
+	                				<f:setPropertyActionListener value="#{pesq}" target="#{funcaoCtrl.funcao}" />  
+	            				</p:commandButton>  
+							</p:column>
+						</p:dataTable>		
+					</center>			
+				</p:dialog>		
+			</h:form>
+			
+			<h:form id="FormPesq">		
+				<p:dialog id="pesquisarAtleta" header="Pesquisar Staff" widgetVar="dialogPesquisar"
+								 height="370" width="600" resizable="false" position="center, middle ">
+					<p:messages id="messages" autoUpdate="true" closable="true" />
+					<h:outputText value="Preencha os dados abaixo" /><br/><br/>
+					<h:outputText value="Apelido: " />
+					<p:inputText value="#{comissaoCtrl.comissao.apelido}"/><br/><br/>
+									
+					<h:outputText value="Clube: " />
+					<p:selectOneMenu value="#{comissaoCtrl.comissao.guidClube}" style="position: relative; width: 200px;" >
+						<f:selectItem itemLabel="Selecione um clube" />
+						<f:selectItems value="#{comissaoCtrl.comboClubes}" />														
+					</p:selectOneMenu> <br/><br/>
+					
+					<h:outputText value="Função: " />
+					<p:selectOneMenu value="#{comissaoCtrl.comissao.guidFuncao}" style="position: relative; width: 200px;" >
+								<f:selectItem itemLabel="Selecione uma função" />
+								<f:selectItems value="#{comissaoCtrl.comboFuncoes}" />														
+							</p:selectOneMenu><br/><br/>
+									
+					<p:commandButton icon="ui-icon-check" value="Pesquisar" action="#{comissaoCtrl.consultar}" update="dataTableComissao" /><p:spacer width="20px"/>
+					<p:commandButton icon="ui-icon-trash" value="Cancelar"/><p:spacer width="20px"/><br/><br/>
+							
+							
+					<p:dataTable id="dataTableComissao" var="pesq"  scrollable="true" scrollWidth="550" scrollHeight="150" value="#{comissaoCtrl.listaComissao}" emptyMessage="Nenhum staff localizado">
+						<p:column headerText="Nome" resizable="false">
+							<h:outputText value="#{pesq.nome}" />
+						</p:column>
+											
+						<p:column headerText="Apelido" resizable="false">
+							<h:outputText value="#{pesq.apelido}" />
+						</p:column>
+											
+						<p:column headerText="Clube" resizable="false">
+							<h:outputText value="#{pesq.guidClube}" />
+						</p:column>
+						
+						<p:column resizable="false">
+							<p:commandButton id="selecionar" update=":FormComissao" oncomplete="PF('dialogPesquisar').hide()" icon="ui-icon-search" title="View">  
+                				<f:setPropertyActionListener value="#{pesq}" target="#{comissaoCtrl.comissao}" />  
+            				</p:commandButton>  
+						</p:column>
+					</p:dataTable>							
+				</p:dialog>
 			</h:form>
 		</p:panel>
 	</ui:define>

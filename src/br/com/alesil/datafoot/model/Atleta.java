@@ -1,8 +1,6 @@
 package br.com.alesil.datafoot.model;
 
 import java.util.Date;
-import java.util.UUID;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -14,7 +12,7 @@ public class Atleta  {
 	
 	@Id
 	@Column(name="ATL_GUID_ATLETA")
-	private UUID guidAtleta;
+	private String guidAtleta;
 	
 	@Column(name="ATL_NOME")
 	private String nome;
@@ -22,8 +20,11 @@ public class Atleta  {
 	@Column(name="ATL_APELIDO")
 	private String apelido;
 	
+	@Column(name="ATL_GUID_CATEGORIA")
+	private String guidCategoria;
+	
 	@Column(name="ATL_FOTO")
-	private String foto;
+	private byte[] foto;
 	
 	@Column(name="ATL_DATA_NASC")
 	private Date dataNasc;
@@ -40,11 +41,11 @@ public class Atleta  {
 	@Column(name="ATL_NUMERO_PADRAO")
 	private Integer numeroPadrao;
 
-	public UUID getGuidAtleta() {
+	public String getGuidAtleta() {
 		return guidAtleta;
 	}
 
-	public void setGuidAtleta(UUID guidAtleta) {
+	public void setGuidAtleta(String guidAtleta) {
 		this.guidAtleta = guidAtleta;
 	}
 
@@ -64,11 +65,11 @@ public class Atleta  {
 		this.apelido = apelido;
 	}
 
-	public String getFoto() {
+	public byte[] getFoto() {
 		return foto;
 	}
 
-	public void setFoto(String foto) {
+	public void setFoto(byte[] foto) {
 		this.foto = foto;
 	}
 
@@ -110,6 +111,14 @@ public class Atleta  {
 
 	public void setNumeroPadrao(Integer numeroPadrao) {
 		this.numeroPadrao = numeroPadrao;
+	}
+
+	public String getGuidCategoria() {
+		return guidCategoria;
+	}
+
+	public void setGuidCategoria(String guidCategoria) {
+		this.guidCategoria = guidCategoria;
 	}
 
 }

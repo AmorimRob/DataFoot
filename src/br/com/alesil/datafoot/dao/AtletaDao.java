@@ -1,7 +1,6 @@
 package br.com.alesil.datafoot.dao;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -18,8 +17,8 @@ public class AtletaDao extends HibernateDAO {
 		try{
 			sessao = HibernateUtil.getSessionFactory().openSession();
 			consulta = sessao.createQuery("from Atleta a where a.apelido like :n AND a.guidClube like :gc");
-			consulta.setString("n", nome);
-			consulta.setString("gc", guidClube);
+			consulta.setString("n", nome + "%");
+			consulta.setString("gc", guidClube + "%");
 			
 			resultado = consulta.list();
 			return resultado;
@@ -35,14 +34,14 @@ public class AtletaDao extends HibernateDAO {
 			}
 	}
 	
-	public Atleta buscarAtleta(UUID guidAtleta){
+	public Atleta buscarAtleta(String guidAtleta){
 		Query consulta;
 		Atleta resultado;
 		
 		try{
 			sessao = HibernateUtil.getSessionFactory().openSession();
-			consulta = sessao.createQuery("from Atleta a where a.guidAtleta = :ga;");
-			consulta.setString("ga", String.valueOf(guidAtleta));
+			consulta = sessao.createQuery("from Atleta a where a.guidAtleta = :ga");
+			consulta.setString("ga", guidAtleta);
 
 			
 			resultado = (Atleta) consulta.uniqueResult();

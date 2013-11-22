@@ -19,10 +19,13 @@ public class PosicaoDao extends HibernateDAO{
 			consulta.setString("n", posicao);
 
 			resultado = (Posicao) consulta.uniqueResult();
-			if(resultado != null)
-				return resultado.getGuidPosicao();
-			else
-				return null;
+			
+			if(resultado==null){
+				resultado = new Posicao();
+				resultado.setNome_posicao(posicao);
+			}
+			return resultado.getGuidPosicao();
+
 		}catch(HibernateException erro){
 				System.out.println("Erro ao executar transação: " + erro.getMessage());
 				throw new HibernateException(erro);

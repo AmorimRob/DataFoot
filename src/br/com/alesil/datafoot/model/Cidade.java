@@ -1,8 +1,9 @@
 package br.com.alesil.datafoot.model;
 
-import java.util.UUID;
-
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name="DF_CIDADE")
@@ -10,19 +11,19 @@ public class Cidade {
 	
 	@Id
 	@Column(name="CI_GUID_CIDADE")
-	private UUID guidCidade;
+	private String guidCidade;
 	
 	@Column(name="CI_NOME_CIDADE")
 	private String nomeCidade;
 	
-	@Column(name="CI_GUID_ESTADO")
-	private UUID guidEstado;
+	@Column(name="CI_ESTADO")
+	private String estado;
 
-	public UUID getGuidCidade() {
+	public String getGuidCidade() {
 		return guidCidade;
 	}
 
-	public void setGuidCidade(UUID guidCidade) {
+	public void setGuidCidade(String guidCidade) {
 		this.guidCidade = guidCidade;
 	}
 
@@ -34,12 +35,12 @@ public class Cidade {
 		this.nomeCidade = nomeCidade;
 	}
 
-	public UUID getGuidEstado() {
-		return guidEstado;
+	public String getEstado() {
+		return estado;
 	}
 
-	public void setGuidEstado(UUID guidEstado) {
-		this.guidEstado = guidEstado;
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
 
 	@Override
@@ -49,7 +50,7 @@ public class Cidade {
 		result = prime * result
 				+ ((guidCidade == null) ? 0 : guidCidade.hashCode());
 		result = prime * result
-				+ ((guidEstado == null) ? 0 : guidEstado.hashCode());
+				+ ((estado == null) ? 0 : estado.hashCode());
 		result = prime * result
 				+ ((nomeCidade == null) ? 0 : nomeCidade.hashCode());
 		return result;
@@ -69,10 +70,10 @@ public class Cidade {
 				return false;
 		} else if (!guidCidade.equals(other.guidCidade))
 			return false;
-		if (guidEstado == null) {
-			if (other.guidEstado != null)
+		if (estado == null) {
+			if (other.estado != null)
 				return false;
-		} else if (!guidEstado.equals(other.guidEstado))
+		} else if (!estado.equals(other.estado))
 			return false;
 		if (nomeCidade == null) {
 			if (other.nomeCidade != null)

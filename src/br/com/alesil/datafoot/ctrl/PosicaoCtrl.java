@@ -1,5 +1,6 @@
 package br.com.alesil.datafoot.ctrl;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.faces.bean.ManagedBean;
@@ -14,6 +15,8 @@ public class PosicaoCtrl {
 	public CtrlPadrao operacao;
 	private Posicao posicao;
 	private PosicaoDao dao;
+	
+	public List<Posicao>listaPosicao;
 
 	public PosicaoCtrl() {
 		this.posicao = new Posicao();
@@ -22,17 +25,27 @@ public class PosicaoCtrl {
 	}
 
 	public void salvar (){
-		posicao.setGuidPosicao(dao.buscarPosicao(posicao.getNome_posicao()));
-		operacao.exibeMensagem("FormPosicao", "Posição já cadastrada na base de dados.");
 		if(posicao.getGuidPosicao() == null){
-			posicao.setGuidPosicao(UUID.randomUUID().toString());
-			operacao.salvar(posicao, dao, "FormPosicao");
+			posicao.setGuidPosicao(dao.buscarPosicao(posicao.getNome_posicao()));
 			
+			if(posicao.getGuidPosicao() != null){	
+				operacao.exibeMensagem("FormPosicao", "Posição já cadastrada na base de dados.");	
+				
+			}else {
+				posicao.setGuidPosicao(UUID.randomUUID().toString());
+				operacao.salvar(posicao, dao, "FormPosicao");
+			}
+		} else {
+			operacao.salvar(posicao, dao, "FormPosicao");
 		}
 	}
 	
 	public void excluir (){
 		operacao.excluir(posicao, dao, "FormPosicao");
+	}
+	
+	public void consultar(){
+		listaPosicao = dao.listaPosicao();
 	}
 
 	//Gets e Sets
@@ -42,6 +55,14 @@ public class PosicaoCtrl {
 
 	public void setPosicao(Posicao posicao) {
 		this.posicao = posicao;
+	}
+
+	public List<Posicao> getListaPosicao() {
+		return listaPosicao;
+	}
+
+	public void setListaPosicao(List<Posicao> listaPosicao) {
+		this.listaPosicao = listaPosicao;
 	}
 
 

@@ -1,8 +1,9 @@
 package br.com.alesil.datafoot.model;
 
-import java.util.UUID;
-
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name="DF_COMISSAO_TECNICA")
@@ -10,10 +11,10 @@ public class ComissaoTecnica {
 
 	@Id
 	@Column(name="CT_GUID_COMISSAO_TECNICA")
-	private UUID guidComissaoTecnica;
+	private String guidComissaoTecnica;
 	
 	@Column(name="CT_GUID_CLUBE")
-	private UUID guidClube;
+	private String guidClube;
 	
 	@Column(name="CT_NOME")
 	private String nome;
@@ -22,21 +23,21 @@ public class ComissaoTecnica {
 	private String apelido;
 	
 	@Column(name="CT_GUID_FUNCAO")
-	private UUID guidFuncao;
+	private String guidFuncao;
 
-	public UUID getGuidComissaoTecnica() {
+	public String getGuidComissaoTecnica() {
 		return guidComissaoTecnica;
 	}
 
-	public void setGuidComissaoTecnica(UUID guidComissaoTecnica) {
+	public void setGuidComissaoTecnica(String guidComissaoTecnica) {
 		this.guidComissaoTecnica = guidComissaoTecnica;
 	}
 
-	public UUID getGuidClube() {
+	public String getGuidClube() {
 		return guidClube;
 	}
 
-	public void setGuidClube(UUID guidClube) {
+	public void setGuidClube(String guidClube) {
 		this.guidClube = guidClube;
 	}
 
@@ -56,11 +57,11 @@ public class ComissaoTecnica {
 		this.apelido = apelido;
 	}
 
-	public UUID getGuidFuncao() {
+	public String getGuidFuncao() {
 		return guidFuncao;
 	}
 
-	public void setGuidFuncao(UUID guidFuncao) {
+	public void setGuidFuncao(String guidFuncao) {
 		this.guidFuncao = guidFuncao;
 	}
 

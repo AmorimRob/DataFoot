@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.model.SelectItem;
 
@@ -34,7 +33,7 @@ public class Scout{
 	public void criaAtletaTeste(){
 		atl.setApelido("Kaká");
 		atl.setNumeroPadrao(22);
-		atl.setFoto("messi.PNG");
+//	/	atl.setFoto("messi.PNG");
 	}
 		
 	public List<Esquema> criaListaEsquemaTatico(){

@@ -1,8 +1,9 @@
 package br.com.alesil.datafoot.model;
 
-import java.util.UUID;
-
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name="DF_POSICAO")

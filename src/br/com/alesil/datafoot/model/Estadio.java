@@ -1,8 +1,9 @@
 package br.com.alesil.datafoot.model;
 
-import java.util.UUID;
-
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name="DF_ESTADIO")
@@ -10,7 +11,7 @@ public class Estadio {
 
 	@Id
 	@Column(name="EST_GUID_ESTADIO")
-	private UUID guidEstadio;
+	private String guidEstadio;
 	
 	@Column(name="EST_NOME_COMPLETO")
 	private String nomeCompleto;
@@ -21,14 +22,14 @@ public class Estadio {
 	@Column(name="EST_ESTADO")
 	private String estado;
 	
-	@Column(name="EST_CIDADE")
-	private String cidade;
+	@Column(name="EST_GUID_CIDADE")
+	private String guidCidade;
 
-	public UUID getGuidEstadio() {
+	public String getGuidEstadio() {
 		return guidEstadio;
 	}
 
-	public void setGuidEstadio(UUID guidEstadio) {
+	public void setGuidEstadio(String guidEstadio) {
 		this.guidEstadio = guidEstadio;
 	}
 
@@ -56,12 +57,12 @@ public class Estadio {
 		this.estado = estado;
 	}
 
-	public String getCidade() {
-		return cidade;
+	public String getGuidCidade() {
+		return guidCidade;
 	}
 
-	public void setCidade(String cidade) {
-		this.cidade = cidade;
+	public void setGuidCidade(String cidade) {
+		this.guidCidade = cidade;
 	}
 
 	@Override
@@ -69,7 +70,7 @@ public class Estadio {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((apelido == null) ? 0 : apelido.hashCode());
-		result = prime * result + ((cidade == null) ? 0 : cidade.hashCode());
+		result = prime * result + ((guidCidade == null) ? 0 : guidCidade.hashCode());
 		result = prime * result + ((estado == null) ? 0 : estado.hashCode());
 		result = prime * result
 				+ ((guidEstadio == null) ? 0 : guidEstadio.hashCode());
@@ -92,10 +93,10 @@ public class Estadio {
 				return false;
 		} else if (!apelido.equals(other.apelido))
 			return false;
-		if (cidade == null) {
-			if (other.cidade != null)
+		if (guidCidade == null) {
+			if (other.guidCidade != null)
 				return false;
-		} else if (!cidade.equals(other.cidade))
+		} else if (!guidCidade.equals(other.guidCidade))
 			return false;
 		if (estado == null) {
 			if (other.estado != null)

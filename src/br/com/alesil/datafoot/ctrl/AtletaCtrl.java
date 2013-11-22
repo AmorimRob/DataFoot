@@ -1,5 +1,7 @@
 package br.com.alesil.datafoot.ctrl;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,24 +13,32 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
+
 import br.com.alesil.datafoot.dao.AtletaDao;
+import br.com.alesil.datafoot.dao.CategoriaDao;
 import br.com.alesil.datafoot.dao.ClubeDao;
 import br.com.alesil.datafoot.dao.PosicaoDao;
 import br.com.alesil.datafoot.model.Atleta;
+import br.com.alesil.datafoot.model.Categoria;
 import br.com.alesil.datafoot.model.Clube;
 import br.com.alesil.datafoot.model.Posicao;
 
 @ManagedBean(name="atletasCtrl")
 @ViewScoped
 public class AtletaCtrl {
-	private Atleta atleta;
 	
+	private UploadedFile file;
+	
+	private Atleta atleta;	
 	private AtletaDao dao;
 
 	private List<Atleta> listaAtletas;
 	
 	private List<SelectItem>comboPosicao;
 	private List<SelectItem>comboClubes;
+	private List<SelectItem>comboCategoria;
 
 	public AtletaCtrl() {
 		this.atleta = new Atleta();
@@ -41,8 +51,8 @@ public class AtletaCtrl {
 				SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy"); 
 				dateFormat.format(atleta.getDataNasc());
 			}
-			UUID guid = new UUID(0, 20);
-			atleta.setGuidAtleta(guid);
+			if(atleta.getGuidAtleta()==null)
+				atleta.setGuidAtleta(UUID.randomUUID().toString());
 			dao.executaTransacao(atleta, 1);
 			exibeMensagem("FormAtleta", "Atleta salvo/atualizado com sucesso!");
 		} catch (Exception erro) {
@@ -63,7 +73,6 @@ public class AtletaCtrl {
 	}
 	
 	public void consultar(){
-		System.out.print("passou");
 		if(atleta.getGuidAtleta()!= null){
 			atleta = dao.buscarAtleta(atleta.getGuidAtleta());
 			
@@ -78,6 +87,27 @@ public class AtletaCtrl {
 		}
 		
 	}
+	
+	 public void handleFileUpload(FileUploadEvent event) {  
+	        byte[] bFile = new byte[(int) event.getFile().getSize()];
+	        
+	        try {
+	            //convert file into array of bytes
+	        	FileInputStream  fileInputStream = new FileInputStream((File)event.getFile());
+			    fileInputStream.read(bFile);
+			    fileInputStream.close();
+			    this.atleta.setFoto(bFile);
+
+	        }catch(Exception e){
+	        	e.printStackTrace();
+	        }
+
+	 }
+	 
+	 public void teste(){
+		 System.out.print(file.getFileName());
+	 }
+
 	
 	public void exibeMensagem(String form, String msn) {
 		FacesContext contexto = FacesContext.getCurrentInstance();
@@ -105,12 +135,16 @@ public class AtletaCtrl {
 	}
 
 	public List<SelectItem> getComboPosicao() {		
-		List<Posicao> lista = new PosicaoDao().listaPosicao();
-		comboPosicao = new ArrayList<SelectItem>();
-		for (Posicao pos: lista){
-			comboPosicao.add(new SelectItem(pos.getGuidPosicao(), pos.getNome_posicao()));
+		try{
+			List<Posicao> lista = new PosicaoDao().listaPosicao();
+			comboPosicao = new ArrayList<SelectItem>();
+			for (Posicao pos: lista){
+				comboPosicao.add(new SelectItem(pos.getGuidPosicao(), pos.getNome_posicao()));
+			}
+		}catch(Exception e){
+			comboClubes = null;
+			exibeMensagem("FormAtleta", "Problemas de conexão com banco");
 		}
-		
 		return comboPosicao;
 	}
 
@@ -120,10 +154,15 @@ public class AtletaCtrl {
 	}
 
 	public List<SelectItem> getComboClubes() {
-		List<Clube> lista = new ClubeDao().listaClubes();
-		comboClubes = new ArrayList<SelectItem>();
-		for (Clube clube: lista){
-			comboClubes.add(new SelectItem(clube.getGuidClube(), clube.getNomeCurto()));
+		try{
+			List<Clube> lista = new ClubeDao().comboClubes();
+			comboClubes = new ArrayList<SelectItem>();
+			for (Clube clube: lista){
+				comboClubes.add(new SelectItem(clube.getGuidClube(), clube.getNomeCurto()));
+			}
+		}catch(Exception e){
+			comboClubes = null;
+			exibeMensagem("FormAtleta", "Problemas de conexão com banco");
 		}
 		
 		return comboClubes;
@@ -132,4 +171,33 @@ public class AtletaCtrl {
 	public void setComboClubes(List<SelectItem> comboClubes) {
 		this.comboClubes = comboClubes;
 	}
+	
+	public List<SelectItem> getComboCategoria() {
+		try{
+			List<Categoria> lista = new CategoriaDao().listaCategoria();
+			comboCategoria = new ArrayList<SelectItem>();
+			for (Categoria cat: lista){
+				comboCategoria.add(new SelectItem(cat.getGuidCategoria(), cat.getNomeCategoria()));
+			}
+		}catch(Exception e){
+			comboCategoria = null;
+			exibeMensagem("FormAtleta", "Problemas de conexão com banco");
+		}
+		
+		return comboCategoria;
+	}
+
+	public void setComboCategoria(List<SelectItem> comboCategoria) {
+		this.comboCategoria = comboCategoria;
+	}
+
+	public UploadedFile getFile() {
+		return file;
+	}
+
+	public void setFile(UploadedFile file) {
+		this.file = file;
+	}
+
+	
 }

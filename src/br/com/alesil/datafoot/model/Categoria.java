@@ -1,8 +1,9 @@
 package br.com.alesil.datafoot.model;
 
-import java.util.UUID;
-
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name="DF_CATEGORIAS")
@@ -10,7 +11,7 @@ public class Categoria {
 
 	@Id
 	@Column(name="CAT_GUID_CATEGORIA")
-	private UUID guidCategoria;
+	private String guidCategoria;
 	
 	@Column(name="CAT_NOME_CATEGORIA")
 	private String nomeCategoria;
@@ -18,10 +19,10 @@ public class Categoria {
 	@Column(name="CAT_DESCRICAO")
 	private String descricao;
 	
-	public UUID getGuidCategoria() {
+	public String getGuidCategoria() {
 		return guidCategoria;
 	}
-	public void setGuidCategoria(UUID guidCategoria) {
+	public void setGuidCategoria(String guidCategoria) {
 		this.guidCategoria = guidCategoria;
 	}
 	public String getNomeCategoria() {
