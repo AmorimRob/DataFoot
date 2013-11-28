@@ -1,13 +1,14 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 <ui:composition template="/templates/template.xhtml">
 	<ui:define name="titulo">
-Datafoot Scouts Online e Notícias de Futebol
+Datafoot Scouts Online e NotÃ­cias de Futebol
 </ui:define>
 	<ui:define name="corpo">
 		<p:panel header="Cadastro de atletas">
@@ -76,11 +77,9 @@ Datafoot Scouts Online e Notícias de Futebol
 						</p:column>
 						
 						<p:column rowspan="4" colspan="2" style="text-align: center">
-							<p:graphicImage id="foto" value="#{atletasCtrl.atleta.foto}" width="230px" height="150px" /><br/>
-							
-							<p:fileUpload value="#{atletasCtrl.file}" mode="simple" />	
-							<p:commandButton value="Submit" action="#{atletasCtrl.teste}"/>  
-							
+							<p:graphicImage value="image?tipo=#{atletasCtrl.tipoImagem}&amp;id=#{atletasCtrl.atleta.guidAtleta}" width="230px" height="150px"/><br/>
+               				<t:inputFileUpload value="#{atletasCtrl.file}" style="font-size:8pt; "/>	
+            				<h:commandButton value="Upload" action="#{atletasCtrl.upload}" style="font-size:8pt;"/>					
 						</p:column>					
 					</p:row>
 					
@@ -96,12 +95,12 @@ Datafoot Scouts Online e Notícias de Futebol
 					
 					<p:row>
 						<p:column style="border-right-style: hidden;">
-							<h:outputText value="Posição: "/> 
+							<h:outputText value="PosiÃ§Ã£o: "/> 
 						</p:column>
 						
 						<p:column style="border-right-style: hidden;">
 							<p:selectOneMenu id="comboPos" value="#{atletasCtrl.atleta.guidPosicao}" style="position: relative; width: 200px;">
-								<f:selectItem itemLabel="Selecione a posição" />
+								<f:selectItem itemLabel="Selecione a posiÃ§Ã£o" />
 								<f:selectItems value="#{atletasCtrl.comboPosicao}" />														
 							</p:selectOneMenu>
 							<p:spacer width="5px"/>
@@ -112,23 +111,22 @@ Datafoot Scouts Online e Notícias de Futebol
 					
 					<p:row>
 						<p:column style="border-right-style: hidden;">
-							<h:outputText value="Número: "/> 
+							<h:outputText value="NÃºmero: "/> 
 						</p:column>
 						
 						<p:column style="border-right-style: hidden;">
 							<p:spinner value="#{atletasCtrl.atleta.numeroPadrao}" id="spinnerBasic"/>  
 						</p:column>				
 					</p:row>
-					</p:panelGrid>
-				
-				<p:panelGrid style="width: 905px">
+
 					<p:row>
 						<p:column colspan="4" style="text-align: center">
-							<p:commandButton action="#{atletasCtrl.salvar}" icon="ui-icon-check" value="Salvar"/><p:spacer width="20px"/>
-							<p:commandButton icon="ui-icon-trash" value="Excluir" action="#{atletasCtrl.excluir}"/><p:spacer width="20px"/>
-							<p:commandButton icon="ui-icon-search" value="Pesquisar" onclick="PF('dialogPesquisar').show();" />
-							
-							
+						 	<p:commandButton value="Novo" icon="ui-icon-circle-plus" actionListener="#{atletasCtrl.novo}" immediate="true" ajax="false">  
+						        <p:resetInput target="FormAtleta" />  
+						    </p:commandButton>   
+							<p:commandButton action="#{atletasCtrl.salvar}" icon="ui-icon-check" value="Salvar"/>
+							<p:commandButton icon="ui-icon-trash" value="Excluir" action="#{atletasCtrl.excluir}"/>
+							<p:commandButton icon="ui-icon-search" value="Pesquisar" onclick="PF('dialogPesquisar').show();" />	
 						</p:column>
 					</p:row>					
 				</p:panelGrid>
@@ -152,25 +150,25 @@ Datafoot Scouts Online e Notícias de Futebol
 					<p:commandButton icon="ui-icon-trash" value="Cancelar"/><p:spacer width="20px"/><br/><br/>
 							
 							
-					<p:dataTable id="dataTableAtleta" var="pesq"  scrollable="true" scrollWidth="550" scrollHeight="150" value="#{atletasCtrl.listaAtletas}" emptyMessage="Nenhum atleta localizado">
-						<p:column headerText="Nome" resizable="false">
+					<p:dataTable id="dataTableAtleta" var="pesq"  scrollable="true" scrollHeight="150" value="#{atletasCtrl.listaAtletas}" emptyMessage="Nenhum atleta localizado">
+						<p:column headerText="Nome" resizable="false" width="100">
 							<h:outputText value="#{pesq.nome}" />
 						</p:column>
 											
-						<p:column headerText="Apelido" resizable="false">
+						<p:column headerText="Apelido" resizable="false" width="100">
 							<h:outputText value="#{pesq.apelido}" />
 						</p:column>
 											
-						<p:column headerText="Posição" resizable="false">
+						<p:column headerText="PosiÃ§Ã£o" resizable="false" width="100">
 							<h:outputText value="#{pesq.guidPosicao}" />
 						</p:column>
 											
-						<p:column headerText="Clube" resizable="false">
+						<p:column headerText="Clube" resizable="false" width="100">
 							<h:outputText value="#{pesq.guidClube}" />
 						</p:column>
 						
-						<p:column resizable="false">
-							<p:commandButton id="selecionar" update=":FormAtleta" oncomplete="PF('dialogPesquisar').hide()" icon="ui-icon-search" title="View">  
+						<p:column resizable="false" width="40">
+							<p:commandButton id="selecionar" action="#{atletasCtrl.trocaTipoImagem}" update=":FormAtleta" oncomplete="PF('dialogPesquisar').hide()" icon="ui-icon-search" title="View">  
                 				<f:setPropertyActionListener value="#{pesq}" target="#{atletasCtrl.atleta}" />  
             				</p:commandButton>  
 						</p:column>
@@ -206,12 +204,12 @@ Datafoot Scouts Online e Notícias de Futebol
 			</h:form>
 			
 			<h:form id="FormPosicao">
-				<p:dialog id="cadastroPosicao" header="Adicionar Posição" widgetVar="dialogPosicao"
+				<p:dialog id="cadastroPosicao" header="Adicionar PosiÃ§Ã£o" widgetVar="dialogPosicao"
 					modal="true" height="200" width="400" resizable="false">
 						
 					<p:messages id="messages" autoUpdate="true" closable="true" />  
-					<h:outputText value="Informe o nome da posição" /><br/><br/>
-					<h:outputText value="Posição: " />
+					<h:outputText value="Informe o nome da posiÃ§Ã£o" /><br/><br/>
+					<h:outputText value="PosiÃ§Ã£o: " />
 					<p:inputText value="#{posicaoCtrl.posicao.nome_posicao}"/><br/><br/>
 									
 					<center>
@@ -219,8 +217,8 @@ Datafoot Scouts Online e Notícias de Futebol
 						<p:commandButton icon="ui-icon-search" value="Excluir" update="FormPosicao, :FormAtleta" action="#{posicaoCtrl.excluir}"/>
 						<p:commandButton icon="ui-icon-search" value="Listar" update="dataTablePos" action="#{posicaoCtrl.consultar}"/>
 						<br/><br/>
-						<p:dataTable id="dataTablePos" var="pesq"  scrollable="true" scrollWidth="300" scrollHeight="150" value="#{posicaoCtrl.listaPosicao}" emptyMessage="Nenhuma posição localizada">
-							<p:column headerText="Posição" resizable="false" width="150">
+						<p:dataTable id="dataTablePos" var="pesq"  scrollable="true" scrollWidth="300" scrollHeight="150" value="#{posicaoCtrl.listaPosicao}" emptyMessage="Nenhuma posiÃ§Ã£o localizada">
+							<p:column headerText="PosiÃ§Ã£o" resizable="false" width="150">
 								<h:outputText value="#{pesq.nome_posicao}" />
 							</p:column>
 											

@@ -1,5 +1,6 @@
 package br.com.alesil.datafoot.ctrl;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.faces.bean.ManagedBean;
@@ -15,6 +16,8 @@ public class CidadeCtrl {
 	public Cidade cidade;
 	public CidadeDao dao;
 	
+	private List<Cidade>listaCidade;
+	
 	public CidadeCtrl() {
 		this.operacao = new CtrlPadrao();
 		this.cidade = new Cidade();
@@ -25,7 +28,7 @@ public class CidadeCtrl {
 		cidade.setGuidCidade(dao.buscarCidade(cidade.getNomeCidade()));
 		
 		if(cidade.getGuidCidade() != null){	
-			operacao.exibeMensagem("FormPosicao", "Cidade já cadastrada na base de dados.");	
+			operacao.exibeMensagem("FormCidade", "Cidade já cadastrada na base de dados.");	
 			
 		}else {
 			cidade.setGuidCidade(UUID.randomUUID().toString());
@@ -36,6 +39,10 @@ public class CidadeCtrl {
 	public void excluir (){
 		operacao.excluir(cidade, dao, "FormCidade");
 	}
+	
+	public void consultar(){
+		listaCidade = dao.listaCidade();
+	}
 
 	//Gets e Sets
 	public Cidade getCidade() {
@@ -44,5 +51,13 @@ public class CidadeCtrl {
 
 	public void setCidade(Cidade cidade) {
 		this.cidade = cidade;
+	}
+
+	public List<Cidade> getListaCidade() {
+		return listaCidade;
+	}
+
+	public void setListaCidade(List<Cidade> listaCidade) {
+		this.listaCidade = listaCidade;
 	}
 }

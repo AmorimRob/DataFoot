@@ -1,14 +1,12 @@
 package br.com.alesil.datafoot.model;
 
-import java.util.UUID;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="DF_CLUBE")
+@Table(name="df_clube")
 public class Clube {
 
 	@Id
@@ -28,10 +26,13 @@ public class Clube {
 	private String guidCidade;
 	
 	@Column(name="CL_GUID_ESTADIO")
-	private UUID estadio;
+	private String estadio;
 	
 	@Column(name="CL_WEBSITE")
 	private String website;
+	
+	@Column(name="CL_ESCUDO")
+	private byte[] escudo;
 
 	public String getGuidClube() {
 		return guidClube;
@@ -73,11 +74,11 @@ public class Clube {
 		this.guidCidade = cidade;
 	}
 
-	public UUID getEstadio() {
+	public String getEstadio() {
 		return estadio;
 	}
 
-	public void setEstadio(UUID estadio) {
+	public void setEstadio(String estadio) {
 		this.estadio = estadio;
 	}
 
@@ -89,68 +90,12 @@ public class Clube {
 		this.website = website;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((guidCidade == null) ? 0 : guidCidade.hashCode());
-		result = prime * result + ((estadio == null) ? 0 : estadio.hashCode());
-		result = prime * result + ((estado == null) ? 0 : estado.hashCode());
-		result = prime * result
-				+ ((guidClube == null) ? 0 : guidClube.hashCode());
-		result = prime * result
-				+ ((nomeClube == null) ? 0 : nomeClube.hashCode());
-		result = prime * result
-				+ ((nomeCurto == null) ? 0 : nomeCurto.hashCode());
-		result = prime * result + ((website == null) ? 0 : website.hashCode());
-		return result;
+	public byte[] getEscudo() {
+		return escudo;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Clube other = (Clube) obj;
-		if (guidCidade == null) {
-			if (other.guidCidade != null)
-				return false;
-		} else if (!guidCidade.equals(other.guidCidade))
-			return false;
-		if (estadio == null) {
-			if (other.estadio != null)
-				return false;
-		} else if (!estadio.equals(other.estadio))
-			return false;
-		if (estado == null) {
-			if (other.estado != null)
-				return false;
-		} else if (!estado.equals(other.estado))
-			return false;
-		if (guidClube == null) {
-			if (other.guidClube != null)
-				return false;
-		} else if (!guidClube.equals(other.guidClube))
-			return false;
-		if (nomeClube == null) {
-			if (other.nomeClube != null)
-				return false;
-		} else if (!nomeClube.equals(other.nomeClube))
-			return false;
-		if (nomeCurto == null) {
-			if (other.nomeCurto != null)
-				return false;
-		} else if (!nomeCurto.equals(other.nomeCurto))
-			return false;
-		if (website == null) {
-			if (other.website != null)
-				return false;
-		} else if (!website.equals(other.website))
-			return false;
-		return true;
+	public void setEscudo(byte[] escudo) {
+		this.escudo = escudo;
 	}
-	
+
 }

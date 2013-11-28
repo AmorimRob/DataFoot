@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="DF_CATEGORIAS")
+@Table(name="df_categoria")
 public class Categoria {
 
 	@Id

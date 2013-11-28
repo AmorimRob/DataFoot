@@ -1,7 +1,6 @@
 package br.com.alesil.datafoot.ctrl;
 
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +12,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
-import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.UploadedFile;
+import org.apache.myfaces.custom.fileupload.UploadedFile;
 
 import br.com.alesil.datafoot.dao.AtletaDao;
 import br.com.alesil.datafoot.dao.CategoriaDao;
@@ -24,12 +22,15 @@ import br.com.alesil.datafoot.model.Atleta;
 import br.com.alesil.datafoot.model.Categoria;
 import br.com.alesil.datafoot.model.Clube;
 import br.com.alesil.datafoot.model.Posicao;
+import br.com.alesil.datafoot.servlet.ImageAux;
+
 
 @ManagedBean(name="atletasCtrl")
 @ViewScoped
 public class AtletaCtrl {
 	
 	private UploadedFile file;
+	private String tipoImagem;
 	
 	private Atleta atleta;	
 	private AtletaDao dao;
@@ -39,10 +40,12 @@ public class AtletaCtrl {
 	private List<SelectItem>comboPosicao;
 	private List<SelectItem>comboClubes;
 	private List<SelectItem>comboCategoria;
+	
 
 	public AtletaCtrl() {
 		this.atleta = new Atleta();
 		this.dao = new AtletaDao();
+		
 	}	
 
 	public void salvar() {
@@ -76,9 +79,11 @@ public class AtletaCtrl {
 		if(atleta.getGuidAtleta()!= null){
 			atleta = dao.buscarAtleta(atleta.getGuidAtleta());
 			
+			
 		} else if(atleta.getApelido() != null || atleta.getGuidClube() != null){
 			listaAtletas = new ArrayList<Atleta>();
 			listaAtletas = dao.listarAtletas(atleta.getApelido(), null, atleta.getGuidClube());
+			
 			if(listaAtletas.isEmpty()) exibeMensagem("FormAtleta", "Não foi possível localizar o atleta com os dados informados."
 					+ " Verifique as informações e tente novamente.");
 		} else {
@@ -88,27 +93,23 @@ public class AtletaCtrl {
 		
 	}
 	
-	 public void handleFileUpload(FileUploadEvent event) {  
-	        byte[] bFile = new byte[(int) event.getFile().getSize()];
-	        
-	        try {
-	            //convert file into array of bytes
-	        	FileInputStream  fileInputStream = new FileInputStream((File)event.getFile());
-			    fileInputStream.read(bFile);
-			    fileInputStream.close();
-			    this.atleta.setFoto(bFile);
+	public void novo(){
+		this.atleta = new Atleta(); 
+	}
 
-	        }catch(Exception e){
-	        	e.printStackTrace();
-	        }
-
-	 }
+	 public String upload() throws IOException {
+		 tipoImagem = "temp";
+	     atleta.setFoto(file.getBytes());
+	     ImageAux.novaImagem = file;
+	     
+	     return null;
+	}
 	 
-	 public void teste(){
-		 System.out.print(file.getFileName());
+	 public void trocaTipoImagem(){
+		 tipoImagem = "atleta";
 	 }
 
-	
+	 
 	public void exibeMensagem(String form, String msn) {
 		FacesContext contexto = FacesContext.getCurrentInstance();
 		FacesMessage mensagem = new FacesMessage(msn);
@@ -117,7 +118,9 @@ public class AtletaCtrl {
 
 	//Gets e Sets
 	public Atleta getAtleta() {
+
 		return atleta;
+		
 	}
 
 	public void setAtleta(Atleta atleta) {
@@ -162,7 +165,7 @@ public class AtletaCtrl {
 			}
 		}catch(Exception e){
 			comboClubes = null;
-			exibeMensagem("FormAtleta", "Problemas de conexão com banco");
+
 		}
 		
 		return comboClubes;
@@ -181,7 +184,7 @@ public class AtletaCtrl {
 			}
 		}catch(Exception e){
 			comboCategoria = null;
-			exibeMensagem("FormAtleta", "Problemas de conexão com banco");
+		
 		}
 		
 		return comboCategoria;
@@ -199,5 +202,12 @@ public class AtletaCtrl {
 		this.file = file;
 	}
 
-	
+	public String getTipoImagem() {
+		return tipoImagem;
+	}
+
+	public void setTipoImagem(String tipoImagem) {
+		this.tipoImagem = tipoImagem;
+	}
+
 }

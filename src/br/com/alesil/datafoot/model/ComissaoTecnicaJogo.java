@@ -4,7 +4,7 @@ import java.util.UUID;
 import javax.persistence.*;
 
 @Entity
-@Table(name="DF_COMISSAO_TECNICA_JOGO")
+@Table(name="df_comissao_tecnica_jogo")
 public class ComissaoTecnicaJogo {
 	
 	@Id

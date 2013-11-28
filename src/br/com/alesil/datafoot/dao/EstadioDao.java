@@ -58,4 +58,52 @@ public class EstadioDao extends HibernateDAO{
 				catch(Throwable erro){ System.out.println("Erro ao fechar a sessao");}
 			}
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Estadio> pesquisarEstadio(String apelido, String estado){
+		Query consulta;
+		List<Estadio> resultado;
+		
+		try{
+			sessao = HibernateUtil.getSessionFactory().openSession();
+			consulta = sessao.createQuery("from Estadio e WHERE e.apelido like :a AND e.estado like :e");
+			consulta.setString("a", apelido + "%");
+			consulta.setString("e", estado + "%");
+			resultado = consulta.list();
+			return resultado;
+			
+		}catch(HibernateException erro){
+				System.out.println("Erro ao executar transação: " + erro.getMessage());
+				throw new HibernateException(erro);
+			}
+		
+		finally{
+				try{ sessao.close(); }
+				catch(Throwable erro){ System.out.println("Erro ao fechar a sessao");}
+			}
+	}
+	
+	public byte[] buscarFoto(String guid){
+		
+		Query consulta;
+		Estadio resultado;
+		
+		try{
+			sessao = HibernateUtil.getSessionFactory().openSession();
+			consulta = sessao.createQuery("from Estadio e where e.guidEstadio = :ge");
+			consulta.setString("ge", guid);
+
+			resultado = (Estadio) consulta.uniqueResult();
+			return resultado.getFoto();
+			
+		}catch(HibernateException erro){
+				System.out.println("Erro ao executar transação: " + erro.getMessage());
+				throw new HibernateException(erro);
+			}
+		
+		finally{
+				try{ sessao.close(); }
+				catch(Throwable erro){ System.out.println("Erro ao fechar a sessao");}
+			}
+	}
 }

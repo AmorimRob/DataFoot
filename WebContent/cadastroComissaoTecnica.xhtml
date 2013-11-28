@@ -1,17 +1,18 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
 <ui:composition template="/templates/template.xhtml">
 	<ui:define name="titulo">
-Datafoot Scouts Online e Notícias de Futebol
+Datafoot Scouts Online e NotÃ­cias de Futebol
 </ui:define>
 	<ui:define name="corpo">
 		<p:panel header="Cadastro de Staffs">
-			<h:form id="FormComissao">
+			<h:form id="FormComissao" enctype="multipart/form-data">
 				<p:panelGrid>
 					<p:row>
 						<p:column colspan="4" style="border-bottom-style: hidden;">
@@ -27,8 +28,10 @@ Datafoot Scouts Online e Notícias de Futebol
 							<p:inputText value="#{comissaoCtrl.comissao.nome}" style="width: 400px"/>
 						</p:column>
 	
-						<p:column rowspan="6" colspan="2" style="text-align: center">
-							<p:graphicImage value="resources/imagens/sem-foto.jpg" width="180px" height="120px"/> 
+						<p:column rowspan="4" colspan="2" style="text-align: center">
+							<p:graphicImage value="image?tipo=#{comissaoCtrl.tipoImagem}&amp;id=#{comissaoCtrl.comissao.guidComissaoTecnica}" width="230px" height="150px"/><br/>
+               				<t:inputFileUpload value="#{comissaoCtrl.file}" style="font-size:8pt;"/>	
+            				<h:commandButton value="Upload" action="#{comissaoCtrl.upload}" style="font-size:8pt;"/> 
 						</p:column>					
 	
 					</p:row>
@@ -43,12 +46,12 @@ Datafoot Scouts Online e Notícias de Futebol
 					</p:row>
 					<p:row>
 						<p:column style="border-right-style: hidden;">
-							<h:outputText value="Função: "/>
+							<h:outputText value="FunÃ§Ã£o: "/>
 						</p:column>
 						
 						<p:column  style="border-right-style: hidden;" >
-							<p:selectOneMenu value="#{comissaoCtrl.comissao.guidFuncao}" style="position: relative; width: 200px;" >
-								<f:selectItem itemLabel="Selecione uma função" />
+							<p:selectOneMenu id="comboFuncao" value="#{comissaoCtrl.comissao.guidFuncao}" style="position: relative; width: 200px;" >
+								<f:selectItem itemLabel="Selecione uma funÃ§Ã£o" />
 								<f:selectItems value="#{comissaoCtrl.comboFuncoes}" />														
 							</p:selectOneMenu>
 							<p:spacer width="10px"/>
@@ -71,8 +74,11 @@ Datafoot Scouts Online e Notícias de Futebol
 					
 					<p:row>
 						<p:column colspan="4" style="text-align: center">
-							<p:commandButton icon="ui-icon-check" value="Salvar" action="#{comissaoCtrl.salvar}"/><p:spacer width="20px"/>
-							<p:commandButton icon="ui-icon-trash" value="Excluir"/><p:spacer width="20px"/>
+							<p:commandButton value="Novo" icon="ui-icon-circle-plus" actionListener="#{comissaoCtrl.novo}" immediate="true" ajax="false">  
+						        <p:resetInput target="FormComissao" />  
+						    </p:commandButton> 
+							<p:commandButton icon="ui-icon-check" value="Salvar" action="#{comissaoCtrl.salvar}"/>
+							<p:commandButton icon="ui-icon-trash" value="Excluir" action="#{comissaoCtrl.excluir}"/>
 							<p:commandButton icon="ui-icon-search" value="Pesquisar" onclick="PF('dialogPesquisar').show();"/>
 						</p:column>
 					</p:row>	
@@ -81,21 +87,21 @@ Datafoot Scouts Online e Notícias de Futebol
 			</h:form>
 			
 			<h:form id="FormFuncao">
-				<p:dialog id="cadastroFuncao" header="Adicionar Função" widgetVar="dialogfuncao"
+				<p:dialog id="cadastroFuncao" header="Adicionar FunÃ§Ã£o" widgetVar="dialogfuncao"
 					modal="true" height="200" width="400" resizable="false">
 				
 					<p:messages id="messages" autoUpdate="true" closable="true" />  
-					<h:outputText value="Informe o nome da função" /><br/><br/>
+					<h:outputText value="Informe o nome da funÃ§Ã£o" /><br/><br/>
 									
-					<h:outputText value="Função: " />
+					<h:outputText value="FunÃ§Ã£o: " />
 					<p:inputText value="#{funcaoCtrl.funcao.nomeFuncao}" /><br/><br/>
 					<center>
-						<p:commandButton icon="ui-icon-check" value="Salvar" action="#{funcaoCtrl.salvar}" update=":FormComissao, :FormFuncao"/><p:spacer width="20px"/>
-						<p:commandButton icon="ui-icon-trash" value="Excluir" action="#{funcaoCtrl.excluir}" update=":FormComissao"/><p:spacer width="20px"/>
+						<p:commandButton icon="ui-icon-check" value="Salvar" action="#{funcaoCtrl.salvar}" update=":FormComissao:comboFuncao"/>
+						<p:commandButton icon="ui-icon-trash" value="Excluir" action="#{funcaoCtrl.excluir}" update=":FormComissao:comboFuncao"/>
 						<p:commandButton icon="ui-icon-search" value="Listar" update="dataTableFunc" action="#{funcaoCtrl.consultar}"/>
 						<br/><br/>
-						<p:dataTable id="dataTableFunc" var="pesq"  scrollable="true" scrollWidth="300" scrollHeight="150" value="#{funcaoCtrl.listaFuncao}" emptyMessage="Nenhuma posição localizada">
-							<p:column headerText="Função" resizable="false" width="150">
+						<p:dataTable id="dataTableFunc" var="pesq"  scrollable="true" scrollWidth="300" scrollHeight="150" value="#{funcaoCtrl.listaFuncao}" emptyMessage="Nenhuma posiÃ§Ã£o localizada">
+							<p:column headerText="FunÃ§Ã£o" resizable="false" width="150">
 								<h:outputText value="#{pesq.nomeFuncao}" />
 							</p:column>
 											
@@ -123,9 +129,9 @@ Datafoot Scouts Online e Notícias de Futebol
 						<f:selectItems value="#{comissaoCtrl.comboClubes}" />														
 					</p:selectOneMenu> <br/><br/>
 					
-					<h:outputText value="Função: " />
+					<h:outputText value="FunÃ§Ã£o: " />
 					<p:selectOneMenu value="#{comissaoCtrl.comissao.guidFuncao}" style="position: relative; width: 200px;" >
-								<f:selectItem itemLabel="Selecione uma função" />
+								<f:selectItem itemLabel="Selecione uma funÃ§Ã£o" />
 								<f:selectItems value="#{comissaoCtrl.comboFuncoes}" />														
 							</p:selectOneMenu><br/><br/>
 									
@@ -133,21 +139,21 @@ Datafoot Scouts Online e Notícias de Futebol
 					<p:commandButton icon="ui-icon-trash" value="Cancelar"/><p:spacer width="20px"/><br/><br/>
 							
 							
-					<p:dataTable id="dataTableComissao" var="pesq"  scrollable="true" scrollWidth="550" scrollHeight="150" value="#{comissaoCtrl.listaComissao}" emptyMessage="Nenhum staff localizado">
-						<p:column headerText="Nome" resizable="false">
+					<p:dataTable id="dataTableComissao" var="pesq"  scrollable="true" scrollHeight="150" value="#{comissaoCtrl.listaComissao}" emptyMessage="Nenhum staff localizado">
+						<p:column headerText="Nome" resizable="false" width="100">
 							<h:outputText value="#{pesq.nome}" />
 						</p:column>
 											
-						<p:column headerText="Apelido" resizable="false">
+						<p:column headerText="Apelido" resizable="false" width="100">
 							<h:outputText value="#{pesq.apelido}" />
 						</p:column>
 											
-						<p:column headerText="Clube" resizable="false">
+						<p:column headerText="Clube" resizable="false" width="100">
 							<h:outputText value="#{pesq.guidClube}" />
 						</p:column>
 						
-						<p:column resizable="false">
-							<p:commandButton id="selecionar" update=":FormComissao" oncomplete="PF('dialogPesquisar').hide()" icon="ui-icon-search" title="View">  
+						<p:column resizable="false" width="100">
+							<p:commandButton id="selecionar" action="#{comissaoCtrl.trocaTipoImagem}" update=":FormComissao" oncomplete="PF('dialogPesquisar').hide()" icon="ui-icon-search" title="View">  
                 				<f:setPropertyActionListener value="#{pesq}" target="#{comissaoCtrl.comissao}" />  
             				</p:commandButton>  
 						</p:column>

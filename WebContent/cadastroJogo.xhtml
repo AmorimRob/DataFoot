@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
 	xmlns:f="http://java.sun.com/jsf/core"
@@ -7,90 +7,108 @@
 	xmlns:p="http://primefaces.org/ui">
 <ui:composition template="/templates/template.xhtml">
 	<ui:define name="titulo">
-Datafoot Scouts Online e Notícias de Futebol
+Datafoot Scouts Online e NotÃ­cias de Futebol
 </ui:define>
 	<ui:define name="corpo">
 		<p:panel header="Cadastro de Jogos">
 		 <f:facet name="actions">
 				<p:commandButton icon="ui-icon-circle-plus" value="Adicionar Jogo" onclick="PF('dialogJogo').show();" />
-
-				<p:dialog id="cadastroJogo" header="Adicionar Jogo"	widgetVar="dialogJogo" modal="true" height="180"
+				<h:form id="FormCadJogo">
+					<p:dialog id="cadastroJogo" header="Adicionar Jogo"	widgetVar="dialogJogo" modal="true" height="250"
 					resizable="false">
-					<h:outputText value="Adicionar Novo Jogo" />
-					<br />
-					<br />
-					<p:panelGrid>
-						<p:row>
-							<p:column>
-								<h:outputText value="Data: " />
-							</p:column>
-							<p:column>
-								<p:inputText value="#{jogoCtrl.jogo.data}" />
-							</p:column>
-							
-							<p:column>
-								<h:outputText value="Horário: "/>
-							</p:column>
-							
-							<p:column>
-								<p:inputText value="#{jogoCtrl.jogo.horario}"  style="width: 70px;"/>
-							</p:column>
-							
-							<p:column>
-								<h:outputText value="Local: "/>
-							</p:column>
-							
-							<p:column colspan="4">
-								<p:selectOneMenu  style="width: 180px;" />
-							</p:column>
-						</p:row>
-						
-						<p:row>
-							<p:column>
-								<h:outputText value="Mandante: "/>
-							</p:column>
-							
-							<p:column>
-								<p:selectOneMenu style="width: 180px;" />
-							</p:column>
-										
-							<p:column>
-								<p:inputText id="golsMandante" style="width: 30px;" />
-								 <p:watermark for="golsMandante" value="Gols" />
-							</p:column>
-							
-							<p:column style="text-align: center">
-								<h:outputText value="Vs " style="font-size: 20px; color: red"/>
-							</p:column>
-							
-							<p:column>
-								<p:inputText id="golsVisitante" style="width: 30px;" />
-								 <p:watermark for="golsVisitante" value="Gols" />
-							</p:column>
-							
-							<p:column>
-								<h:outputText value="Visitante: " />
-							</p:column>
-							
-							<p:column>
-								<p:selectOneMenu style="width: 180px;"/>
-							</p:column>
-							
+
+						<h:outputText value="Adicionar Novo Jogo" />
+						<br />
+						<br />
+						<p:panelGrid>
+							<p:row>
+								<p:column>
+									<h:outputText value="CompetiÃ§Ã£o: "/>
+								</p:column>
+								
+								<p:column colspan="6">
+									 <p:autoComplete dropdown="true" value="#{jogoCtrl.jogo.competicao}"   
+	                   					 completeMethod="#{jogoCtrl.completarCampeonato}" />  
+								</p:column>
 							</p:row>
 							<p:row>
-								<p:column colspan="9">
-								<center>
-									<p:commandButton icon="ui-icon-check" value="Salvar" />
-									<p:spacer width="20px" />
-									<p:commandButton icon="ui-icon-trash" value="Excluir" />
-									<p:spacer width="20px" />
-									<p:commandButton icon="ui-icon-search" value="Pesquisar" />
-								</center>
-							</p:column>
-						</p:row>
-					</p:panelGrid>
-				</p:dialog>
+								<p:column>
+									<h:outputText value="Data: " />
+								</p:column>
+								<p:column>
+									<p:inputMask value="#{jogoCtrl.jogo.data}" mask="99/99/9999">
+										<f:convertDateTime pattern="dd/MM/yyyy"/>
+									</p:inputMask>
+								</p:column>
+								
+								<p:column>
+									<h:outputText value="HorÃ¡rio: "/>
+								</p:column>
+								
+								<p:column>
+									<p:inputMask value="#{jogoCtrl.jogo.horario}" mask="99:99" style="width: 70px;"/>
+								</p:column>
+								
+								<p:column>
+									<h:outputText value="Local: "/>
+								</p:column>
+								
+								<p:column colspan="2">
+									 <p:autoComplete dropdown="true" value="#{jogoCtrl.jogo.guidEstadio}"   
+	                   					 completeMethod="#{jogoCtrl.completarEstadio}" />  
+								</p:column>
+							</p:row>
+							
+							<p:row>
+								<p:column>
+									<h:outputText value="Mandante: "/>
+								</p:column>
+								
+								<p:column>
+									<p:autoComplete dropdown="true" value="#{jogoCtrl.jogo.guidClubeMandante}"   
+	                   					 completeMethod="#{jogoCtrl.completarClube}" />
+								</p:column>
+											
+								<p:column>
+									<p:inputText id="golsMandante" value="#{jogoCtrl.jogo.golsMandante}" style="width: 30px;" />
+									 <p:watermark for="golsMandante" value="Gols" />
+								</p:column>
+								
+								<p:column style="text-align: center">
+									<h:outputText value="Vs " style="font-size: 20px; color: red"/>
+								</p:column>
+								
+								<p:column>
+									<p:inputText id="golsVisitante" value="#{jogoCtrl.jogo.golsVisitante}" style="width: 30px;" />
+									 <p:watermark for="golsVisitante" value="Gols" />
+								</p:column>
+								
+								<p:column>
+									<h:outputText value="Visitante: " />
+								</p:column>
+								
+								<p:column>
+									<p:autoComplete dropdown="true" value="#{jogoCtrl.jogo.guidClubeVisitante}"   
+	                   					 completeMethod="#{jogoCtrl.completarClube}" />
+								</p:column>
+								
+								</p:row>
+								<p:row>
+									<p:column colspan="12">
+									<center>
+										<p:commandButton icon="ui-icon-check" value="Salvar" action="#{jogoCtrl.salvar}"/>
+										<p:spacer width="20px" />
+										<p:commandButton icon="ui-icon-trash" value="Excluir" action="#{jogoCtrl.excluir}"/>
+										<p:spacer width="20px" />
+										<p:commandButton icon="ui-icon-search" value="Pesquisar" />
+									</center>
+								</p:column>
+							</p:row>
+						</p:panelGrid>
+					</p:dialog>
+				</h:form>
 			</f:facet>  
+			
 			<h:form id="FormJogo">
 				<center>
 					<p:panelGrid>
@@ -102,101 +120,47 @@ Datafoot Scouts Online e Notícias de Futebol
 	
 						<p:row>
 							<p:column style="border-right-style: hidden; width:100px">
-								<h:outputText value="Competição:" />
+								<h:outputText value="CompetiÃ§Ã£o:" />
 							</p:column>
 	
 							<p:column>
-								<p:selectOneMenu style="width: 200px;" />
+								<p:selectOneMenu value="#{jogoCtrl.jogo.competicao}" style="position: relative; width: 200px;" >
+									<f:selectItem itemLabel="Selecione uma competiÃ§Ã£o" />
+									<f:selectItems value="#{jogoCtrl.comboCompeticao}" />														
+								</p:selectOneMenu>  
 							</p:column>
 						</p:row>
 						
 						<p:row>
 							<p:column colspan="2">
-								 <p:dataTable id="jogos" var="jogo" value="#{jogoCtrl.jogo}" editable="true" editMode="cell">
-								 	<p:ajax event="cellEdit" listener="#{tableBean.onCellEdit}" />
+								 <p:dataTable id="jogos" var="jogo" value="#{jogoCtrl.jogo}">
 									
 									<p:column headerText="Data" style="width:25%">
-										<p:cellEditor>
-											<f:facet name="output">
-												<h:outputText value="#{jogo.data}" />
-											</f:facet>
-											
-											<f:facet name="input">
-												<p:inputText value="#{jogo.data}" style="width:96%" />
-											</f:facet>
-										</p:cellEditor>
+										<h:outputText value="#{jogo.data}" />
 									</p:column>
 									
-									<p:column headerText="Horario" style="width:25%">
-										<p:cellEditor>
-											<f:facet name="output">
-												<h:outputText value="#{jogo.horario}" />
-											</f:facet>
-											
-											<f:facet name="input">
-												<p:inputText value="#{jogo.horario}" style="width:96%" />
-											</f:facet>
-										</p:cellEditor>
+									<p:column headerText="Horario" style="width:25%">	
+										<h:outputText value="#{jogo.horario}" />
 									</p:column>
 									
-									<p:column headerText="Local" style="width:25%">
-										<p:cellEditor>
-											<f:facet name="output">
-												<h:outputText value="#{jogo.local}" />
-											</f:facet>
-											
-											<f:facet name="input">
-												<p:autoComplete value="#{jogo.local}" completeMethod="#{autoCompleteBean.complete}" style="width:96%"/>
-											</f:facet>
-										</p:cellEditor>
+									<p:column headerText="Local" style="width:25%">										
+										<h:outputText value="#{jogo.guidEstadio}" />
 									</p:column>
 									
 									<p:column headerText="Mandante" style="width:25%">
-										<p:cellEditor>
-											<f:facet name="output">
-												<h:outputText value="#{jogo.clubeMandante}" />
-											</f:facet>
-											
-											<f:facet name="input">
-												<p:autoComplete value="#{jogo.clubeMandante}" completeMethod="#{autoCompleteBean.complete}" style="width:96%"/>
-											</f:facet>
-										</p:cellEditor>
+										<h:outputText value="#{jogo.guidClubeMandante}" />
+									</p:column>
+									
+									<p:column headerText="Gols" style="width:25%">	
+										<h:outputText value="#{jogo.golsMandante}" />
 									</p:column>
 									
 									<p:column headerText="Gols" style="width:25%">
-										<p:cellEditor>
-											<f:facet name="output">
-												<h:outputText value="#{jogo.golsMandante}" />
-											</f:facet>
-											
-											<f:facet name="input">
-												<p:inputText value="#{jogo.golsMandante}" style="width:96%"/>
-											</f:facet>
-										</p:cellEditor>
-									</p:column>
-									
-									<p:column headerText="Gols" style="width:25%">
-										<p:cellEditor>
-											<f:facet name="output">
-												<h:outputText value="#{jogo.golsVisitante}" />
-											</f:facet>
-											
-											<f:facet name="input">
-												<p:inputText value="#{jogo.golsVisitante}" style="width:96%"/>
-											</f:facet>
-										</p:cellEditor>
+										<h:outputText value="#{jogo.golsVisitante}" />
 									</p:column>
 									
 									<p:column headerText="Visitante" style="width:25%">
-										<p:cellEditor>
-											<f:facet name="output">
-												<h:outputText value="#{jogo.clubeVisitante}" />
-											</f:facet>
-											
-											<f:facet name="input">
-												<p:autoComplete value="#{jogo.clubeVisitante}" completeMethod="#{autoCompleteBean.complete}" style="width:96%"/>
-											</f:facet>
-										</p:cellEditor>
+										<h:outputText value="#{jogo.guidClubeVisitante}" />
 									</p:column>					
 								</p:dataTable>
 							</p:column>

@@ -1,17 +1,18 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
 <ui:composition template="/templates/template.xhtml">
 	<ui:define name="titulo">
-Datafoot Scouts Online e Notícias de Futebol
+Datafoot Scouts Online e NotÃ­cias de Futebol
 </ui:define>
 	<ui:define name="corpo">
 		<p:panel header="Cadastro de Clubes">
-		<h:form id="FormClube">
+		<h:form id="FormClube" enctype="multipart/form-data">
 			<p:panelGrid>
 				<p:row>
 					<p:column colspan="4" style="border-bottom-style: hidden;">
@@ -19,8 +20,7 @@ Datafoot Scouts Online e Notícias de Futebol
 					</p:column>
 				</p:row>
 					
-				<p:row>
-				
+				<p:row>			
 					<p:column style="border-right-style: hidden;" >
 						<h:outputText value="Nome do Clube: " /> 
 					</p:column>
@@ -30,7 +30,9 @@ Datafoot Scouts Online e Notícias de Futebol
 					</p:column>
 
 					<p:column rowspan="6" colspan="2" style="text-align: center">
-						<p:graphicImage value="resources/imagens/sem-foto.jpg" width="300px" height="200px"/> 
+						<p:graphicImage value="image?tipo=#{clubeCtrl.tipoImagem}&amp;id=#{clubeCtrl.clube.guidClube}" width="230px" height="150px"/><br/>
+               			<t:inputFileUpload value="#{clubeCtrl.file}" style="font-size:8pt;"/>	
+            			<h:commandButton value="Upload" action="#{clubeCtrl.upload}" style="font-size:8pt;"/>
 					</p:column>					
 
 				</p:row>
@@ -77,12 +79,12 @@ Datafoot Scouts Online e Notícias de Futebol
 				
 				<p:row>
 					<p:column style="border-right-style: hidden;">
-						<h:outputText value="Estádio: "/> 
+						<h:outputText value="EstÃ¡dio: "/> 
 					</p:column>
 					
 					<p:column style="border-right-style: hidden;">
 						<p:selectOneMenu id="comboCidae" value="#{clubeCtrl.clube.estadio}" style="position: relative; width: 200px;" >
-							<f:selectItem itemLabel="Selecione um estádio" />
+							<f:selectItem itemLabel="Selecione um estÃ¡dio" />
 							<f:selectItems value="#{clubeCtrl.comboEstadio}" />														
 						</p:selectOneMenu>
 					</p:column>				
@@ -100,8 +102,11 @@ Datafoot Scouts Online e Notícias de Futebol
 				
 				<p:row>
 						<p:column colspan="4" style="text-align: center">
-							<p:commandButton icon="ui-icon-check" value="Salvar" action="#{clubeCtrl.salvar}"/><p:spacer width="20px"/>
-							<p:commandButton icon="ui-icon-trash" value="Excluir"/><p:spacer width="20px"/>
+							<p:commandButton value="Novo" icon="ui-icon-circle-plus" actionListener="#{clubeCtrl.novo}" immediate="true" ajax="false">  
+						        <p:resetInput target="FormClube" />  
+						    </p:commandButton> 
+							<p:commandButton icon="ui-icon-check" value="Salvar" action="#{clubeCtrl.salvar}"/>
+							<p:commandButton icon="ui-icon-trash" value="Excluir" action="#{clubeCtrl.excluir}"/>
 							<p:commandButton icon="ui-icon-search" value="Pesquisar" onclick="PF('dialogPesquisar').show();"/>
 						</p:column>
 					</p:row>	
@@ -111,11 +116,12 @@ Datafoot Scouts Online e Notícias de Futebol
 			
 			<h:form id="FormCidade">
 				<p:dialog id="cadastroCidade" header="Adicionar Cidade" widgetVar="dialogCidade"
-					modal="true" height="180" resizable="false">
+					modal="true" height="200" width="430" resizable="false">
+					<p:messages id="messages" autoUpdate="true" closable="true" />
 					<h:outputText value="Informe o nome da cidade" /><br/><br/>
 							
 					<h:outputText value="Cidade: " />
-					<h:inputText value="#{cidadeCtrl.cidade.nomeCidade}"/><br/><br/>
+					<p:inputText value="#{cidadeCtrl.cidade.nomeCidade}"/><br/><br/>
 							
 					<h:outputText value="Estado: " />
 					<p:selectOneMenu value="#{cidadeCtrl.cidade.estado}" style="position: relative">
@@ -127,9 +133,25 @@ Datafoot Scouts Online e Notícias de Futebol
 						<f:selectItem itemLabel="ES" itemValue="ES" />																			
 					</p:selectOneMenu> <br/><br/>
 					<center>
-						<p:commandButton icon="ui-icon-check" value="Salvar" action="#{cidadeCtrl.salvar}" update=":FormClube:comboCidade"/><p:spacer width="20px"/>
-						<p:commandButton icon="ui-icon-trash" value="Cancelar"/><p:spacer width="20px"/>
-						<p:commandButton icon="ui-icon-search" value="Pesquisar"/>
+						<p:commandButton icon="ui-icon-check" value="Salvar" action="#{cidadeCtrl.salvar}" update=":FormClube:comboCidade"/>
+						<p:commandButton icon="ui-icon-trash" value="Excluir" action="#{cidadeCtrl.excluir}" update=":FormClube:comboCidade"/>
+						<p:commandButton icon="ui-icon-search" value="Listar" action="#{cidadeCtrl.consultar}" update="dataTableCidade"/>
+						<br/><br/>
+						<p:dataTable id="dataTableCidade" var="pesq"  scrollable="true" scrollWidth="300" scrollHeight="150" value="#{cidadeCtrl.listaCidade}" emptyMessage="Nenhuma cidade localizada">
+							<p:column headerText="Cidade" resizable="false" width="100">
+								<h:outputText value="#{pesq.nomeCidade}" />
+							</p:column>
+							
+							<p:column headerText="Estado" resizable="false" width="100">
+								<h:outputText value="#{pesq.estado}" />
+							</p:column>
+											
+							<p:column resizable="false" width="110">
+								<p:commandButton id="selecionar" update=":FormCidade" icon="ui-icon-search" title="View" oncomplete="PF('dialogCidade').show();">  
+	                				<f:setPropertyActionListener value="#{pesq}" target="#{cidadeCtrl.cidade}" />  
+	            				</p:commandButton>  
+							</p:column>
+						</p:dataTable>		
 					</center>
 				</p:dialog>
 			</h:form>
@@ -163,24 +185,24 @@ Datafoot Scouts Online e Notícias de Futebol
 							
 							
 					<p:dataTable id="dataTableClube" var="pesq"  scrollable="true" scrollWidth="550" scrollHeight="150" value="#{clubeCtrl.listaClube}" emptyMessage="Nenhum clube localizado">
-						<p:column headerText="Nome" resizable="false">
+						<p:column headerText="Nome" resizable="false" width="100">
 							<h:outputText value="#{pesq.nomeClube}" />
 						</p:column>
 											
-						<p:column headerText="Apelido" resizable="false">
+						<p:column headerText="Apelido" resizable="false" width="100">
 							<h:outputText value="#{pesq.nomeCurto}" />
 						</p:column>
 											
-						<p:column headerText="Cidade" resizable="false">
+						<p:column headerText="Cidade" resizable="false" width="100">
 							<h:outputText value="#{pesq.guidCidade}" />
 						</p:column>
 											
-						<p:column headerText="Estado" resizable="false">
+						<p:column headerText="Estado" resizable="false" width="100">
 							<h:outputText value="#{pesq.estado}" />
 						</p:column>
 						
-						<p:column resizable="false">
-							<p:commandButton id="selecionar" update=":FormClube" oncomplete="PF('dialogPesquisar').hide()" icon="ui-icon-search" title="View">  
+						<p:column resizable="false" width="20">
+							<p:commandButton id="selecionar" action="#{clubeCtrl.trocaTipoImagem}" update=":FormClube" oncomplete="PF('dialogPesquisar').hide()" icon="ui-icon-search" title="View">  
                 				<f:setPropertyActionListener value="#{pesq}" target="#{clubeCtrl.clube}" />  
             				</p:commandButton>  
 						</p:column>

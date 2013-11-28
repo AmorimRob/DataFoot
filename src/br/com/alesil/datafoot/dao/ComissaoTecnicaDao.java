@@ -57,4 +57,29 @@ public class ComissaoTecnicaDao extends HibernateDAO{
 				catch(Throwable erro){ System.out.println("Erro ao fechar a sessao");}
 			}
 	}
+	
+	public byte[] buscarFoto(String guid){
+		
+		Query consulta;
+		ComissaoTecnica resultado;
+		
+		try{
+			sessao = HibernateUtil.getSessionFactory().openSession();
+			consulta = sessao.createQuery("from ComissaoTecnica c where c.guidComissaoTecnica = :gc");
+			consulta.setString("gc", guid);
+
+			
+			resultado = (ComissaoTecnica) consulta.uniqueResult();
+			return resultado.getFoto();
+			
+		}catch(HibernateException erro){
+				System.out.println("Erro ao executar transação: " + erro.getMessage());
+				throw new HibernateException(erro);
+			}
+		
+		finally{
+				try{ sessao.close(); }
+				catch(Throwable erro){ System.out.println("Erro ao fechar a sessao");}
+			}
+	}
 }

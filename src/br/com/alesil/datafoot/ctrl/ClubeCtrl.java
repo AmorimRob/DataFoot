@@ -1,5 +1,6 @@
 package br.com.alesil.datafoot.ctrl;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -8,25 +9,32 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.model.SelectItem;
 
+import org.apache.myfaces.custom.fileupload.UploadedFile;
+
 import br.com.alesil.datafoot.dao.CidadeDao;
 import br.com.alesil.datafoot.dao.ClubeDao;
 import br.com.alesil.datafoot.dao.EstadioDao;
 import br.com.alesil.datafoot.model.Cidade;
 import br.com.alesil.datafoot.model.Clube;
 import br.com.alesil.datafoot.model.Estadio;
+import br.com.alesil.datafoot.servlet.ImageAux;
 
 @ManagedBean (name="clubeCtrl")
 @ViewScoped
 public class ClubeCtrl{
+	
+	private  UploadedFile file;
+	private String tipoImagem;
+	
 	private CtrlPadrao operacao;
 	private Clube clube;
 	private ClubeDao dao;
-	
+
 	private List<SelectItem> comboCidade;
 	private List<SelectItem> comboEstadio;
 	
 	private List<Clube> listaClube;
-	
+
 	public ClubeCtrl() {
 		this.operacao = new CtrlPadrao();
 		this.clube = new Clube();
@@ -54,6 +62,22 @@ public class ClubeCtrl{
 					+ " Verifique as informações e tente novamente.");
 		} 
 	}
+	
+	public void novo(){
+		this.clube = new Clube();
+	}
+	
+	 public String upload() throws IOException {
+		 tipoImagem = "temp";
+	     clube.setEscudo(file.getBytes());
+	     ImageAux.novaImagem = file;
+	     
+	     return null;
+	}
+	 
+	 public void trocaTipoImagem(){
+		 tipoImagem = "clube";
+	 }
 
 	//Gets e Sets
 	public Clube getClube() {
@@ -106,4 +130,21 @@ public class ClubeCtrl{
 	public void setListaClube(List<Clube> listaClube) {
 		this.listaClube = listaClube;
 	}
+
+	public UploadedFile getFile() {
+		return file;
+	}
+
+	public void setFile(UploadedFile file) {
+		this.file = file;
+	}
+
+	public String getTipoImagem() {
+		return tipoImagem;
+	}
+
+	public void setTipoImagem(String tipoImagem) {
+		this.tipoImagem = tipoImagem;
+	}
+
 }

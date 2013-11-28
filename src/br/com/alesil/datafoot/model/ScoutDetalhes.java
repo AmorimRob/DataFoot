@@ -6,7 +6,7 @@ import java.util.UUID;
 import javax.persistence.*;
 
 @Entity
-@Table(name="DF_SCOUT_DETALHES")
+@Table(name="df_scout_detalhes")
 public class ScoutDetalhes {
 	
 	@Id

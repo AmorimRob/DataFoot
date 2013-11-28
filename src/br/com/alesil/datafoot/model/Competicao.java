@@ -2,19 +2,22 @@ package br.com.alesil.datafoot.model;
 
 import java.util.Arrays;
 import java.util.Date;
-import java.util.UUID;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
-@Table(name="DF_COMPETICAO")
+@Table(name="df_competicao")
 public class Competicao {
 	
 	@Id
 	@Column(name="COMP_GUID_COMPETICAO")
-	private UUID guidCompeticao;
+	private String guidCompeticao;
 	
 	@Column(name="COMP_GUID_CATEGORIA")
-	private UUID guidCategoria;
+	private String guidCategoria;
 	
 	@Column(name="COMP_NOME_COMPETICAO")
 	private String nomeCompeticao;
@@ -25,16 +28,16 @@ public class Competicao {
 	@Column(name="COMP_DATA_INICIO")
 	private Date dataInicio;
 	
-	public UUID getGuidCompeticao() {
+	public String getGuidCompeticao() {
 		return guidCompeticao;
 	}
-	public void setGuidCompeticao(UUID guidCompeticao) {
+	public void setGuidCompeticao(String guidCompeticao) {
 		this.guidCompeticao = guidCompeticao;
 	}
-	public UUID getGuidCategoria() {
+	public String getGuidCategoria() {
 		return guidCategoria;
 	}
-	public void setGuidCategoria(UUID guidCategoria) {
+	public void setGuidCategoria(String guidCategoria) {
 		this.guidCategoria = guidCategoria;
 	}
 	public String getNomeCompeticao() {

@@ -1,5 +1,6 @@
 package br.com.alesil.datafoot.ctrl;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -8,16 +9,23 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.model.SelectItem;
 
+import org.apache.myfaces.custom.fileupload.UploadedFile;
+
 import br.com.alesil.datafoot.dao.ClubeDao;
 import br.com.alesil.datafoot.dao.ComissaoTecnicaDao;
 import br.com.alesil.datafoot.dao.FuncaoComissaoTecnicaDao;
 import br.com.alesil.datafoot.model.Clube;
 import br.com.alesil.datafoot.model.ComissaoTecnica;
 import br.com.alesil.datafoot.model.FuncaoComissaoTecnica;
+import br.com.alesil.datafoot.servlet.ImageAux;
 
 @ManagedBean(name="comissaoCtrl")
 @ViewScoped
 public class ComissaoTecnicaCtrl {
+	
+	private  UploadedFile file;
+	private String tipoImagem;
+	
 	private CtrlPadrao operacao;
 	private ComissaoTecnica comissao;
 	private ComissaoTecnicaDao dao;
@@ -57,6 +65,22 @@ public class ComissaoTecnicaCtrl {
 					+ " Verifique as informações e tente novamente.");
 		}
 	}
+	
+	public void novo(){
+		this.comissao = new ComissaoTecnica();
+	}
+	
+	 public String upload() throws IOException {
+		 tipoImagem = "temp";
+	     comissao.setFoto(file.getBytes());
+	     ImageAux.novaImagem = file;
+	     
+	     return null;
+	}
+	 
+	 public void trocaTipoImagem(){
+		 tipoImagem = "comissao";
+	 }
 
 	//Gets e Sets
 	public ComissaoTecnica getComissao() {
@@ -100,5 +124,21 @@ public class ComissaoTecnicaCtrl {
 
 	public void setListaComissao(List<ComissaoTecnica> listaComissao) {
 		this.listaComissao = listaComissao;
+	}
+
+	public UploadedFile getFile() {
+		return file;
+	}
+
+	public void setFile(UploadedFile file) {
+		this.file = file;
+	}
+
+	public String getTipoImagem() {
+		return tipoImagem;
+	}
+
+	public void setTipoImagem(String tipoImagem) {
+		this.tipoImagem = tipoImagem;
 	}
 }

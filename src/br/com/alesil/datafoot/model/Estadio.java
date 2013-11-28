@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="DF_ESTADIO")
+@Table(name="df_estadio")
 public class Estadio {
 
 	@Id
@@ -24,6 +24,9 @@ public class Estadio {
 	
 	@Column(name="EST_GUID_CIDADE")
 	private String guidCidade;
+	
+	@Column(name="EST_FOTO")
+	private byte[] foto;
 
 	public String getGuidEstadio() {
 		return guidEstadio;
@@ -65,54 +68,11 @@ public class Estadio {
 		this.guidCidade = cidade;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((apelido == null) ? 0 : apelido.hashCode());
-		result = prime * result + ((guidCidade == null) ? 0 : guidCidade.hashCode());
-		result = prime * result + ((estado == null) ? 0 : estado.hashCode());
-		result = prime * result
-				+ ((guidEstadio == null) ? 0 : guidEstadio.hashCode());
-		result = prime * result
-				+ ((nomeCompleto == null) ? 0 : nomeCompleto.hashCode());
-		return result;
+	public byte[] getFoto() {
+		return foto;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Estadio other = (Estadio) obj;
-		if (apelido == null) {
-			if (other.apelido != null)
-				return false;
-		} else if (!apelido.equals(other.apelido))
-			return false;
-		if (guidCidade == null) {
-			if (other.guidCidade != null)
-				return false;
-		} else if (!guidCidade.equals(other.guidCidade))
-			return false;
-		if (estado == null) {
-			if (other.estado != null)
-				return false;
-		} else if (!estado.equals(other.estado))
-			return false;
-		if (guidEstadio == null) {
-			if (other.guidEstadio != null)
-				return false;
-		} else if (!guidEstadio.equals(other.guidEstadio))
-			return false;
-		if (nomeCompleto == null) {
-			if (other.nomeCompleto != null)
-				return false;
-		} else if (!nomeCompleto.equals(other.nomeCompleto))
-			return false;
-		return true;
+	public void setFoto(byte[] foto) {
+		this.foto = foto;
 	}
 }

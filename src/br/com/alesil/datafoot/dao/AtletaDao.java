@@ -58,4 +58,29 @@ public class AtletaDao extends HibernateDAO {
 			}
 	}
 	
+	public byte[] buscarFoto(String guid){
+		
+		Query consulta;
+		Atleta resultado;
+		
+		try{
+			sessao = HibernateUtil.getSessionFactory().openSession();
+			consulta = sessao.createQuery("from Atleta a where a.guidAtleta = :ga");
+			consulta.setString("ga", guid);
+
+			
+			resultado = (Atleta) consulta.uniqueResult();
+			return resultado.getFoto();
+			
+		}catch(HibernateException erro){
+				System.out.println("Erro ao executar transação: " + erro.getMessage());
+				throw new HibernateException(erro);
+			}
+		
+		finally{
+				try{ sessao.close(); }
+				catch(Throwable erro){ System.out.println("Erro ao fechar a sessao");}
+			}
+	}
+	
 }

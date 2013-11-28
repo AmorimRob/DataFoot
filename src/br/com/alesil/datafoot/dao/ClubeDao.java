@@ -80,4 +80,29 @@ public class ClubeDao extends HibernateDAO {
 				catch(Throwable erro){ System.out.println("Erro ao fechar a sessao");}
 			}
 	}
+	
+	public byte[] buscarFoto(String guid){
+		
+		Query consulta;
+		Clube resultado;
+		
+		try{
+			sessao = HibernateUtil.getSessionFactory().openSession();
+			consulta = sessao.createQuery("from Clube c where c.guidClube = :gc");
+			consulta.setString("gc", guid);
+
+			
+			resultado = (Clube) consulta.uniqueResult();
+			return resultado.getEscudo();
+			
+		}catch(HibernateException erro){
+				System.out.println("Erro ao executar transação: " + erro.getMessage());
+				throw new HibernateException(erro);
+			}
+		
+		finally{
+				try{ sessao.close(); }
+				catch(Throwable erro){ System.out.println("Erro ao fechar a sessao");}
+			}
+	}
 }

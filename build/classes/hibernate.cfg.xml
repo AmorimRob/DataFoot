@@ -7,9 +7,9 @@
     <session-factory>
       	<property name="dialect">org.hibernate.dialect.MySQLDialect</property>
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="connection.url">jdbc:mysql://mysql3000.mochahost.com:3306/alesil_datafoot</property>
-        <property name="connection.username">alesil_datafoot</property>
-        <property name="connection.password">alesil$datafoot</property>
+        <property name="connection.url">jdbc:mysql://asdb001.cohtvtcki8xc.sa-east-1.rds.amazonaws.com:3306/alesil_datafoot</property>
+        <property name="connection.username">robson.amorim</property>
+        <property name="connection.password">alesil$123456</property>
         
         <property name="show_sql">true</property>
         <property name="format_sql">true</property>
