@@ -1,10 +1,8 @@
 package br.com.alesil.datafoot.servlet;
 
 import java.io.BufferedOutputStream;
-import java.io.ByteArrayInputStream;
 import java.io.Closeable;
 import java.io.IOException;
-import java.io.InputStream;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -60,36 +58,32 @@ public class ImageServlet extends HttpServlet {
 			}
 
 		} else {
-			InputStream is;
 			byte[] arrayImagem = null;
+
 			switch (imageTipo) {
 				case "atleta":
 					arrayImagem = new AtletaDao().buscarFoto(imageId);
-					is = new ByteArrayInputStream(arrayImagem);
 					break;
 					
 				case "comissao":
 					arrayImagem = new ComissaoTecnicaDao().buscarFoto(imageId);
-					is = new ByteArrayInputStream(arrayImagem);
 					break;
 					
 				case "clube":
 					arrayImagem = new ClubeDao().buscarFoto(imageId);
-					is = new ByteArrayInputStream(arrayImagem);
 					break;
 					
 				case "competicao":
 					arrayImagem = new CompeticaoDao().buscarFoto(imageId);
-					is = new ByteArrayInputStream(arrayImagem);
+					//is = new ByteArrayInputStream(arrayImagem);
 					break;
 					
 				case "estadio":
 					arrayImagem = new EstadioDao().buscarFoto(imageId);
-					is = new ByteArrayInputStream(arrayImagem);
 					break;
 					
 				default:
-					is = null;
+					arrayImagem = null;
 				}
 
 			BufferedOutputStream output = null;

@@ -1,7 +1,6 @@
 package br.com.alesil.datafoot.ctrl;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -51,7 +50,7 @@ public class CompeticaoCtrl {
 	
 	public void consultar(){
 		Date data = new Date();
-		SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+		//SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
 
 		
 		if(competicao.getNomeCompeticao() != null || competicao.getDataInicio() != null){

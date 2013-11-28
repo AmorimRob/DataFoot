@@ -4,10 +4,10 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 
 
+@SuppressWarnings("deprecation")
 public class HibernateUtil {
 	public static final SessionFactory sessionFactory = buildSessionFactory();
 
-	@SuppressWarnings("deprecation")
 	public static SessionFactory buildSessionFactory(){
 		try{
 			AnnotationConfiguration cfg = new AnnotationConfiguration();
