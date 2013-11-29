@@ -10,7 +10,7 @@ import br.com.alesil.datafoot.model.Atleta;
 
 public class AtletaDao extends HibernateDAO {
 	@SuppressWarnings("unchecked")
-	public List<Atleta> listarAtletas(String nome, String categoria, String guidClube){
+	public List<Atleta> pesquisarAtletas(String nome, String categoria, String guidClube){
 		Query consulta;
 		List<Atleta> resultado;
 		
@@ -34,7 +34,7 @@ public class AtletaDao extends HibernateDAO {
 			}
 	}
 	
-	public Atleta buscarAtleta(String guidAtleta){
+	public Atleta buscarAtletaPorGuid(String guidAtleta){
 		Query consulta;
 		Atleta resultado;
 		
@@ -71,6 +71,30 @@ public class AtletaDao extends HibernateDAO {
 			
 			resultado = (Atleta) consulta.uniqueResult();
 			return resultado.getFoto();
+			
+		}catch(HibernateException erro){
+				System.out.println("Erro ao executar transação: " + erro.getMessage());
+				throw new HibernateException(erro);
+			}
+		
+		finally{
+				try{ sessao.close(); }
+				catch(Throwable erro){ System.out.println("Erro ao fechar a sessao");}
+			}
+	}
+
+	
+	@SuppressWarnings("unchecked")
+	public List<Atleta> listarAtletas(){		
+		Query consulta;
+		List<Atleta> resultado;
+		
+		try{
+			sessao = HibernateUtil.getSessionFactory().openSession();
+			consulta = sessao.createQuery("from Atleta");
+			
+			resultado = consulta.list();
+			return resultado;
 			
 		}catch(HibernateException erro){
 				System.out.println("Erro ao executar transação: " + erro.getMessage());

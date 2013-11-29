@@ -8,6 +8,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.model.SelectItem;
 
+import br.com.alesil.datafoot.converters.ClubeConverter;
+import br.com.alesil.datafoot.converters.CompeticaoConverter;
+import br.com.alesil.datafoot.converters.EstadioConverter;
 import br.com.alesil.datafoot.dao.ClubeDao;
 import br.com.alesil.datafoot.dao.CompeticaoDao;
 import br.com.alesil.datafoot.dao.EstadioDao;
@@ -25,61 +28,67 @@ public class JogosCtrl {
 	private JogoDao dao;
 	
 	private List<SelectItem> comboCompeticao;
+	private List<SelectItem> comboEstadio;
+	private List<SelectItem> comboClube;
 
 	private List<Jogo> lstJogos;
+	private List<Clube>listaClube;
+	private List<Estadio>listaEstadio;
+	private List<Competicao>listaCompeticao;
 
 	
 	public JogosCtrl() {
 		this.operacao = new CtrlPadrao();
 		this.jogo = new Jogo();
 		this.dao = new JogoDao();
+		
+		this.listaClube = ClubeConverter.lstClube;
+		this.listaCompeticao = CompeticaoConverter.lstCompeticao;
+		this.listaEstadio = EstadioConverter.lstEstadio;
 	}
 	
-	public List<SelectItem> completarEstadio(String query) {  
-		List<SelectItem> resultado = new ArrayList<SelectItem>();
-		
-        List<Estadio> estadios = new ArrayList<Estadio>();  
-        estadios = new EstadioDao().listaEstadio();
-        for (Estadio lista : estadios) {  
-        	resultado.add(new SelectItem(lista.getGuidEstadio(), lista.getApelido()));  
+    public List<Clube> completarClube(String query) {  
+        List<Clube> suggestions = new ArrayList<Clube>();  
+          
+        for(Clube item : listaClube) {  
+            if(item.getNomeCurto().startsWith(query))  
+                suggestions.add(item);  
         }  
           
-        return resultado;  
+        return suggestions;  
     }  
-	
-	
-	public List<String> completarClube(String query) {  
-		List<String> resultado = new ArrayList<String>();
-		
-        List<Clube> clube = new ArrayList<Clube>();  
-        clube = new ClubeDao().comboClubes();
-        for (Clube lista : clube) {  
-        	resultado.add(lista.getNomeCurto());  
+    
+    public List<Estadio> completarEstadio(String query) {  
+        List<Estadio> suggestions = new ArrayList<Estadio>();  
+          
+        for(Estadio item : listaEstadio) {  
+            if(item.getApelido().startsWith(query))  
+                suggestions.add(item);  
         }  
           
-        return resultado;  
+        return suggestions;  
     }  
-	
-	public List<String> completarCampeonato(String query) {  
-		List<String> resultado = new ArrayList<String>();
-		
-        List<Competicao> comp = new ArrayList<Competicao>();  
-        comp = new CompeticaoDao().comboCompeticao();
-        for (Competicao lista : comp) {  
-        	resultado.add(lista.getNomeCompeticao());  
+    
+    public List<Competicao> completarCompeticao(String query) {  
+        List<Competicao> suggestions = new ArrayList<Competicao>();  
+          
+        for(Competicao item : listaCompeticao) {  
+            if(item.getNomeCompeticao().startsWith(query))  
+                suggestions.add(item);  
         }  
           
-        return resultado;  
+        return suggestions;  
     }  
+	
 	
 	public void salvar (){
 		if(jogo.getGuidJogo() == null)
 			jogo.setGuidJogo(UUID.randomUUID().toString());
-		operacao.salvar(jogo, dao, "FormJogo");
+		operacao.salvar(jogo, dao, "FormCadJogo");
 	}
 	
 	public void excluir (){
-		operacao.excluir(jogo, dao, "FormJogo");
+		operacao.excluir(jogo, dao, "FormCadJogo");
 	}
 	
 	public void consultar(){
@@ -87,10 +96,14 @@ public class JogosCtrl {
 			jogo = dao.buscarJogo(jogo.getGuidJogo());			
 		} else {
 			lstJogos = new ArrayList<Jogo>();
-			lstJogos = dao.listaJogos(jogo.getCompeticao(), jogo.getGuidClubeMandante(), jogo.getGuidEstadio());
+			lstJogos = dao.listaJogos(jogo.getCompeticao());
 			if(lstJogos.isEmpty()) operacao.exibeMensagem("FormJogo", "Não foi possível localizar o jogo com os dados informados."
 					+ " Verifique as informações e tente novamente.");
 		} 
+	}
+	
+	public void novo(){
+		this.jogo = new Jogo();
 	}
 
 	public Jogo getJogo() {
@@ -124,5 +137,39 @@ public class JogosCtrl {
 
 	public void setLstJogos(List<Jogo> listaJogos) {
 		this.lstJogos = listaJogos;
+	}
+
+	public List<SelectItem> getComboEstadio() {
+		try{
+			List<Estadio> lista = new EstadioDao().listaEstadio();
+			comboEstadio = new ArrayList<SelectItem>();
+			for (Estadio estadio : lista){
+				comboEstadio.add(new SelectItem(estadio.getGuidEstadio(), estadio.getApelido()));
+			}
+		}catch(Exception e){
+			operacao.exibeMensagem("FormEditarJogo", "Problemas de conexão com banco");
+		}
+		return comboEstadio;
+	}
+
+	public void setComboEstadio(List<SelectItem> comboEstadio) {
+		this.comboEstadio = comboEstadio;
+	}
+
+	public List<SelectItem> getComboClube() {
+		try{
+			List<Clube> lista = new ClubeDao().comboClubes();
+			comboClube = new ArrayList<SelectItem>();
+			for (Clube clube : lista){
+				comboClube.add(new SelectItem(clube.getGuidClube(), clube.getNomeCurto()));
+			}
+		}catch(Exception e){
+			operacao.exibeMensagem("FormEditarJogo", "Problemas de conexão com banco");
+		}
+		return comboClube;
+	}
+
+	public void setComboClube(List<SelectItem> comboClube) {
+		this.comboClube = comboClube;
 	}
 }

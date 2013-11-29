@@ -77,12 +77,12 @@ public class AtletaCtrl {
 	
 	public void consultar(){
 		if(atleta.getGuidAtleta()!= null){
-			atleta = dao.buscarAtleta(atleta.getGuidAtleta());
+			atleta = dao.buscarAtletaPorGuid(atleta.getGuidAtleta());
 			
 			
 		} else if(atleta.getApelido() != null || atleta.getGuidClube() != null){
 			listaAtletas = new ArrayList<Atleta>();
-			listaAtletas = dao.listarAtletas(atleta.getApelido(), null, atleta.getGuidClube());
+			listaAtletas = dao.pesquisarAtletas(atleta.getApelido(), null, atleta.getGuidClube());
 			
 			if(listaAtletas.isEmpty()) exibeMensagem("FormAtleta", "Não foi possível localizar o atleta com os dados informados."
 					+ " Verifique as informações e tente novamente.");

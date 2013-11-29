@@ -23,7 +23,8 @@
         <mapping class = "br.com.alesil.datafoot.model.ComissaoTecnica"/>
 
         <mapping class = "br.com.alesil.datafoot.model.Competicao"/>
-
+        
+		<mapping class = "br.com.alesil.datafoot.model.Escalacao"/>
         <mapping class = "br.com.alesil.datafoot.model.Esquema"/>
         <mapping class = "br.com.alesil.datafoot.model.Estadio"/>
         <mapping class = "br.com.alesil.datafoot.model.FuncaoComissaoTecnica"/>
