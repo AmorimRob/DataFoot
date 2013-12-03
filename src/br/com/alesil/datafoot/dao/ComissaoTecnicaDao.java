@@ -1,5 +1,6 @@
 package br.com.alesil.datafoot.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -10,18 +11,34 @@ import br.com.alesil.datafoot.model.ComissaoTecnica;
 public class ComissaoTecnicaDao extends HibernateDAO{
 
 	@SuppressWarnings("unchecked")
-	public List<ComissaoTecnica> listarComissao(String nome, String guidClube, String guidFuncao){
-		Query consulta;
-		List<ComissaoTecnica> resultado;
+	public List<ComissaoTecnica> pesquisarComissao(String nome, String guidClube, String guidFuncao){
+		List<ComissaoTecnica> resultado = new ArrayList<ComissaoTecnica>();
 		
 		try{
-			sessao = HibernateUtil.getSessionFactory().openSession();
-			consulta = sessao.createQuery("from ComissaoTecnica ct where ct.apelido like :n AND ct.guidClube like :gc AND ct.guidFuncao like :gf");
-			consulta.setString("n", nome + "%");
-			consulta.setString("gc", guidClube + "%");
-			consulta.setString("gf", guidFuncao + "%");
+			sessao = HibernateUtil.getSessionFactory();
+			Query query = sessao.createSQLQuery("SELECT com.CT_GUID_COMISSAO_TECNICA, com.CT_GUID_CLUBE, com.CT_GUID_FUNCAO, "
+					.concat("com.CT_NOME, com.CT_APELIDO, cl.CL_NOME_CLUBE FROM df_comissao_tecnica com ")
+					.concat("LEFT JOIN df_clube cl ON com.CT_GUID_CLUBE = cl.CL_GUID_CLUBE ")
+					.concat("WHERE com.CT_APELIDO LIKE :ap AND com.CT_GUID_CLUBE LIKE :gc AND com.CT_GUID_FUNCAO LIKE :gf"))
+					.setParameter("ap", nome.concat("%"))
+					.setParameter("gc", guidClube.concat("%"))
+					.setParameter("gf", guidFuncao.concat("%"));
 			
-			resultado = consulta.list();
+			List<Object[]> result = query.list();
+			
+			for (Object[] item : result){
+				ComissaoTecnica ct = new ComissaoTecnica();
+				ct.setGuidComissaoTecnica(item[0].toString());
+				ct.setGuidClube(item[1].toString());
+				ct.setGuidFuncao(item[2].toString());
+				ct.setNome(item[3].toString());
+				ct.setApelido(item[4].toString());
+				if(item[5] != null)
+					ct.setNomeClube(item[5].toString());
+				
+				resultado.add(ct);
+			}
+			//resultado = consulta.list();
 			return resultado;
 			
 		}catch(HibernateException erro){
@@ -40,7 +57,7 @@ public class ComissaoTecnicaDao extends HibernateDAO{
 		ComissaoTecnica resultado;
 		
 		try{
-			sessao = HibernateUtil.getSessionFactory().openSession();
+			sessao = HibernateUtil.getSessionFactory();
 			consulta = sessao.createQuery("from ComissaoTecnica ct where ct.guidComissaoTecnica = :gc");
 			consulta.setString("gc", guidComissao);
 			
@@ -64,7 +81,7 @@ public class ComissaoTecnicaDao extends HibernateDAO{
 		ComissaoTecnica resultado;
 		
 		try{
-			sessao = HibernateUtil.getSessionFactory().openSession();
+			sessao = HibernateUtil.getSessionFactory();
 			consulta = sessao.createQuery("from ComissaoTecnica c where c.guidComissaoTecnica = :gc");
 			consulta.setString("gc", guid);
 

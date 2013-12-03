@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="df_clube")
@@ -33,6 +34,9 @@ public class Clube {
 	
 	@Column(name="CL_ESCUDO")
 	private byte[] escudo;
+	
+	@Transient
+	private String nomeCidade;
 
 	public String getGuidClube() {
 		return guidClube;
@@ -96,6 +100,14 @@ public class Clube {
 
 	public void setEscudo(byte[] escudo) {
 		this.escudo = escudo;
+	}
+
+	public String getNomeCidade() {
+		return nomeCidade;
+	}
+
+	public void setNomeCidade(String nomeCidade) {
+		this.nomeCidade = nomeCidade;
 	}
 
 }

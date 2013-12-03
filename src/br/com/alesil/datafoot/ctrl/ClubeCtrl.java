@@ -57,7 +57,7 @@ public class ClubeCtrl{
 			
 		} else {
 			listaClube = new ArrayList<Clube>();
-			listaClube = dao.listaClube(clube.getNomeCurto(), clube.getGuidCidade(), clube.getEstado());
+			listaClube = dao.pesquisarClube(clube.getNomeCurto(), clube.getGuidCidade(), clube.getEstado());
 			if(listaClube.isEmpty()) operacao.exibeMensagem("FormComissao", "Não foi possível localizar o staff com os dados informados."
 					+ " Verifique as informações e tente novamente.");
 		} 

@@ -79,7 +79,6 @@ public class AtletaCtrl {
 		if(atleta.getGuidAtleta()!= null){
 			atleta = dao.buscarAtletaPorGuid(atleta.getGuidAtleta());
 			
-			
 		} else if(atleta.getApelido() != null || atleta.getGuidClube() != null){
 			listaAtletas = new ArrayList<Atleta>();
 			listaAtletas = dao.pesquisarAtletas(atleta.getApelido(), null, atleta.getGuidClube());

@@ -14,7 +14,7 @@ public class CategoriaDao extends HibernateDAO{
 		Categoria resultado;
 		
 		try{
-			sessao = HibernateUtil.getSessionFactory().openSession();
+			sessao = HibernateUtil.getSessionFactory();
 			consulta = sessao.createQuery("from Categoria c where c.nomeCategoria = :n");
 			consulta.setString("n", categoria);
 
@@ -43,7 +43,7 @@ public class CategoriaDao extends HibernateDAO{
 		List<Categoria> resultado;
 		
 		try{
-			sessao = HibernateUtil.getSessionFactory().openSession();
+			sessao = HibernateUtil.getSessionFactory();
 			consulta = sessao.createQuery("from Categoria");
 			
 			resultado = consulta.list();

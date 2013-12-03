@@ -14,7 +14,7 @@ public class PosicaoDao extends HibernateDAO{
 		Posicao resultado;
 		
 		try{
-			sessao = HibernateUtil.getSessionFactory().openSession();
+			sessao = HibernateUtil.getSessionFactory();
 			consulta = sessao.createQuery("from Posicao a where a.nome_posicao = :n");
 			consulta.setString("n", posicao);
 
@@ -43,7 +43,7 @@ public class PosicaoDao extends HibernateDAO{
 		List<Posicao> resultado;
 		
 		try{
-			sessao = HibernateUtil.getSessionFactory().openSession();
+			sessao = HibernateUtil.getSessionFactory();
 			consulta = sessao.createQuery("from Posicao");
 			
 			resultado = consulta.list();

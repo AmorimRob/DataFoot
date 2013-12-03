@@ -1,10 +1,12 @@
 package br.com.alesil.datafoot.model;
 
 import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="df_atleta")
@@ -40,6 +42,12 @@ public class Atleta  {
 	
 	@Column(name="ATL_NUMERO_PADRAO")
 	private Integer numeroPadrao;
+	
+	@Transient
+	private String nome_posicao;
+	
+	@Transient
+	private String nomeClube;
 
 	public String getGuidAtleta() {
 		return guidAtleta;
@@ -119,6 +127,22 @@ public class Atleta  {
 
 	public void setGuidCategoria(String guidCategoria) {
 		this.guidCategoria = guidCategoria;
+	}
+
+	public String getNome_posicao() {
+		return nome_posicao;
+	}
+
+	public void setNome_posicao(String nome_posicao) {
+		this.nome_posicao = nome_posicao;
+	}
+
+	public String getNomeClube() {
+		return nomeClube;
+	}
+
+	public void setNomeClube(String nomeClube) {
+		this.nomeClube = nomeClube;
 	}
 
 }

@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="df_comissao_tecnica")
@@ -27,6 +28,9 @@ public class ComissaoTecnica {
 	
 	@Column(name="CT_FOTO")
 	private byte[] foto;
+	
+	@Transient
+	private String nomeClube;
 	
 	public String getGuidComissaoTecnica() {
 		return guidComissaoTecnica;
@@ -74,5 +78,13 @@ public class ComissaoTecnica {
 
 	public void setFoto(byte[] foto) {
 		this.foto = foto;
+	}
+
+	public String getNomeClube() {
+		return nomeClube;
+	}
+
+	public void setNomeClube(String nomeClube) {
+		this.nomeClube = nomeClube;
 	}
 }

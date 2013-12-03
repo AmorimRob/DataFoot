@@ -8,7 +8,7 @@ public class HibernateDAO {
 	
 	public void executaTransacao(Object dados, int operacao){
 		try{
-			sessao = HibernateUtil.getSessionFactory().openSession();
+			sessao = HibernateUtil.getSessionFactory();
 			transacao = sessao.beginTransaction();
 			if (operacao == 1) sessao.saveOrUpdate(dados);
 			else if (operacao == 2) sessao.delete(dados);

@@ -15,7 +15,7 @@ public class JogoDao extends HibernateDAO{
 		List<Jogo> resultado;
 		
 		try{
-			sessao = HibernateUtil.getSessionFactory().openSession();
+			sessao = HibernateUtil.getSessionFactory();
 			consulta = sessao.createQuery("from Jogo j where j.competicao like :guidCamp");
 			consulta.setString("guidCamp", guidCampeonato);
 
@@ -39,7 +39,7 @@ public class JogoDao extends HibernateDAO{
 		Jogo resultado;
 		
 		try{
-			sessao = HibernateUtil.getSessionFactory().openSession();
+			sessao = HibernateUtil.getSessionFactory();
 			consulta = sessao.createQuery("from Jogo c where c.guidJogo= :gj");
 			consulta.setString("gj", guidJogo);
 			
@@ -63,7 +63,7 @@ public class JogoDao extends HibernateDAO{
 		List<Jogo> resultado;
 		
 		try{
-			sessao = HibernateUtil.getSessionFactory().openSession();
+			sessao = HibernateUtil.getSessionFactory();
 			consulta = sessao.createQuery("from Jogo j where j.competicao = :gc");
 			consulta.setString("gc", guidCompeticao);
 			

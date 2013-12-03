@@ -14,7 +14,7 @@ public class EstadioDao extends HibernateDAO{
 		Estadio resultado;
 		
 		try{
-			sessao = HibernateUtil.getSessionFactory().openSession();
+			sessao = HibernateUtil.getSessionFactory();
 			consulta = sessao.createQuery("from Estadio e where e.nomeCompleto = :n");
 			consulta.setString("n", estadio);
 
@@ -43,7 +43,7 @@ public class EstadioDao extends HibernateDAO{
 		List<Estadio> resultado;
 		
 		try{
-			sessao = HibernateUtil.getSessionFactory().openSession();
+			sessao = HibernateUtil.getSessionFactory();
 			consulta = sessao.createQuery("from Estadio");
 			resultado = consulta.list();
 			return resultado;
@@ -65,7 +65,7 @@ public class EstadioDao extends HibernateDAO{
 		List<Estadio> resultado;
 		
 		try{
-			sessao = HibernateUtil.getSessionFactory().openSession();
+			sessao = HibernateUtil.getSessionFactory();
 			consulta = sessao.createQuery("from Estadio e WHERE e.apelido like :a AND e.estado like :e");
 			consulta.setString("a", apelido + "%");
 			consulta.setString("e", estado + "%");
@@ -89,7 +89,7 @@ public class EstadioDao extends HibernateDAO{
 		Estadio resultado;
 		
 		try{
-			sessao = HibernateUtil.getSessionFactory().openSession();
+			sessao = HibernateUtil.getSessionFactory();
 			consulta = sessao.createQuery("from Estadio e where e.guidEstadio = :ge");
 			consulta.setString("ge", guid);
 

@@ -57,7 +57,7 @@ public class ComissaoTecnicaCtrl {
 			
 		} else if(comissao.getApelido() != null || comissao.getGuidComissaoTecnica() != null){
 			listaComissao = new ArrayList<ComissaoTecnica>();
-			listaComissao = dao.listarComissao(comissao.getApelido(), comissao.getGuidClube(), comissao.getGuidFuncao());
+			listaComissao = dao.pesquisarComissao(comissao.getApelido(), comissao.getGuidClube(), comissao.getGuidFuncao());
 			if(listaComissao.isEmpty()) operacao.exibeMensagem("FormComissao", "Não foi possível localizar o staff com os dados informados."
 					+ " Verifique as informações e tente novamente.");
 		} else {

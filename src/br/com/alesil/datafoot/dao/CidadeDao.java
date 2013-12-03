@@ -14,7 +14,7 @@ public class CidadeDao extends HibernateDAO{
 		Cidade resultado;
 		
 		try{
-			sessao = HibernateUtil.getSessionFactory().openSession();
+			sessao = HibernateUtil.getSessionFactory();
 			consulta = sessao.createQuery("from Cidade c where c.nomeCidade = :n");
 			consulta.setString("n", cidade);
 
@@ -43,7 +43,7 @@ public class CidadeDao extends HibernateDAO{
 		List<Cidade> resultado;
 		
 		try{
-			sessao = HibernateUtil.getSessionFactory().openSession();
+			sessao = HibernateUtil.getSessionFactory();
 			consulta = sessao.createQuery("from Cidade");
 			
 			resultado = consulta.list();

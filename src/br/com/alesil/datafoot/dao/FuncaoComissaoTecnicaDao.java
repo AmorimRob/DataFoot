@@ -14,7 +14,7 @@ public class FuncaoComissaoTecnicaDao extends HibernateDAO{
 		FuncaoComissaoTecnica resultado;
 		
 		try{
-			sessao = HibernateUtil.getSessionFactory().openSession();
+			sessao = HibernateUtil.getSessionFactory();
 			consulta = sessao.createQuery("from FuncaoComissaoTecnica c where c.nomeFuncao = :n");
 			consulta.setString("n", funcao);
 
@@ -43,7 +43,7 @@ public class FuncaoComissaoTecnicaDao extends HibernateDAO{
 		List<FuncaoComissaoTecnica> resultado;
 		
 		try{
-			sessao = HibernateUtil.getSessionFactory().openSession();
+			sessao = HibernateUtil.getSessionFactory();
 			consulta = sessao.createQuery("from FuncaoComissaoTecnica");
 			
 			resultado = consulta.list();

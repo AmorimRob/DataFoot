@@ -7,6 +7,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.model.SelectItem;
 
+import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
 
@@ -24,12 +25,18 @@ import br.com.alesil.datafoot.model.Jogo;
 public class EscalacaoCtrl {
 	
 	private CtrlPadrao operacao;
+	
 	private Escalacao escalacao;
+	
 	private EscalacaoDao dao;
 	private AtletaDao daoAtleta;
 	
+	private boolean mandante = true;
+	
 	//Listas que preenchem o PickList da escalação
-	private DualListModel<Atleta>listaAtleta;
+	private DualListModel<Atleta>listaAtletaMandante;
+	private DualListModel<Atleta>listaAtletaVisitante;
+	
 	private List<Atleta> source = new ArrayList<Atleta>();  
 	private List<Atleta> target = new ArrayList<Atleta>();
     
@@ -40,7 +47,10 @@ public class EscalacaoCtrl {
     private List<SelectItem>comboJogos;
     
     private String guidCompeticao;
-    private Jogo jogoSelecionado;
+    private String jogoSelecionado;
+    
+    private String timeMandante;
+    private String timeVisitante;
 	
 	public EscalacaoCtrl() {
 		this.operacao = new CtrlPadrao();
@@ -50,15 +60,29 @@ public class EscalacaoCtrl {
 
         source = daoAtleta.listarAtletas();
         
-        listaAtleta = new DualListModel<Atleta>(source, target);  
+        listaAtletaMandante = new DualListModel<Atleta>(source, target);
+        listaAtletaVisitante = new DualListModel<Atleta>(source, target); 
 	}
 	
 	public void salvar (){
-		operacao.salvar(escalacao, dao, "FormClube");
+		if(mandante){
+			escalacao.setGuidClube(timeMandante);
+			operacao.salvar(escalacao, dao, "FormClube");
+		}else{
+			escalacao.setGuidClube(timeVisitante);
+			operacao.salvar(escalacao, dao, "FormClube");
+		}
 	}
 	
 	public void excluir (){
-		operacao.excluir(escalacao, dao, "FormClube");
+		if(mandante){
+			escalacao.setGuidClube(timeMandante);
+			operacao.excluir(escalacao, dao, "FormClube");
+		}else{
+			escalacao.setGuidClube(timeVisitante);
+			operacao.excluir(escalacao, dao, "FormClube");
+		}
+		
 	}
 	/*
 	public void consultar(){
@@ -74,37 +98,63 @@ public class EscalacaoCtrl {
 	}
 	
 	*/
-	public void onTransfer(TransferEvent event) {   
-        for(Object item : event.getItems()) {  
+	public void onTransfer(TransferEvent event) {
+		if(escalMandante== null)
+			this.escalMandante = new ArrayList<Escalacao>();
+		for(Object item : event.getItems()) {  
+        	if(mandante){
+    			escalacao.setGuidClube(timeMandante);
+    		}else{
+    			escalacao.setGuidClube(timeVisitante);
+    		}
+        	
         	escalacao.setGuidAtleta((String)item);
+        	escalacao.setGuidJogo(jogoSelecionado);
+        	
+        	this.salvar();
+        	
+        	this.escalMandante.add(escalacao);
         }  
 
-    }  
+    }
+	
+	 public void onCellEdit(CellEditEvent event) {  
+	        Object oldValue = event.getOldValue();  
+	        Object newValue = event.getNewValue();  
+	          
+	        if(newValue != null && !newValue.equals(oldValue)) {  
+	        	this.salvar();
+	        }  
+	    }  
+	
+	public void condicaoTimeMandante(){
+		this.mandante = true;
+	}
+	
+	public void condicaoTimeVisitante(){
+		this.mandante = false;
+	}
 	
 	public List<Jogo> consultarJogos(){
+		if(escalMandante == null){
+			//metodo de busca da escalação
+		}
 		return new JogoDao().jogosPorCompeticao(guidCompeticao);
 	}
 	
 	public void setarClubes(){
-		//campo de texto que receberá o clube mandante e clube visitante
-		String mandante = jogoSelecionado.getGuidClubeMandante();
-		String visitante = jogoSelecionado.getGuidClubeVisitante();
+		Jogo jogo = new Jogo();
+		jogo = new JogoDao().buscarJogo(jogoSelecionado);
+		timeMandante = jogo.getGuidClubeMandante();
+		timeVisitante = jogo.getGuidClubeVisitante();
 	}
 
-	public Escalacao getEscalacao() {
-		return escalacao;
+	public DualListModel<Atleta> getListaAtletaMandante() {
+		return listaAtletaMandante;
 	}
 
-	public void setEscalacao(Escalacao escalacao) {
-		this.escalacao = escalacao;
-	}
-
-	public DualListModel<Atleta> getListaAtleta() {
-		return listaAtleta;
-	}
-
-	public void setListaAtleta(DualListModel<Atleta> listaAtleta) {
-		this.listaAtleta = listaAtleta;
+	public void setListaAtletaMandante(DualListModel<Atleta> listaAtleta) {
+		this.listaAtletaMandante = listaAtleta;
 	}
 
 	public List<Escalacao> getEscalMandante() {
@@ -145,11 +195,7 @@ public class EscalacaoCtrl {
 			List<Jogo> lista = consultarJogos();
 			comboJogos = new ArrayList<SelectItem>();
 			for (Jogo jogo : lista){
-				comboJogos.add(new SelectItem(jogo, String.valueOf(jogo.getData())
-						.concat(" - ")
-						.concat(jogo.getGuidClubeMandante()
-						.concat(" x ")
-						.concat(jogo.getGuidClubeVisitante()))));
+				comboJogos.add(new SelectItem(jogo.getGuidJogo(), jogo.getGuidClubeVisitante()));
 			}
 		}catch(Exception e){
 			operacao.exibeMensagem("FormJogo", "Problemas de conexão com banco");
@@ -169,12 +215,29 @@ public class EscalacaoCtrl {
 		this.guidCompeticao = guidCompeticao;
 	}
 
-	public Jogo getJogoSelecionado() {
+	public String getJogoSelecionado() {
 		return jogoSelecionado;
 	}
 
-	public void setJogoSelecionado(Jogo jogoSelecionado) {
+	public void setJogoSelecionado(String jogoSelecionado) {
 		this.jogoSelecionado = jogoSelecionado;
 	}
+
+	public DualListModel<Atleta> getListaAtletaVisitante() {
+		return listaAtletaVisitante;
+	}
+
+	public void setListaAtletaVisitante(DualListModel<Atleta> listaAtletaVisitante) {
+		this.listaAtletaVisitante = listaAtletaVisitante;
+	}
+
+	public Escalacao getEscalacao() {
+		return escalacao;
+	}
+
+	public void setEscalacao(Escalacao escalacao) {
+		this.escalacao = escalacao;
+	}
+
 
 }

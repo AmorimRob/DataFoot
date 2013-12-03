@@ -194,7 +194,7 @@ Datafoot Scouts Online e Notícias de Futebol
 						</p:column>
 											
 						<p:column headerText="Cidade" resizable="false" width="100">
-							<h:outputText value="#{pesq.guidCidade}" />
+							<h:outputText value="#{pesq.nomeCidade}" />
 						</p:column>
 											
 						<p:column headerText="Estado" resizable="false" width="100">
@@ -202,8 +202,9 @@ Datafoot Scouts Online e Notícias de Futebol
 						</p:column>
 						
 						<p:column resizable="false" width="20">
-							<p:commandButton id="selecionar" action="#{clubeCtrl.trocaTipoImagem}" update=":FormClube" oncomplete="PF('dialogPesquisar').hide()" icon="ui-icon-search" title="View">  
-                				<f:setPropertyActionListener value="#{pesq}" target="#{clubeCtrl.clube}" />  
+							<p:commandButton id="selecionar" action="#{clubeCtrl.consultar}" update=":FormClube" oncomplete="PF('dialogPesquisar').hide()" icon="ui-icon-search" title="View">  
+                				<f:setPropertyActionListener value="#{pesq}" target="#{clubeCtrl.clube}" />
+                				<p:ajax event="click" listener="#{clubeCtrl.trocaTipoImagem}"/>   
             				</p:commandButton>  
 						</p:column>
 					</p:dataTable>							

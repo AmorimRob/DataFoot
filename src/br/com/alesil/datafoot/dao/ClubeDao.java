@@ -1,5 +1,6 @@
 package br.com.alesil.datafoot.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -15,7 +16,7 @@ public class ClubeDao extends HibernateDAO {
 		List<Clube> resultado;
 		
 		try{
-			sessao = HibernateUtil.getSessionFactory().openSession();
+			sessao = HibernateUtil.getSessionFactory();
 			consulta = sessao.createQuery("from Clube");
 			
 			resultado = consulta.list();
@@ -33,18 +34,33 @@ public class ClubeDao extends HibernateDAO {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Clube> listaClube(String nome, String guidCidade, String estado){
-		Query consulta;
-		List<Clube> resultado;
+	public List<Clube> pesquisarClube(String nome, String guidCidade, String estado){
+		List<Clube> resultado = new ArrayList<Clube>();
 		
 		try{
-			sessao = HibernateUtil.getSessionFactory().openSession();
-			consulta = sessao.createQuery("from Clube c where c.nomeCurto like :n AND c.guidCidade like :gc AND c.estado like :e");
-			consulta.setString("n", nome + "%");
-			consulta.setString("gc", guidCidade + "%");
-			consulta.setString("e", estado + "%");
+			sessao = HibernateUtil.getSessionFactory();
+			Query consulta = sessao.createSQLQuery("SELECT cl.CL_GUID_CLUBE, cl.CL_NOME_CLUBE, "
+					.concat("cl.CL_NOME_CURTO, cl.CL_ESTADO, ci.CI_GUID_CIDADE, ci.CI_NOME_CIDADE FROM df_clube cl ")
+					.concat("LEFT JOIN df_cidade ci ON cl.CL_GUID_CIDADE = ci.CI_GUID_CIDADE ")
+					.concat("WHERE cl.CL_NOME_CLUBE LIKE :n AND ci.CI_GUID_CIDADE LIKE :cid AND cl.CL_ESTADO LIKE :e "))
+					.setParameter("n", nome + "%")
+					.setParameter("cid", guidCidade + "%")
+					.setParameter("e", estado + "%");
 			
-			resultado = consulta.list();
+			List<Object[]>results = consulta.list();
+			
+			for(Object[] item : results){
+				Clube cl = new Clube();
+				cl.setGuidClube(item[0].toString());
+				cl.setNomeClube(item[1].toString());
+				cl.setNomeCurto(item[2].toString());
+				cl.setEstado(item[3].toString());
+				cl.setGuidCidade(item[4].toString());
+				cl.setNomeCidade(item[5].toString());
+				
+				resultado.add(cl);
+			}
+			
 			return resultado;
 			
 		}catch(HibernateException erro){
@@ -63,7 +79,7 @@ public class ClubeDao extends HibernateDAO {
 		Clube resultado;
 		
 		try{
-			sessao = HibernateUtil.getSessionFactory().openSession();
+			sessao = HibernateUtil.getSessionFactory();
 			consulta = sessao.createQuery("from Clube c where c.guidClube = :gc");
 			consulta.setString("gc", guidClube);
 			
@@ -87,7 +103,7 @@ public class ClubeDao extends HibernateDAO {
 		Clube resultado;
 		
 		try{
-			sessao = HibernateUtil.getSessionFactory().openSession();
+			sessao = HibernateUtil.getSessionFactory();
 			consulta = sessao.createQuery("from Clube c where c.guidClube = :gc");
 			consulta.setString("gc", guid);
 
