@@ -27,7 +27,8 @@ Datafoot Scouts Online e Notícias de Futebol
 				<p:selectOneMenu id="comboJogos" value="#{escalCtrl.jogoSelecionado}" required="true" style="position: relative; width: 200px;">
 					<f:selectItem itemLabel="Selecione o jogo" itemValue="0"/>
 					<f:selectItems value="#{escalCtrl.comboJogos}" />
-					<p:ajax event="change" listener="#{escalCtrl.setarClubes}"/>														
+					<p:ajax event="change" listener="#{escalCtrl.setarClubes}" update=":FormCadEscalcaoMandante, :FormCadEscalcaoVisitante"/>
+					<p:ajax event="change" listener="#{comissaoJogoCtrl.setarClubes}" update=":FormCadComissaoMandante, :FormCadComissaoVisitante"/>	
 				</p:selectOneMenu> 
 			</f:facet>
 
@@ -47,6 +48,8 @@ Datafoot Scouts Online e Notícias de Futebol
 
 							<p:commandButton icon="ui-icon-circle-plus" action="#{escalCtrl.condicaoTimeMandante}" 
 								value="Adicionar/Modificar" onclick="PF('dialogEscalacaoMandante').show();" />
+								
+								<p:commandButton icon="ui-icon-check" value="Fim" action="#{escalCtrl.salvarMandante}"/>
 							<br />
 							<br />
 							
@@ -57,12 +60,12 @@ Datafoot Scouts Online e Notícias de Futebol
 								<p:column headerText="Número" style="width:30%">			
 									<p:cellEditor>  
                 						<f:facet name="output"><h:outputText value="#{escal.numero}" /></f:facet>  
-                						<f:facet name="input"><p:inputText value="#{escal.numero}" style="width:96%" label="Year"/></f:facet>  
+                						<f:facet name="input"><p:inputText value="#{escal.numero}" style="width:96%"/></f:facet>  
             						</p:cellEditor> 
 								</p:column>
 
 								<p:column headerText="Nome" style="width:30%">
-									<h:outputText value="#{escal.guidAtleta}" />		
+									<h:outputText value="#{escal.nomeAtleta}" />		
 								</p:column>
 							</p:dataTable>
 							
@@ -74,60 +77,71 @@ Datafoot Scouts Online e Notícias de Futebol
 
 							<p:commandButton icon="ui-icon-circle-plus"	value="Adicionar/Modificar"
 								onclick="PF('dialogEscalacaoVisitante').show();" action="#{escalCtrl.condicaoTimeVisitante}" />
+								
+								<p:commandButton icon="ui-icon-check" value="Fim" action="#{escalCtrl.salvarVisitante}"/>
 							<br />
 							<br />
 
 							<p:dataTable id="escalVisitante" var="escal" value="#{escalCtrl.escalVisitante}" editable="true" editMode="cell">
+								
+								<p:ajax event="cellEdit" listener="#{escalCtrl.onCellEdit}" update="escalVisitante" /> 
+								
 								<p:column headerText="Número" style="width:30%">			
 									<p:cellEditor>  
                 						<f:facet name="output"><h:outputText value="#{escal.numero}" /></f:facet>  
-                						<f:facet name="input"><p:inputText value="#{escal.numero}" style="width:96%" label="Year"/></f:facet>  
+                						<f:facet name="input"><p:inputText value="#{escal.numero}" style="width:96%" /></f:facet>  
             						</p:cellEditor> 
 								</p:column>
 
 								<p:column headerText="Nome" style="width:30%">
-									<h:outputText value="#{escal.guidAtleta}" />		
+									<h:outputText value="#{escal.nomeAtleta}" />		
 								</p:column>
 
 							</p:dataTable>
 						</p:column>
 					</p:row>
-
+					
+					<!-- LISTA DA COMISSÃO TIME MANDANTE -->
 					<p:row>
 						<p:column>
 							<h:outputText value="Comissão Técnica" />
 							<p:spacer width="20px" />
 							<p:commandButton icon="ui-icon-circle-plus"	value="Adicionar/Modificar"
-								onclick="PF('dialogEscalacaoVisitante').show();" action="#{escalCtrl.condicaoTimeVisitante}" />
+								onclick="PF('dialogComissaoMandante').show();" action="#{comissaoJogoCtrl.condicaoTimeMandante}" >									
+							</p:commandButton>
+								
+							<p:commandButton icon="ui-icon-check" value="Fim" action="#{comissaoJogoCtrl.salvarMandante}"/>
 							<br />
 							<br />
 
-							<p:dataTable id="comissaoMandante" var="comissao" value="#{escalCtrl.escalMandante}">
+							<p:dataTable id="comissaoMandante" var="comissao" value="#{comissaoJogoCtrl.comissaoMandante}">
 								<p:column headerText="Nome" style="width:30%">
-									<h:outputText value="#{comissao.nome}" />
+									<h:outputText value="#{comissao.nomeStaff}" />
 								</p:column>
 
 								<p:column headerText="Função" style="width:30%">
-									<h:outputText value="#{comissao.funcao}" />
+									<h:outputText value="#{comissao.nomeFuncao}" />
 								</p:column>
 							</p:dataTable>
 						</p:column>
-
+						
+						<!-- LISTA DA COMISSÃO TIME VISITANTE -->
 						<p:column>
 							<h:outputText value="Comissão Técnica" />
 							<p:spacer width="20px" />
 							<p:commandButton icon="ui-icon-circle-plus"	value="Adicionar/Modificar"
-								onclick="PF('dialogEscalacaoVisitante').show();" action="#{escalCtrl.condicaoTimeVisitante}" />
+								onclick="PF('dialogComissaoVisitante').show();" action="#{comissaoJogoCtrl.condicaoTimeVisitante}" />
+								<p:commandButton icon="ui-icon-check" value="Fim" action="#{comissaoJogoCtrl.salvarVisitante}"/>
 							<br />
 							<br />
 
-							<p:dataTable id="comissaoVisitante" var="comissao" value="#{escalCtrl.escalVisitante}">
+							<p:dataTable id="comissaoVisitante" var="comissao" value="#{comissaoJogoCtrl.comissaoVisitante}">
 								<p:column headerText="Nome" style="width:30%">
-									<h:outputText value="#{comissao.nome}" />	
+									<h:outputText value="#{comissao.nomeStaff}" />	
 								</p:column>
 
 								<p:column headerText="Função" style="width:30%">
-									<h:outputText value="#{comissao.funcao}" />
+									<h:outputText value="#{comissao.nomeFuncao}" />
 								</p:column>
 							</p:dataTable>
 						</p:column>
@@ -136,7 +150,7 @@ Datafoot Scouts Online e Notícias de Futebol
 			</p:panel>
 		</h:form>
 			
-			
+			<!-- CADASTRO DE ESCALAÇÃO DOS ATLETAS DO TIME MANDANTE -->
 		<h:form id="FormCadEscalcaoMandante" enctype="multipart/form-data">
 			<p:dialog id="cadastroEscalacao" header="Adicionar/Mofidicar Escalação"	widgetVar="dialogEscalacaoMandante"
 				modal="true" height="350" resizable="false">
@@ -145,13 +159,14 @@ Datafoot Scouts Online e Notícias de Futebol
 				<p:panelGrid>
 					<p:row>
 						<p:column>
-							<p:pickList id="listaAtletas" value="#{escalCtrl.listaAtletaMandante}" var="atleta" effect="bounce" 
-								itemValue="#{atleta.guidAtleta}" itemLabel="#{atleta.apelido}" converter="atletaConverter"
+							<p:pickList id="pickListAtletaMandante" value="#{escalCtrl.listaAtletaMandante}" var="atleta" effect="bounce" 
+								itemValue="#{atleta}" itemLabel="#{atleta.apelido}" converter="atletaConverter"
 								showSourceControls="true" showTargetControls="true" showSourceFilter="true" 
 								showTargetFilter="true"	filterMatchMode="contains">
 											
 								<f:facet name="sourceCaption">Disponíveis</f:facet>
 								<f:facet name="targetCaption">Escalados</f:facet>
+								
 								<p:ajax event="transfer" listener="#{escalCtrl.onTransfer}" update=":FormEscalacao:escalMandante"/>
 
 								<p:column style="width:25%">
@@ -169,6 +184,7 @@ Datafoot Scouts Online e Notícias de Futebol
 			</p:dialog>
 		</h:form>
 		
+		<!-- CADASTRO DE ESCALAÇÃO DOS ATLETAS DO TIME VISITANTE -->
 		<h:form id="FormCadEscalcaoVisitante" enctype="multipart/form-data">
 			<p:dialog id="cadastroEscalacaoVisitante" header="Adicionar/Mofidicar Escalação" widgetVar="dialogEscalacaoVisitante"
 				modal="true" height="350" resizable="false">
@@ -178,13 +194,13 @@ Datafoot Scouts Online e Notícias de Futebol
 					<p:row>
 						<p:column>
 							<p:pickList id="listaAtletas" value="#{escalCtrl.listaAtletaVisitante}" var="atleta" effect="bounce" 
-								itemValue="#{atleta.guidAtleta}" itemLabel="#{atleta.apelido}" converter="atletaConverter"
+								itemValue="#{atleta}" itemLabel="#{atleta.apelido}" converter="atletaConverter"
 								showSourceControls="true" showTargetControls="true" showSourceFilter="true" 
-								showTargetFilter="true"	filterMatchMode="contains">
+								showTargetFilter="true"	filterMatchMode="contains"  >
 											
 								<f:facet name="sourceCaption">Disponíveis</f:facet>
 								<f:facet name="targetCaption">Escalados</f:facet>
-								<p:ajax event="transfer" listener="#{escalCtrl.onTransfer}" />
+								<p:ajax event="transfer" listener="#{escalCtrl.onTransfer}" update=":FormEscalacao:escalVisitante"/>
 
 								<p:column style="width:25%">
 									<p:graphicImage value="image?tipo=atleta&amp;id=#{atleta.guidAtleta}"
@@ -193,6 +209,72 @@ Datafoot Scouts Online e Notícias de Futebol
 
 								<p:column style="width:75%;">
 									<h:outputText value="#{atleta.nome}" />
+								</p:column>
+							</p:pickList>
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+			</p:dialog>
+		</h:form>
+		
+		<!-- CADASTRO DE COMISSÃO TECNICA DO TIME MANDANTE -->
+		<h:form id="FormCadComissaoMandante" enctype="multipart/form-data">
+			<p:dialog id="cadastroComissaoMandante" header="Adicionar/Mofidicar Escalação" widgetVar="dialogComissaoMandante"
+				modal="true" height="350" resizable="false">
+				<h:outputText value="Comissão Técnica" />
+				<br /><br />
+				<p:panelGrid>
+					<p:row>
+						<p:column>
+							<p:pickList id="pickListComissaoMandante" value="#{comissaoJogoCtrl.listaComissaoMandante}" var="comissao" effect="bounce" 
+								itemValue="#{comissao}" itemLabel="#{comissao.apelido}" converter="comissaoConverter"
+								showSourceControls="true" showTargetControls="true" showSourceFilter="true" 
+								showTargetFilter="true"	filterMatchMode="contains">
+											
+								<f:facet name="sourceCaption">Disponíveis</f:facet>
+								<f:facet name="targetCaption">Escalados</f:facet>
+								<p:ajax event="transfer" listener="#{comissaoJogoCtrl.onTransfer}" update=":FormEscalacao:comissaoMandante"/>
+
+								<p:column style="width:25%">
+									<p:graphicImage value="image?tipo=comissao&amp;id=#{comissao.guidComissaoTecnica}"
+											width="30" height="40" />
+								</p:column>
+
+								<p:column style="width:75%;">
+									<h:outputText value="#{comissao.apelido}" />
+								</p:column>
+							</p:pickList>
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+			</p:dialog>
+		</h:form>
+		
+		<!-- CADASTRO DE COMISSÃO TECNICA DO TIME VISITANTE -->
+		<h:form id="FormCadComissaoVisitante" enctype="multipart/form-data">
+			<p:dialog id="cadastroComissaoVisitante" header="Adicionar/Mofidicar Escalação" widgetVar="dialogComissaoVisitante"
+				modal="true" height="350" resizable="false">
+				<h:outputText value="Comissão Técnica" />
+				<br /><br />
+				<p:panelGrid>
+					<p:row>
+						<p:column>
+							<p:pickList id="pickListComissaoVisitante" value="#{comissaoJogoCtrl.listaComissaoVisitante}" var="comissao" effect="bounce" 
+								itemValue="#{comissao}" itemLabel="#{comissao.apelido}" converter="comissaoConverter"
+								showSourceControls="true" showTargetControls="true" showSourceFilter="true" 
+								showTargetFilter="true"	filterMatchMode="contains">
+											
+								<f:facet name="sourceCaption">Disponíveis</f:facet>
+								<f:facet name="targetCaption">Escalados</f:facet>
+								<p:ajax event="transfer" listener="#{comissaoJogoCtrl.onTransfer}" update=":FormEscalacao:comissaoVisitante"/>
+
+								<p:column style="width:25%">
+									<p:graphicImage value="image?tipo=comissao&amp;id=#{comissao.guidComissaoTecnica}"
+											width="30" height="40" />
+								</p:column>
+
+								<p:column style="width:75%;">
+									<h:outputText value="#{comissao.apelido}" />
 								</p:column>
 							</p:pickList>
 						</p:column>

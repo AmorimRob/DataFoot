@@ -1,5 +1,6 @@
 package br.com.alesil.datafoot.ctrl;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -81,7 +82,8 @@ public class JogosCtrl {
     }  
 	
 	
-	public void salvar (){
+	public void salvar () throws ParseException{
+			
 		if(jogo.getGuidJogo() == null)
 			jogo.setGuidJogo(UUID.randomUUID().toString());
 		operacao.salvar(jogo, dao, "FormCadJogo");
@@ -91,7 +93,7 @@ public class JogosCtrl {
 		operacao.excluir(jogo, dao, "FormCadJogo");
 	}
 	
-	public void consultar(){
+	public void consultar() throws ParseException{
 		if(jogo.getGuidJogo()!= null){
 			jogo = dao.buscarJogo(jogo.getGuidJogo());			
 		} else {

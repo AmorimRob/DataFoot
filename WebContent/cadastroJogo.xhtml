@@ -43,9 +43,8 @@ Datafoot Scouts Online e Notícias de Futebol
 										<h:outputText value="Data: " />
 									</p:column>
 									<p:column>
-										<p:inputMask id="data" value="#{jogoCtrl.jogo.data}"
-											mask="99/99/9999">
-											<f:convertDateTime pattern="dd/MM/yyyy" />
+										<p:inputMask id="data" value="#{jogoCtrl.jogo.data}" mask="99/99/9999">
+
 										</p:inputMask>
 									</p:column>
 
@@ -54,8 +53,7 @@ Datafoot Scouts Online e Notícias de Futebol
 									</p:column>
 
 									<p:column>
-										<p:inputMask id="horario" value="#{jogoCtrl.jogo.horario}"
-											mask="99:99" style="width: 70px;" />
+										<p:inputMask id="horario" value="#{jogoCtrl.jogo.horario}" mask="99:99" style="width: 70px;" />
 									</p:column>
 
 									<p:column>
@@ -166,40 +164,38 @@ Datafoot Scouts Online e Notícias de Futebol
 							<p:column colspan="2">
 								<p:dataTable id="jogos" var="jogo" value="#{jogoCtrl.lstJogos}">
 
-									<p:column headerText="Data" style="width:25%">
+									<p:column headerText="Data" width="80">
 										<h:outputText value="#{jogo.data}" />
 									</p:column>
 
-									<p:column headerText="Horario" style="width:25%">
+									<p:column headerText="Horario" width="70">
 										<h:outputText value="#{jogo.horario}" />
 									</p:column>
 
-									<p:column headerText="Local" style="width:25%">
-										<h:outputText value="#{jogo.guidEstadio}" />
+									<p:column headerText="Local" width="100">
+										<h:outputText value="#{jogo.nomeEstadio}" />
 									</p:column>
 
-									<p:column headerText="Mandante" style="width:25%">
-										<h:outputText value="#{jogo.guidClubeMandante}" />
+									<p:column headerText="Mandante" width="180">
+										<h:outputText value="#{jogo.nomeMandante}" />
 									</p:column>
 
-									<p:column headerText="Gols" style="width:25%">
+									<p:column headerText="Gols" width="30">
 										<h:outputText value="#{jogo.golsMandante}" />
 									</p:column>
 
-									<p:column headerText="Gols" style="width:25%">
+									<p:column headerText="Gols" width="30">
 										<h:outputText value="#{jogo.golsVisitante}" />
 									</p:column>
 
-									<p:column headerText="Visitante" style="width:25%">
-										<h:outputText value="#{jogo.guidClubeVisitante}" />
+									<p:column headerText="Visitante" width="180">
+										<h:outputText value="#{jogo.nomeVisitante}" />
 									</p:column>
 
 									<p:column resizable="false" width="20">
-										<p:commandButton id="selecionar" update=":FormEditarJogo"
-											oncomplete="PF('dialogEditarJogo').show()"
-											icon="ui-icon-search" title="View">
-											<f:setPropertyActionListener value="#{jogo}"
-												target="#{jogoCtrl.jogo}" />
+										<p:commandButton id="selecionar" action="#{jogoCtrl.consultar}" update=":FormEditarJogo" oncomplete="PF('dialogEditarJogo').show()"
+												icon="ui-icon-search" title="View">
+											<f:setPropertyActionListener value="#{jogo}" target="#{jogoCtrl.jogo}" />
 										</p:commandButton>
 									</p:column>
 								</p:dataTable>

@@ -55,7 +55,7 @@ public class CompeticaoCtrl {
 		
 		if(competicao.getNomeCompeticao() != null || competicao.getDataInicio() != null){
 			listaCompeticao = new ArrayList<Competicao>();
-			listaCompeticao = dao.listarCompeticao(competicao.getNomeCompeticao(), data);
+			listaCompeticao = dao.pesquisarCompeticao(competicao.getNomeCompeticao(), data);
 			if(listaCompeticao.isEmpty()) operacao.exibeMensagem("FormCompeticao", "Não foi possível localizar a competição com os dados informados.".concat(
 					 " Verifique as informações e tente novamente."));
 		} else {

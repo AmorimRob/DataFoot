@@ -10,17 +10,17 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
 
-import br.com.alesil.datafoot.dao.AtletaDao;
-import br.com.alesil.datafoot.model.Atleta;
+import br.com.alesil.datafoot.dao.ComissaoTecnicaDao;
+import br.com.alesil.datafoot.model.ComissaoTecnica;
 
-@FacesConverter("atletaConverter")
-public class AtletaConverter implements Converter{
+@FacesConverter("comissaoConverter")
+public class ComissaoConverter implements Converter{
 
-public static List<Atleta> lstAtleta;
+public static List<ComissaoTecnica> lstComissao;
 	
 	static {  
-		lstAtleta = new ArrayList<Atleta>();
-		lstAtleta = new AtletaDao().listarAtletas();
+		lstComissao = new ArrayList<ComissaoTecnica>();
+		lstComissao = new ComissaoTecnicaDao().listarComissao();
     }  
 	
 	@Override
@@ -30,10 +30,9 @@ public static List<Atleta> lstAtleta;
 	        } else {  
 	            try {  
 	            	
-	                for (Atleta atleta : lstAtleta) {  
-	                    if (atleta.getNome().equals(submittedValue)) {  
-	                    	//System.out.println("Converter>" + atleta.getNome() + " ==> " + submittedValue + "===>" + component.getParent().getId());
-	                        return atleta;  
+	                for (ComissaoTecnica comissao : lstComissao) {  
+	                    if (comissao.getApelido().equals(submittedValue)) {  
+	                        return comissao;  
 	                    }  
 	                }  
 	  
@@ -51,7 +50,7 @@ public static List<Atleta> lstAtleta;
 		if (value == null || value.equals("")) {  
             return "";  
         } else {  
-            return ((Atleta)value).getNome();  
+            return ((ComissaoTecnica)value).getApelido();  
         }  
     }  
 

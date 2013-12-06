@@ -32,6 +32,9 @@ public class ComissaoTecnica {
 	@Transient
 	private String nomeClube;
 	
+	@Transient
+	private String nomeFuncao;
+	
 	public String getGuidComissaoTecnica() {
 		return guidComissaoTecnica;
 	}
@@ -86,5 +89,13 @@ public class ComissaoTecnica {
 
 	public void setNomeClube(String nomeClube) {
 		this.nomeClube = nomeClube;
+	}
+
+	public String getNomeFuncao() {
+		return nomeFuncao;
+	}
+
+	public void setNomeFuncao(String nomeFuncao) {
+		this.nomeFuncao = nomeFuncao;
 	}
 }

@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="df_jogo")
@@ -38,6 +39,18 @@ public class Jogo {
 	
 	@Column(name="JG_HORARIO")
 	private String horario;
+	
+	@Transient
+	private String nomeEstadio;
+	
+	@Transient
+	private String nomeMandante;
+	
+	@Transient
+	private String nomeVisitante;
+	
+
+	
 
 	public String getGuidJogo() {
 		return guidJogo;
@@ -186,6 +199,31 @@ public class Jogo {
 			return false;
 		return true;
 	}
+
+	public String getNomeEstadio() {
+		return nomeEstadio;
+	}
+
+	public void setNomeEstadio(String nomeEstadio) {
+		this.nomeEstadio = nomeEstadio;
+	}
+
+	public String getNomeMandante() {
+		return nomeMandante;
+	}
+
+	public void setNomeMandante(String nomeMandante) {
+		this.nomeMandante = nomeMandante;
+	}
+
+	public String getNomeVisitante() {
+		return nomeVisitante;
+	}
+
+	public void setNomeVisitante(String nomeVisitante) {
+		this.nomeVisitante = nomeVisitante;
+	}
+
 
 	
 }

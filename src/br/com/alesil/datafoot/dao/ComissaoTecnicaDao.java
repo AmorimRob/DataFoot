@@ -99,4 +99,82 @@ public class ComissaoTecnicaDao extends HibernateDAO{
 				catch(Throwable erro){ System.out.println("Erro ao fechar a sessao");}
 			}
 	}
+	
+	public List<ComissaoTecnica> pesquisarComissaoPorClube(String guidClube){
+		List<ComissaoTecnica> resultado = new ArrayList<ComissaoTecnica>();
+		
+		try{
+			sessao = HibernateUtil.getSessionFactory();
+			Query query = sessao.createSQLQuery("SELECT com.CT_GUID_COMISSAO_TECNICA, com.CT_GUID_CLUBE, com.CT_GUID_FUNCAO, "
+					.concat("com.CT_APELIDO, fct.FCT_NOME_FUNCAO FROM df_comissao_tecnica com ")
+					.concat("LEFT JOIN df_clube cl ON com.CT_GUID_CLUBE = cl.CL_GUID_CLUBE ")
+					.concat("LEFT JOIN df_funcao_comissao_tecnica fct ON com.CT_GUID_FUNCAO = fct.FCT_GUID_FUNCAO ")
+					.concat("WHERE com.CT_GUID_CLUBE = :gc"))
+					.setParameter("gc", guidClube);
+
+			
+			@SuppressWarnings("unchecked")
+			List<Object[]> result = query.list();
+			
+			for (Object[] item : result){
+				ComissaoTecnica ct = new ComissaoTecnica();
+				ct.setGuidComissaoTecnica(item[0].toString());
+				ct.setGuidClube(item[1].toString());
+				ct.setGuidFuncao(item[2].toString());
+				ct.setApelido(item[3].toString());
+				ct.setNomeFuncao(item[4].toString());
+								
+				resultado.add(ct);
+			}
+			//resultado = consulta.list();
+			return resultado;
+			
+		}catch(HibernateException erro){
+				System.out.println("Erro ao executar transação: " + erro.getMessage());
+				throw new HibernateException(erro);
+			}
+		
+		finally{
+				try{ sessao.close(); }
+				catch(Throwable erro){ System.out.println("Erro ao fechar a sessao");}
+			}
+	}
+	
+	public List<ComissaoTecnica> listarComissao(){
+		List<ComissaoTecnica> resultado = new ArrayList<ComissaoTecnica>();
+		
+		try{
+			sessao = HibernateUtil.getSessionFactory();
+			Query query = sessao.createSQLQuery("SELECT com.CT_GUID_COMISSAO_TECNICA, com.CT_GUID_CLUBE, com.CT_GUID_FUNCAO, "
+					.concat("com.CT_APELIDO, fct.FCT_NOME_FUNCAO FROM df_comissao_tecnica com ")
+					.concat("LEFT JOIN df_clube cl ON com.CT_GUID_CLUBE = cl.CL_GUID_CLUBE ")
+					.concat("LEFT JOIN df_funcao_comissao_tecnica fct ON com.CT_GUID_FUNCAO = fct.FCT_GUID_FUNCAO "));
+
+			
+			@SuppressWarnings("unchecked")
+			List<Object[]> result = query.list();
+			
+			for (Object[] item : result){
+				ComissaoTecnica ct = new ComissaoTecnica();
+				ct.setGuidComissaoTecnica(item[0].toString());
+				ct.setGuidClube(item[1].toString());
+				ct.setGuidFuncao(item[2].toString());
+				ct.setApelido(item[3].toString());
+				ct.setNomeFuncao(item[4].toString());
+								
+				resultado.add(ct);
+			}
+			//resultado = consulta.list();
+			return resultado;
+			
+		}catch(HibernateException erro){
+				System.out.println("Erro ao executar transação: " + erro.getMessage());
+				throw new HibernateException(erro);
+			}
+		
+		finally{
+				try{ sessao.close(); }
+				catch(Throwable erro){ System.out.println("Erro ao fechar a sessao");}
+			}
+	}
 }

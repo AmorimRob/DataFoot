@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 class ComissaoTecnicaJogoID implements Serializable{
 	/**
@@ -26,6 +27,7 @@ class ComissaoTecnicaJogoID implements Serializable{
 	@Column(name="CTJ_GUID_FUNCAO")
 	private String guidFuncao;
 
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -75,7 +77,6 @@ class ComissaoTecnicaJogoID implements Serializable{
 		return true;
 	}
 	
-	
 }
 
 @Entity
@@ -98,7 +99,24 @@ public class ComissaoTecnicaJogo {
 	@Id
 	@Column(name="CTJ_GUID_FUNCAO")
 	private String guidFuncao;
-
+	
+	@Transient
+	private String nomeStaff;
+	
+	@Transient
+	private String nomeFuncao;
+	
+	public ComissaoTecnicaJogo(){}
+	
+	public ComissaoTecnicaJogo(ComissaoTecnicaJogo jogo){
+		this.guidClube = jogo.getGuidClube();
+		this.guidComissaoTecnica = jogo.getGuidComissaoTecnica();
+		this.guidFuncao = jogo.getGuidFuncao();
+		this.guidJogo = jogo.getGuidJogo();
+		this.nomeFuncao = jogo.getNomeFuncao();
+		this.nomeStaff = jogo.getNomeStaff();
+	}
+	
 	public String getGuidComissaoTecnica() {
 		return guidComissaoTecnica;
 	}
@@ -178,5 +196,21 @@ public class ComissaoTecnicaJogo {
 		} else if (!guidJogo.equals(other.guidJogo))
 			return false;
 		return true;
+	}
+
+	public String getNomeStaff() {
+		return nomeStaff;
+	}
+
+	public void setNomeStaff(String nomeStaff) {
+		this.nomeStaff = nomeStaff;
+	}
+
+	public String getNomeFuncao() {
+		return nomeFuncao;
+	}
+
+	public void setNomeFuncao(String nomeFuncao) {
+		this.nomeFuncao = nomeFuncao;
 	}
 }

@@ -1,9 +1,14 @@
 package br.com.alesil.datafoot.servlet;
 
+import java.awt.image.BufferedImage;
 import java.io.BufferedOutputStream;
 import java.io.Closeable;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URL;
 
+import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -23,8 +28,8 @@ public class ImageServlet extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	private static final int DEFAULT_BUFFER_SIZE = 30240; 
+
+	private static final int DEFAULT_BUFFER_SIZE = 30240;
 
 	@Override
 	protected void doGet(HttpServletRequest request,
@@ -83,7 +88,16 @@ public class ImageServlet extends HttpServlet {
 					break;
 					
 				default:
+				//	URL url = this.getClass().getResource("/resources/imagens/alesil.png");
+					//BufferedImage originalImage = 
+                     //       ImageIO.read(new File(this.getClass().getResource("/resources/imagens/alesil.png"));
+					// FileInputStream    is = new FileInputStream(url.getFile());
+					//    arrayImagem = new byte[is.available()];
+					 //   is.read(arrayImagem);
+					  //  is.close();
+					   
 					arrayImagem = null;
+		            
 				}
 
 			BufferedOutputStream output = null;
@@ -102,6 +116,8 @@ public class ImageServlet extends HttpServlet {
 		} 
 	}
 
+
+	
 	private static void close(Closeable resource) {
 		if (resource != null) {
 			try {

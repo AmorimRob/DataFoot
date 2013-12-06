@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 class EscalacaoID implements Serializable{
 	/**
@@ -68,7 +69,19 @@ class EscalacaoID implements Serializable{
 @Entity
 @IdClass(EscalacaoID.class)
 @Table(name="df_escalacao")
-public class Escalacao {
+public class Escalacao{
+	
+	public Escalacao(){	}
+	
+	public Escalacao(Escalacao escalacao){
+		this.guidJogo = escalacao.getGuidJogo();
+		this.guidClube = escalacao.getGuidClube();
+		this.guidComissao = escalacao.getGuidComissao();
+		this.guidAtleta = escalacao.getGuidAtleta();
+		this.nomeAtleta = escalacao.getNomeAtleta();
+		this.nomeComissao = escalacao.getNomeComissao();
+		this.numero = escalacao.getNumero();
+	}
 	
 	@Id
 	@Column(name="ES_GUID_JOGO")
@@ -87,6 +100,12 @@ public class Escalacao {
 	
 	@Column(name="ES_GUID_COMISSAO")
 	private String guidComissao;
+	
+	@Transient
+	private String nomeAtleta;
+	
+	@Transient
+	private String nomeComissao;
 	
 	public String getGuidJogo() {
 		return guidJogo;
@@ -165,5 +184,17 @@ public class Escalacao {
 		if (numero != other.numero)
 			return false;
 		return true;
+	}
+	public String getNomeAtleta() {
+		return nomeAtleta;
+	}
+	public void setNomeAtleta(String nomeAtleta) {
+		this.nomeAtleta = nomeAtleta;
+	}
+	public String getNomeComissao() {
+		return nomeComissao;
+	}
+	public void setNomeComissao(String nomeComissao) {
+		this.nomeComissao = nomeComissao;
 	}
 }

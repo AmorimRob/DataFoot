@@ -126,12 +126,13 @@ Datafoot Scouts Online e Notícias de Futebol
 						</p:column>
 											
 						<p:column headerText="Categoria" resizable="false" width="100">
-							<h:outputText value="#{pesq.guidCategoria}" />
+							<h:outputText value="#{pesq.nomeCategoria}" />
 						</p:column>
 											
 						<p:column resizable="false" width="20">
-							<p:commandButton id="selecionar" action="#{compCtrl.trocaTipoImagem}" update=":FormCompeticao" oncomplete="PF('dialogPesquisar').hide()" icon="ui-icon-search" title="View">  
-                				<f:setPropertyActionListener value="#{pesq}" target="#{compCtrl.competicao}" />  
+							<p:commandButton id="selecionar" action="#{compCtrl.consultar}" update=":FormCompeticao" oncomplete="PF('dialogPesquisar').hide()" icon="ui-icon-search" title="View">  
+                				<f:setPropertyActionListener value="#{pesq}" target="#{compCtrl.competicao}" /> 
+                				<p:ajax event="click" listener="#{compCtrl.trocaTipoImagem}"/>  
             				</p:commandButton>  
 						</p:column>
 					</p:dataTable>							

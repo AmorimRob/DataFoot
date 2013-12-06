@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="df_competicao")
@@ -27,6 +28,9 @@ public class Competicao {
 	
 	@Column(name="COMP_DATA_INICIO")
 	private Date dataInicio;
+	
+	@Transient
+	private String nomeCategoria;
 	
 	public String getGuidCompeticao() {
 		return guidCompeticao;
@@ -105,6 +109,12 @@ public class Competicao {
 		} else if (!nomeCompeticao.equals(other.nomeCompeticao))
 			return false;
 		return true;
+	}
+	public String getNomeCategoria() {
+		return nomeCategoria;
+	}
+	public void setNomeCategoria(String nomeCategoria) {
+		this.nomeCategoria = nomeCategoria;
 	}
 	
 	

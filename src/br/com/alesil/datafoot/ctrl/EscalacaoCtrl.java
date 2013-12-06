@@ -1,11 +1,15 @@
 package br.com.alesil.datafoot.ctrl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.servlet.http.HttpSession;
 
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.TransferEvent;
@@ -20,133 +24,157 @@ import br.com.alesil.datafoot.model.Competicao;
 import br.com.alesil.datafoot.model.Escalacao;
 import br.com.alesil.datafoot.model.Jogo;
 
-@ManagedBean(name="escalCtrl")
+@ManagedBean(name = "escalCtrl")
 @ViewScoped
 public class EscalacaoCtrl {
-	
+
 	private CtrlPadrao operacao;
-	
 	private Escalacao escalacao;
-	
 	private EscalacaoDao dao;
-	private AtletaDao daoAtleta;
-	
+
 	private boolean mandante = true;
-	
-	//Listas que preenchem o PickList da escalação
-	private DualListModel<Atleta>listaAtletaMandante;
-	private DualListModel<Atleta>listaAtletaVisitante;
-	
-	private List<Atleta> source = new ArrayList<Atleta>();  
+
+	// Listas que preenchem o PickList da escalação
+	private DualListModel<Atleta> listaAtletaMandante;
+	private DualListModel<Atleta> listaAtletaVisitante;
+
+	private List<Atleta> source = new ArrayList<Atleta>();
 	private List<Atleta> target = new ArrayList<Atleta>();
-    
-    private List<Escalacao>escalMandante;
-    private List<Escalacao>escalVisitante;
-    
-    private List<SelectItem>comboCompeticao;
-    private List<SelectItem>comboJogos;
-    
-    private String guidCompeticao;
-    private String jogoSelecionado;
-    
-    private String timeMandante;
-    private String timeVisitante;
-	
+
+	private List<Escalacao> escalMandante;
+	private List<Escalacao> escalVisitante;
+
+	private List<SelectItem> comboCompeticao;
+	private List<SelectItem> comboJogos;
+
+	private String guidCompeticao;
+	private String jogoSelecionado;
+
+	private String timeMandante;
+	private String timeVisitante;
+
 	public EscalacaoCtrl() {
 		this.operacao = new CtrlPadrao();
 		this.escalacao = new Escalacao();
 		this.dao = new EscalacaoDao();
-		this.daoAtleta = new AtletaDao();
 
-        source = daoAtleta.listarAtletas();
-        
-        listaAtletaMandante = new DualListModel<Atleta>(source, target);
-        listaAtletaVisitante = new DualListModel<Atleta>(source, target); 
+		this.listaAtletaMandante = new DualListModel<Atleta>(source, target);
+		this.listaAtletaVisitante = new DualListModel<Atleta>(source, target);
 	}
-	
-	public void salvar (){
-		if(mandante){
-			escalacao.setGuidClube(timeMandante);
-			operacao.salvar(escalacao, dao, "FormClube");
-		}else{
-			escalacao.setGuidClube(timeVisitante);
-			operacao.salvar(escalacao, dao, "FormClube");
+
+	public void salvarMandante() {
+
+		for (Escalacao item : escalMandante) {
+			item.setGuidClube(timeMandante);
+			operacao.salvar(item, dao, "FormClube");
 		}
 	}
-	
-	public void excluir (){
-		if(mandante){
+
+	public void salvarVisitante() {
+
+		for (Escalacao item : escalVisitante) {
+			item.setGuidClube(timeVisitante);
+			operacao.salvar(item, dao, "FormClube");
+		}
+	}
+
+	public void excluir() {
+		if (mandante) {
 			escalacao.setGuidClube(timeMandante);
 			operacao.excluir(escalacao, dao, "FormClube");
-		}else{
-			escalacao.setGuidClube(timeVisitante);
-			operacao.excluir(escalacao, dao, "FormClube");
-		}
-		
-	}
-	/*
-	public void consultar(){
-		if(clube.getGuidClube()!= null){
-			clube = dao.buscarClube(clube.getGuidClube());
-			
 		} else {
-			listaClube = new ArrayList<Clube>();
-			listaClube = dao.listaClube(clube.getNomeCurto(), clube.getGuidCidade(), clube.getEstado());
-			if(listaClube.isEmpty()) operacao.exibeMensagem("FormComissao", "Não foi possível localizar o staff com os dados informados."
-					+ " Verifique as informações e tente novamente.");
-		} 
-	}
-	
-	*/
-	public void onTransfer(TransferEvent event) {
-		if(escalMandante== null)
-			this.escalMandante = new ArrayList<Escalacao>();
-		for(Object item : event.getItems()) {  
-        	if(mandante){
-    			escalacao.setGuidClube(timeMandante);
-    		}else{
-    			escalacao.setGuidClube(timeVisitante);
-    		}
-        	
-        	escalacao.setGuidAtleta((String)item);
-        	escalacao.setGuidJogo(jogoSelecionado);
-        	
-        	this.salvar();
-        	
-        	this.escalMandante.add(escalacao);
-        }  
+			escalacao.setGuidClube(timeVisitante);
+			operacao.excluir(escalacao, dao, "FormClube");
+		}
 
-    }
-	
-	 public void onCellEdit(CellEditEvent event) {  
-	        Object oldValue = event.getOldValue();  
-	        Object newValue = event.getNewValue();  
-	          
-	        if(newValue != null && !newValue.equals(oldValue)) {  
-	        	this.salvar();
-	        }  
-	    }  
-	
-	public void condicaoTimeMandante(){
+	}
+
+	/*
+	 * public void consultar(){ if(clube.getGuidClube()!= null){ clube =
+	 * dao.buscarClube(clube.getGuidClube());
+	 * 
+	 * } else { listaClube = new ArrayList<Clube>(); listaClube =
+	 * dao.listaClube(clube.getNomeCurto(), clube.getGuidCidade(),
+	 * clube.getEstado()); if(listaClube.isEmpty())
+	 * operacao.exibeMensagem("FormComissao",
+	 * "Não foi possível localizar o staff com os dados informados." +
+	 * " Verifique as informações e tente novamente."); } }
+	 */
+	public void onTransfer(TransferEvent event) {
+		if (mandante) {
+			escalacao.setGuidClube(timeMandante);
+			if (escalMandante == null)
+				this.escalMandante = new ArrayList<Escalacao>();
+			for (Object item : event.getItems()) {
+				escalacao.setGuidAtleta(((Atleta) item).getGuidAtleta());
+				escalacao.setGuidJogo(jogoSelecionado);
+				escalacao.setNomeAtleta(((Atleta) item).getNome());
+				escalacao.setNumero(((Atleta) item).getNumeroPadrao());
+
+				if (event.isAdd()) {
+					Escalacao clone = new Escalacao(escalacao);
+					this.escalMandante.add(clone);
+				} else if (event.isRemove())
+					this.escalMandante.remove(escalacao);
+			}
+
+		} else {
+			escalacao.setGuidClube(timeVisitante);
+			if (escalVisitante == null)
+				this.escalVisitante = new ArrayList<Escalacao>();
+
+			for (Object item : event.getItems()) {
+				escalacao.setGuidAtleta(((Atleta) item).getGuidAtleta());
+				escalacao.setGuidJogo(jogoSelecionado);
+				escalacao.setNomeAtleta(((Atleta) item).getNome());
+				escalacao.setNumero(((Atleta) item).getNumeroPadrao());
+
+				if (event.isAdd()) {
+					Escalacao clone = new Escalacao(escalacao);
+					this.escalVisitante.add(clone);
+				} else if (event.isRemove())
+					this.escalVisitante.remove(escalacao);
+			}
+		}
+	}
+
+	public void onCellEdit(CellEditEvent event) {
+		Object oldValue = event.getOldValue();
+		Object newValue = event.getNewValue();
+
+		if (newValue != null && !newValue.equals(oldValue)) {
+			this.escalacao.setNumero((int) newValue);
+		}
+	}
+
+	public void condicaoTimeMandante() {
 		this.mandante = true;
 	}
-	
-	public void condicaoTimeVisitante(){
+
+	public void condicaoTimeVisitante() {
 		this.mandante = false;
 	}
-	
-	public List<Jogo> consultarJogos(){
-		if(escalMandante == null){
-			//metodo de busca da escalação
-		}
-		return new JogoDao().jogosPorCompeticao(guidCompeticao);
+
+	public List<Jogo> consultarJogos() throws ParseException {
+		return new JogoDao().listaJogos(guidCompeticao);
 	}
-	
-	public void setarClubes(){
+
+	public void setarClubes() {
 		Jogo jogo = new Jogo();
 		jogo = new JogoDao().buscarJogo(jogoSelecionado);
 		timeMandante = jogo.getGuidClubeMandante();
 		timeVisitante = jogo.getGuidClubeVisitante();
+
+		FacesContext contexto = FacesContext.getCurrentInstance();
+		contexto.getExternalContext().getSessionMap()
+				.put("jogoselcionado", jogoSelecionado);
+		HttpSession sessao = (HttpSession) contexto.getExternalContext()
+				.getSession(false);
+
+		listaAtletaMandante = new DualListModel<Atleta>(
+				new AtletaDao().pesquisarAtletasPorClube(timeMandante), target);
+		listaAtletaVisitante = new DualListModel<Atleta>(
+				new AtletaDao().pesquisarAtletasPorClube(timeVisitante), target);
 	}
 
 	public DualListModel<Atleta> getListaAtletaMandante() {
@@ -174,13 +202,14 @@ public class EscalacaoCtrl {
 	}
 
 	public List<SelectItem> getComboCompeticao() {
-		try{
+		try {
 			List<Competicao> lista = new CompeticaoDao().comboCompeticao();
 			comboCompeticao = new ArrayList<SelectItem>();
-			for (Competicao comp : lista){
-				comboCompeticao.add(new SelectItem(comp.getGuidCompeticao(), comp.getNomeCompeticao()));
+			for (Competicao comp : lista) {
+				comboCompeticao.add(new SelectItem(comp.getGuidCompeticao(),
+						comp.getNomeCompeticao()));
 			}
-		}catch(Exception e){
+		} catch (Exception e) {
 			operacao.exibeMensagem("FormJogo", "Problemas de conexão com banco");
 		}
 		return comboCompeticao;
@@ -191,13 +220,18 @@ public class EscalacaoCtrl {
 	}
 
 	public List<SelectItem> getComboJogos() {
-		try{
+		try {
 			List<Jogo> lista = consultarJogos();
 			comboJogos = new ArrayList<SelectItem>();
-			for (Jogo jogo : lista){
-				comboJogos.add(new SelectItem(jogo.getGuidJogo(), jogo.getGuidClubeVisitante()));
+			for (Jogo jogo : lista) {
+				comboJogos.add(new SelectItem(jogo.getGuidJogo(), String
+						.valueOf(
+								new SimpleDateFormat("dd-MM-yyyy").format(jogo
+										.getData())).concat(" - ")
+						.concat(jogo.getNomeMandante()).concat(" x ")
+						.concat(jogo.getNomeVisitante())));
 			}
-		}catch(Exception e){
+		} catch (Exception e) {
 			operacao.exibeMensagem("FormJogo", "Problemas de conexão com banco");
 		}
 		return comboJogos;
@@ -227,7 +261,8 @@ public class EscalacaoCtrl {
 		return listaAtletaVisitante;
 	}
 
-	public void setListaAtletaVisitante(DualListModel<Atleta> listaAtletaVisitante) {
+	public void setListaAtletaVisitante(
+			DualListModel<Atleta> listaAtletaVisitante) {
 		this.listaAtletaVisitante = listaAtletaVisitante;
 	}
 
@@ -238,6 +273,5 @@ public class EscalacaoCtrl {
 	public void setEscalacao(Escalacao escalacao) {
 		this.escalacao = escalacao;
 	}
-
 
 }
