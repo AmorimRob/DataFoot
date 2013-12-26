@@ -1,8 +1,9 @@
 package br.com.alesil.datafoot.model;
 
-import java.util.UUID;
-
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name="df_scout")
@@ -10,20 +11,23 @@ public class Scout {
 	
 	@Id
 	@Column(name="SC_GUID_JOGO")
-	private UUID guidJogo;
+	private String guidJogo;
 	
 	@Column(name="SC_CLUBE")
 	private String clube;
 	
+	@Column(name="SC_GUID_SCOUT")
+	private String guidScout;
 	
-	@Column(name="SC_GUID_SCOUT_DETALHES")
-	private UUID guidScoutDetalhes;
+	@Column(name="SC_GUID_ESQUEMA")
+	private String guidEsquemaTatico;
 
-	public UUID getGuidJogo() {
+	
+	public String getGuidJogo() {
 		return guidJogo;
 	}
 
-	public void setGuidJogo(UUID guidJogo) {
+	public void setGuidJogo(String guidJogo) {
 		this.guidJogo = guidJogo;
 	}
 
@@ -35,12 +39,12 @@ public class Scout {
 		this.clube = clube;
 	}
 
-	public UUID getGuidScoutDetalhes() {
-		return guidScoutDetalhes;
+	public String getGuidScout() {
+		return guidScout;
 	}
 
-	public void setGuidScoutDetalhes(UUID guidScoutDetalhes) {
-		this.guidScoutDetalhes = guidScoutDetalhes;
+	public void setGuidScout(String guidScout) {
+		this.guidScout = guidScout;
 	}
 
 	@Override
@@ -52,7 +56,7 @@ public class Scout {
 				+ ((guidJogo == null) ? 0 : guidJogo.hashCode());
 		result = prime
 				* result
-				+ ((guidScoutDetalhes == null) ? 0 : guidScoutDetalhes
+				+ ((guidScout == null) ? 0 : guidScout
 						.hashCode());
 		return result;
 	}
@@ -76,13 +80,20 @@ public class Scout {
 				return false;
 		} else if (!guidJogo.equals(other.guidJogo))
 			return false;
-		if (guidScoutDetalhes == null) {
-			if (other.guidScoutDetalhes != null)
+		if (guidScout == null) {
+			if (other.guidScout != null)
 				return false;
-		} else if (!guidScoutDetalhes.equals(other.guidScoutDetalhes))
+		} else if (!guidScout.equals(other.guidScout))
 			return false;
 		return true;
 	}
-	
+
+	public String getGuidEsquemaTatico() {
+		return guidEsquemaTatico;
+	}
+
+	public void setGuidEsquemaTatico(String guidEsquemaTatico) {
+		this.guidEsquemaTatico = guidEsquemaTatico;
+	}
 	
 }

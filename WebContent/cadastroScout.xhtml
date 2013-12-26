@@ -9,79 +9,97 @@
 <ui:define name="titulo">
 Datafoot Scouts Online e Notícias de Futebol
 </ui:define>
+
 <ui:define name="corpo">
-	<p:panel header="Cadastro Scout">
-		<f:facet name="jogos">
-			<h:outputText value="Jogo: " />
-			<p:selectOneMenu style="width: 200px;" />
-		</f:facet>
-		
-		<h:form id="FormScout">
-			<p:panelGrid>
+	<h:form id="FormScout">
+		<p:panel header="Cadastro Scout">
+			<f:facet name="actions">
+				<h:outputText value="Competição: " />
+				<p:selectOneMenu id="comboComp" value="#{scoutCtrll.guidCompeticao}" style="position: relative; width: 200px;">
+					<f:selectItem itemLabel="Selecione a competição" />
+					<f:selectItems value="#{scoutCtrll.comboCompeticao}" />	
+					<p:ajax update="comboJogos" event="change" listener="#{scoutCtrll.consultarJogos}"/>													
+				</p:selectOneMenu> 
+
+				<p:spacer width="20px" />
+
+				<h:outputText value="Jogo: " />
+				
+				<p:selectOneMenu id="comboJogos" value="#{scoutCtrll.jogoSelecionado}" required="true" style="position: relative; width: 200px;">
+					<f:selectItem itemLabel="Selecione o jogo" itemValue="0"/>
+					<f:selectItems value="#{scoutCtrll.comboJogos}" />
+					<p:ajax event="change" listener="#{scoutCtrll.setarClubes}"/>
+				</p:selectOneMenu> 
+			</f:facet>
+			
+			<p:panelGrid id="panel">
+			
 				<p:row>
 					<p:column colspan="4"  style="border-right-style: hidden; border-top-style:hidden; border-left-style:hidden">
 						<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
 					</p:column>
+					
 				</p:row>
-
 				<p:row>
 					<p:column>
-						<p:carousel id="tabsCarousel" numVisible="1" circular="true" itemStyle="height:940px;width:800px;" effect="easeInStrong">		
+										
+						<p:tabView orientation="top" style="width: 900px;">
+
 							<p:tab title="Mandante">
-								<p:panelGrid style="width: 800px;">
+								<p:panelGrid style="width: 600px;">
 									<p:row>
 										<p:column style="border-right-style: hidden; border-bottom-style: hidden; border-top-style:hidden; border-left-style:hidden">
 											<h:outputText value="Número: " /><br/>
-											<p:autoComplete id="dd" dropdown="true" /> 
+											<p:autoComplete id="comboAtleta" dropdown="true"
+												value="#{scoutCtrll.scoutDetalhes.atleta}"
+												completeMethod="#{scoutCtrll.completarAtleta}" var="atleta"
+												itemLabel="#{atleta.numeroPadrao} - #{atleta.apelido} " itemValue="#{atleta}"
+												converter="atletaConverter" forceSelection="true" />
+											
 											<br/><br/>
 					
-											<h:outputText value="Código da ocorrência: " /><br/>
-											<p:inputText/>
-											<p:commandButton value="Ok!" />
-										</p:column>
+											<h:outputText value="Sigla da ocorrência: " /><br/>
+											<p:autoComplete id="comboAcao" dropdown="true"
+												value="#{scoutCtrll.scoutDetalhes.guidAcao}"
+												completeMethod="#{scoutCtrll.completarAcao}" var="acao"
+												itemLabel="#{acao.descricao}" itemValue="#{acao}"
+												converter="ocorrenciaConverter" forceSelection="true" />
 											
+											<p:commandButton value="Ok!" action="#{scoutCtrll.realizaAcao}"/>
+										</p:column>
+												
 										<p:column rowspan="3" style="border-top-style:hidden; border-right-style: hidden;"> 
-											<p:panelGrid columns="1" style="border-right-style: hidden; border-bottom-style: hidden; border-top-style:hidden; border-left-style:hidden;">
+											<p:panelGrid id="panelGridIFrame" columns="1" style="border-right-style: hidden; border-bottom-style: hidden; border-top-style:hidden; border-left-style:hidden;">
 												<p:column>
-													<iframe src="scoutCampoMandante.jsf" width="485" height="930"></iframe>		
+													<iframe id="iframe" src="scoutCampoMandante.jsf" width="485" height="930"></iframe>
 												</p:column>
 											</p:panelGrid>
 										</p:column>
 									</p:row>
-											
+												
 									<p:row>
 										<p:column  style="border-right-style: hidden; border-bottom-style: hidden; border-left-style:hidden">
 											<p:panel header="Operações disponíveis">
-												<p:dataGrid value="#{scoutCtrl.operacoes}">
-													<p:panel>
-														<p:panelGrid>
-															<p:commandButton value="#{scout.operacao}" />
-														</p:panelGrid>
-													</p:panel>
+											
+												<p:dataGrid value="#{scoutCtrll.listaOperacoes}" var="scout">
+											
+													<p:commandButton action="#{scoutCtrll.realizaAcao}" value="#{scout.sigla}" styleClass="botoesScout">
+														<f:setPropertyActionListener value="#{scout}" target="#{scoutCtrll.acao}" />  
+													</p:commandButton>
+												
 												</p:dataGrid>
-													
-													<p:commandButton value="FC" styleClass="botoesScout"/><p:spacer width="20px"/>
-													<p:commandButton value="PC" styleClass="botoesScout"/><p:spacer width="20px"/><br/><br/>
-													<p:commandButton value="PE" styleClass="botoesScout"/><p:spacer width="20px"/>
-													<p:commandButton value="FS" styleClass="botoesScout"/><p:spacer width="20px"/><br/><br/>
-													<p:commandButton value="D" styleClass="botoesScout"/><p:spacer width="20px"/>
-													<p:commandButton value="GF" styleClass="botoesScout"/><p:spacer width="20px"/><br/><br/>
-													<p:commandButton value="GC" styleClass="botoesScout"/><p:spacer width="20px"/>
-													<p:commandButton value="CV" styleClass="botoesScout"/><p:spacer width="20px"/><br/><br/>
-													<p:commandButton value="CV" styleClass="botoesScout"/>
 											</p:panel>
-										</p:column>
-											
-											
+										</p:column>												
 									</p:row>
+									
 									<p:row>
 										<p:column  style="border-right-style: hidden; border-bottom-style: hidden; border-left-style:hidden">
 											<h:outputText value="FC - FALTA COMETIDA // D - DESARME // PC - PASSE CERTO"/>
 										</p:column>
 									</p:row>
 								</p:panelGrid>
-							</p:tab>
 							
+							</p:tab>
 							<p:tab title="Visitante">
 								<p:panelGrid style="width: 800px;">
 									<p:row>
@@ -89,12 +107,12 @@ Datafoot Scouts Online e Notícias de Futebol
 											<h:outputText value="Número: " /><br/>
 											<p:autoComplete id="atletaVisitante" dropdown="true" /> 
 											<br/><br/>
-					
+						
 											<h:outputText value="Código da ocorrência: " /><br/>
 											<p:inputText/>
 											<p:commandButton value="Ok!" />
 										</p:column>
-											
+												
 										<p:column rowspan="3" style="border-top-style:hidden; border-right-style: hidden;"> 
 											<p:panelGrid columns="1" style="border-right-style: hidden; border-bottom-style: hidden; border-top-style:hidden; border-left-style:hidden;">
 												<p:column>
@@ -103,7 +121,7 @@ Datafoot Scouts Online e Notícias de Futebol
 											</p:panelGrid>
 										</p:column>
 									</p:row>
-											
+												
 									<p:row>
 										<p:column  style="border-right-style: hidden; border-bottom-style: hidden; border-left-style:hidden">
 											<p:panel header="Operações disponíveis">
@@ -115,18 +133,18 @@ Datafoot Scouts Online e Notícias de Futebol
 													</p:panel>
 												</p:dataGrid>
 													
-													<p:commandButton value="FC" styleClass="botoesScout"/><p:spacer width="20px"/>
-													<p:commandButton value="PC" styleClass="botoesScout"/><p:spacer width="20px"/><br/><br/>
-													<p:commandButton value="PE" styleClass="botoesScout"/><p:spacer width="20px"/>
-													<p:commandButton value="FS" styleClass="botoesScout"/><p:spacer width="20px"/><br/><br/>
-													<p:commandButton value="D" styleClass="botoesScout"/><p:spacer width="20px"/>
-													<p:commandButton value="GF" styleClass="botoesScout"/><p:spacer width="20px"/><br/><br/>
-													<p:commandButton value="GC" styleClass="botoesScout"/><p:spacer width="20px"/>
-													<p:commandButton value="CV" styleClass="botoesScout"/><p:spacer width="20px"/><br/><br/>
-													<p:commandButton value="CV" styleClass="botoesScout"/>
+												<p:commandButton value="FC" styleClass="botoesScout"/><p:spacer width="20px"/>
+												<p:commandButton value="PC" styleClass="botoesScout"/><p:spacer width="20px"/><br/><br/>
+												<p:commandButton value="PE" styleClass="botoesScout"/><p:spacer width="20px"/>
+												<p:commandButton value="FS" styleClass="botoesScout"/><p:spacer width="20px"/><br/><br/>
+												<p:commandButton value="D" styleClass="botoesScout"/><p:spacer width="20px"/>
+												<p:commandButton value="GF" styleClass="botoesScout"/><p:spacer width="20px"/><br/><br/>
+												<p:commandButton value="GC" styleClass="botoesScout"/><p:spacer width="20px"/>
+												<p:commandButton value="CV" styleClass="botoesScout"/><p:spacer width="20px"/><br/><br/>
+												<p:commandButton value="CV" styleClass="botoesScout"/>
 											</p:panel>
 										</p:column>
-															
+																
 									</p:row>
 									<p:row>
 										<p:column  style="border-right-style: hidden; border-bottom-style: hidden; border-left-style:hidden">
@@ -135,10 +153,10 @@ Datafoot Scouts Online e Notícias de Futebol
 									</p:row>
 								</p:panelGrid>
 							</p:tab>		
-						</p:carousel>
+						</p:tabView>
 					</p:column>
 				</p:row>
-				
+					
 				<p:row>
 					<p:column colspan="4" style="text-align: center">
 						<h:commandButton icon="ui-icon-check" value="Salvar" />
@@ -149,9 +167,8 @@ Datafoot Scouts Online e Notícias de Futebol
 					</p:column>
 				</p:row>
 			</p:panelGrid>
-
-		</h:form>
-	</p:panel>
+		</p:panel>
+	</h:form>
 </ui:define>
 </ui:composition>
 </html>

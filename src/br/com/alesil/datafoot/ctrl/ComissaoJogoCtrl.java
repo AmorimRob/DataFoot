@@ -6,17 +6,23 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpSession;
 
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
 
+import br.com.alesil.datafoot.converters.CompeticaoConverter;
+import br.com.alesil.datafoot.converters.FuncaoConverter;
 import br.com.alesil.datafoot.dao.ComissaoTecnicaDao;
 import br.com.alesil.datafoot.dao.ComissaoTecnicaJogoDao;
+import br.com.alesil.datafoot.dao.FuncaoComissaoTecnicaDao;
 import br.com.alesil.datafoot.dao.JogoDao;
 import br.com.alesil.datafoot.model.ComissaoTecnica;
 import br.com.alesil.datafoot.model.ComissaoTecnicaJogo;
+import br.com.alesil.datafoot.model.Competicao;
+import br.com.alesil.datafoot.model.FuncaoComissaoTecnica;
 import br.com.alesil.datafoot.model.Jogo;
 
 @ManagedBean(name = "comissaoJogoCtrl")
@@ -42,19 +48,19 @@ public class ComissaoJogoCtrl {
 
 	private String timeMandante;
 	private String timeVisitante;
+	
+	private List<SelectItem> comboFuncao;
 
 	public ComissaoJogoCtrl() {
 		this.operacao = new CtrlPadrao();
 		this.comissaoJogo = new ComissaoTecnicaJogo();
 		this.dao = new ComissaoTecnicaJogoDao();
 
-		this.listaComissaoMandante = new DualListModel<ComissaoTecnica>(source,
-				target);
-		this.listaComissaoVisitante = new DualListModel<ComissaoTecnica>(
-				source, target);
-
+		this.listaComissaoMandante = new DualListModel<ComissaoTecnica>(source,	target);
+		this.listaComissaoVisitante = new DualListModel<ComissaoTecnica>(source, target);
 	}
-
+	
+	
 	public void salvarMandante() {
 
 		for (ComissaoTecnicaJogo item : comissaoMandante) {
@@ -127,8 +133,13 @@ public class ComissaoJogoCtrl {
 		Object newValue = event.getNewValue();
 
 		if (newValue != null && !newValue.equals(oldValue)) {
-			// this.escalacao.setNumero((int)newValue);
+			this.comissaoJogo.setGuidFuncao((String)newValue);
+
 		}
+	}
+	
+	public void teste (){
+		System.out.print("passou");
 	}
 
 	public void condicaoTimeMandante() {
@@ -207,6 +218,23 @@ public class ComissaoJogoCtrl {
 
 	public void setComissaoVisitante(List<ComissaoTecnicaJogo> comissaoVisitante) {
 		this.comissaoVisitante = comissaoVisitante;
+	}
+
+	public List<SelectItem> getComboFuncao() {
+		try{
+			List<FuncaoComissaoTecnica> lista = new FuncaoComissaoTecnicaDao().listaFuncoes();
+			comboFuncao = new ArrayList<SelectItem>();
+			for (FuncaoComissaoTecnica funcao: lista){
+				comboFuncao.add(new SelectItem(funcao.getGuidFuncao(), funcao.getNomeFuncao()));
+			}
+		}catch(Exception e){
+			operacao.exibeMensagem("FormEscalacao", "Problemas de conexão com banco");
+		}
+		return comboFuncao;
+	}
+
+	public void setComboFuncao(List<SelectItem> comboFuncao) {
+		this.comboFuncao = comboFuncao;
 	}
 
 }

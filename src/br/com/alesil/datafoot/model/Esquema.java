@@ -1,39 +1,90 @@
 package br.com.alesil.datafoot.model;
 
 import java.io.Serializable;
-import java.util.UUID;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="df_esquema")
 public class Esquema implements Serializable{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private UUID guidesquema;
+	@Id
+	@Column(name="ESQ_GUID_ESQUEMA")
+	private String guidesquema;
+	
+	@Column(name="ESQ_ESQUEMA")
 	private String esquema;
+	
+	@Column(name="ESQ_A1")
 	private String a1;
+	
+	@Column(name="ESQ_B1")
 	private String b1; 
+	
+	@Column(name="ESQ_C1")
 	private String c1; 
+	
+	@Column(name="ESQ_A2")
 	private String a2; 
+	
+	@Column(name="ESQ_B2")
 	private String b2; 
+	
+	@Column(name="ESQ_C2")
 	private String c2; 
+	
+	@Column(name="ESQ_A3")
 	private String a3; 
+	
+	@Column(name="ESQ_B3")
 	private String b3; 
+	
+	@Column(name="ESQ_C3")
 	private String c3; 
+	
+	@Column(name="ESQ_D3")
 	private String d3; 
+	
+	@Column(name="ESQ_E3")
 	private String e3; 
+	
+	@Column(name="ESQ_A4")
 	private String a4; 
+	
+	@Column(name="ESQ_B4")
 	private String b4; 
+	
+	@Column(name="ESQ_C4")
 	private String c4;  
+	
+	@Column(name="ESQ_A5")
 	private String a5; 
+	
+	@Column(name="ESQ_B5")
 	private String b5; 
+	
+	@Column(name="ESQ_C5")
 	private String c5;  
+	
+	@Column(name="ESQ_A6")
 	private String a6;
+	
+	@Column(name="ESQ_B6")
 	private String b6; 
+	
+	@Column(name="ESQ_C6")
 	private String c6;
-	public UUID getGuidesquema() {
+		
+	public String getGuidesquema() {
 		return guidesquema;
 	}
-	public void setGuidesquema(UUID guidesquema) {
+	public void setGuidesquema(String guidesquema) {
 		this.guidesquema = guidesquema;
 	}
 	public String getEsquema() {

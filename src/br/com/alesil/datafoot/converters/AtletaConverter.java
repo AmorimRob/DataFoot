@@ -33,7 +33,7 @@ public static List<Atleta> lstAtleta;
 	                for (Atleta atleta : lstAtleta) {  
 	                    if (atleta.getNome().equals(submittedValue)) {  
 	                    	//System.out.println("Converter>" + atleta.getNome() + " ==> " + submittedValue + "===>" + component.getParent().getId());
-	                        return atleta;  
+	                        return atleta.getGuidAtleta();  
 	                    }  
 	                }  
 	  

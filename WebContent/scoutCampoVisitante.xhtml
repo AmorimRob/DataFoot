@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:df="http://java.sun.com/jsf/composite/components">
 
 <h:head>
 	<style type="text/css">
@@ -35,125 +36,190 @@ padding: 4px 10px;
 	<title>Campo</title>
 </h:head>
 <h:body>
-<h:form prependId="false">
-	<h:panelGrid columns="2">
+<h:form>
+	<df:cronometro/>
+</h:form>
+<h:form id="FormCampo" prependId="false">
+	<h:panelGrid columns="3">
 		<h:outputText value="Selecione o esquema: " />
 		
-		<p:selectOneMenu value="#{scoutCtrll.esquema}" style="position: relative">
+		<p:selectOneMenu value="#{slotCtrl.esquema.guidesquema}" style="position: relative">
 			<f:selectItem itemLabel="Selecione um esquema" itemValue="0" />
-			<f:selectItems value="#{scoutCtrll.comboEsquema}" />														
+			<f:selectItems value="#{slotCtrl.comboEsquema}" />
+			<p:ajax update="panel" event="change" listener="#{slotCtrl.selecionarEsquema}"/>
+			<p:ajax event="change" listener="#{scoutCtrll.inserirScout}"/>
+			<p:ajax update="datagrid" event="change" listener="#{scoutCtrll.listarAtletasEscalados}"/>														
 		</p:selectOneMenu>
+		
+		<p:commandButton icon="ui-icon-search" action="#{slotCtrl.buscarScout}" update="panel"/>
+		
 	</h:panelGrid>
 	<br/>
 	
-	<p:panel id="pnl" header="Time Visitante" toggleable="true" closable="true" toggleSpeed="500" closeSpeed="500" >
-		<p:dataGrid value="#{scoutCtrl.escalMandante}" var="scout">
-			<p:graphicImage value="scout.foto" />
+	<p:panel id="pnl" header="Time mandante" toggleable="true" closable="true" toggleSpeed="500" closeSpeed="500" >
+		<p:dataGrid id="datagrid" value="#{scoutCtrll.listaEscalcaoMandante}" var="scout">
+			<p:graphicImage id="fotoAtleta" value="image?tipo=atleta&amp;id=#{scout.guidAtleta}" width="55" height="70" />
+			<p:draggable for="fotoAtleta" revert="true" />
 		</p:dataGrid>
-		
-		<p:graphicImage id="imgAlesil" value="/resources/imagens/#{scoutCtrll.atl.foto}" style="filter:alpha(opacity=40)"/>
-		<p:draggable for="imgAlesil" revert="true" />
 	</p:panel>
-	
-	<p:panelGrid columns="1" style="margin-left:10px">
-		<p:panel style="width: 420px; height:650px; background: url(#{resource['imagens:campo_gramado.jpg']}) no-repeat; background-size:102	%"> 	
-			<h:panelGroup style="width: 420px;">				
-				<h:panelGrid columns="3" style="width: 420px;">
-					<p:outputPanel id="a1" styleClass="slot" style="visibility: #{scoutCtrll.esquema.a1}; ">
-						<h:outputText id="numero" value="#{scoutCtrll.numeroTeste}" />
-						<p:droppable for="a1" onDrop="handleDrop">
-							<p:ajax listener="#{scoutCtrll.onDrop}" update="numero, imgAlesil"/>		
+
+	<p:panelGrid columns="1" style="margin-left:10px" id="panel">
+		<p:panel style="width: 420px; height:650px; background: url(#{resource['imagens:campo_gramado.jpg']}) no-repeat;"> 	
+			<h:panelGroup style="width: 420px;">			
+				
+				<h:panelGrid columns="3" style="width: 420px;">		
+					<p:outputPanel style="visibility: #{slotCtrl.esquema.a1};">
+						<df:slot_campo id="a1" obj="#{slotCtrl.slotCampo.a1}"></df:slot_campo>
+						<p:droppable for="a1" onDrop="handleDrop" datasource="datagrid">
+							<p:ajax listener="#{slotCtrl.onDrop}" update="a1"/>	
 						</p:droppable>
 					</p:outputPanel>
 					
-					<p:outputPanel id="b1" styleClass="slot" style="visibility: #{scoutCtrll.esquema.b1};">
-						<p:droppable for="b1" />
+					<p:outputPanel style="visibility: #{slotCtrl.esquema.b1};">
+						<df:slot_campo id="b1"  obj="#{slotCtrl.slotCampo.b1}"></df:slot_campo>
+						<p:droppable for="b1" onDrop="handleDrop" datasource="datagrid">
+							<p:ajax listener="#{slotCtrl.onDrop}" update="b1"/>		
+						</p:droppable>
 					</p:outputPanel>
-
-					<p:outputPanel id="c1" styleClass="slot" style="visibility: #{scoutCtrll.esquema.c1};">
-							<p:droppable for="c1" />
-					</p:outputPanel>	
+					
+					<p:outputPanel style="visibility: #{slotCtrl.esquema.c1};">
+						<df:slot_campo id="c1"></df:slot_campo>
+						<p:droppable for="c1" onDrop="handleDrop" datasource="datagrid">
+							<p:ajax listener="#{slotCtrl.onDrop}" update="c1"/>		
+						</p:droppable>
+					</p:outputPanel>
 				</h:panelGrid>
 
 				<h:panelGrid columns="3" style="width: 420px;">
-					<p:outputPanel id="a2" styleClass="slot" style="visibility: #{scoutCtrll.esquema.a2};">
-						<p:droppable for="a2" />
+					<p:outputPanel style="visibility: #{slotCtrl.esquema.a2};">
+						<df:slot_campo id="a2"/>
+						<p:droppable for="a2" onDrop="handleDrop" datasource="datagrid">
+							<p:ajax listener="#{slotCtrl.onDrop}" update="a2"/>		
+						</p:droppable>
 					</p:outputPanel>
 
-					<p:outputPanel id="b2" styleClass="slot" style="visibility: #{scoutCtrll.esquema.b2};">
-						<p:droppable for="b2" />
+					<p:outputPanel style="visibility: #{slotCtrl.esquema.b2};">
+						<df:slot_campo id="b2"/>
+						<p:droppable for="b2" onDrop="handleDrop" datasource="datagrid">
+							<p:ajax listener="#{slotCtrl.onDrop}" update="b2"/>		
+						</p:droppable>
 					</p:outputPanel>
 
-					<p:outputPanel id="c2" styleClass="slot" style="visibility: #{scoutCtrll.esquema.c2};">
-						<p:droppable for="c2" />
+					<p:outputPanel style="visibility: #{slotCtrl.esquema.c2};">
+						<df:slot_campo id="c2"/>
+						<p:droppable for="c2" onDrop="handleDrop" datasource="datagrid">
+							<p:ajax listener="#{slotCtrl.onDrop}" update="c2"/>		
+						</p:droppable>
 					</p:outputPanel>
 				</h:panelGrid>
 
 				<h:panelGrid columns="4" style="width: 220px; margin-left:20px;">
-					<p:outputPanel id="a3" styleClass="slot" style="visibility: #{scoutCtrll.esquema.a3};">
-						<p:droppable for="a3" />
+					<p:outputPanel style="visibility: #{slotCtrl.esquema.a3};">
+						<df:slot_campo id="a3"/>
+						<p:droppable for="a3" onDrop="handleDrop" datasource="datagrid">
+							<p:ajax listener="#{slotCtrl.onDrop}" update="a3"/>		
+						</p:droppable>
 					</p:outputPanel>
 
-					<p:outputPanel id="b3" styleClass="slot" style="visibility: #{scoutCtrll.esquema.b3};">
-						<p:droppable for="b3" />
+					<p:outputPanel style="visibility: #{slotCtrl.esquema.b3};">
+						<df:slot_campo id="b3"/>
+						<p:droppable for="b3" onDrop="handleDrop" datasource="datagrid">
+							<p:ajax listener="#{slotCtrl.onDrop}" update="b3"/>		
+						</p:droppable>
 					</p:outputPanel>
 
-					<p:outputPanel id="c3" styleClass="slot" style="visibility: #{scoutCtrll.esquema.c3};">
-						<p:droppable for="c3" />
+					<p:outputPanel style="visibility: #{slotCtrl.esquema.c3};">
+						<df:slot_campo id="c3"/>
+						<p:droppable for="c3" onDrop="handleDrop" datasource="datagrid">
+							<p:ajax listener="#{slotCtrl.onDrop}" update="c3"/>		
+						</p:droppable>
 					</p:outputPanel>
 
-					<p:outputPanel id="d3" styleClass="slot" style="visibility: #{scoutCtrll.esquema.d3};">
-						<p:droppable for="d3" />
+					<p:outputPanel style="visibility: #{slotCtrl.esquema.d3};">
+						<df:slot_campo id="d3"/>
+						<p:droppable for="d3" onDrop="handleDrop" datasource="datagrid">
+							<p:ajax listener="#{slotCtrl.onDrop}" update="d3"/>		
+						</p:droppable>
 					</p:outputPanel>
 				</h:panelGrid>
 
 				<h:panelGrid columns="3" style="width: 220px; margin-left:60px;">
-					<p:outputPanel id="a4" styleClass="slot" style="visibility: #{scoutCtrll.esquema.a4};">
-						<p:droppable for="a4" />
+					<p:outputPanel style="visibility: #{slotCtrl.esquema.a4};">
+						<df:slot_campo id="a4"/>
+						<p:droppable for="a4" onDrop="handleDrop" datasource="datagrid">
+							<p:ajax listener="#{slotCtrl.onDrop}" update="a4"/>		
+						</p:droppable>
 					</p:outputPanel>
 
-					<p:outputPanel id="b4" styleClass="slot" style="visibility: #{scoutCtrll.esquema.b4};">
-						<p:droppable for="b4" />
+					<p:outputPanel style="visibility: #{slotCtrl.esquema.b4};">
+						<df:slot_campo id="b4"/>
+						<p:droppable for="b4" onDrop="handleDrop" datasource="datagrid">
+							<p:ajax listener="#{slotCtrl.onDrop}" update="b4"/>		
+						</p:droppable>
 					</p:outputPanel>
 
-					<p:outputPanel id="c4" styleClass="slot" style="visibility: #{scoutCtrll.esquema.c4};">
-						<p:droppable for="c4" />
+					<p:outputPanel style="visibility: #{slotCtrl.esquema.c4};">
+						<df:slot_campo id="c4"/>
+						<p:droppable for="c4" onDrop="handleDrop" datasource="datagrid">
+							<p:ajax listener="#{slotCtrl.onDrop}" update="c4"/>		
+						</p:droppable>
 					</p:outputPanel>
 				</h:panelGrid>
 
 				<h:panelGrid columns="3" style="width: 420px;">
-					<p:outputPanel id="a5" styleClass="slot" style="visibility: #{scoutCtrll.esquema.a5};">
-						<p:droppable for="a5" />
+					<p:outputPanel style="visibility: #{slotCtrl.esquema.a5};">
+						<df:slot_campo id="a5"/>
+						<p:droppable for="a5" onDrop="handleDrop" datasource="datagrid">
+							<p:ajax listener="#{slotCtrl.onDrop}" update="a5"/>		
+						</p:droppable>
 					</p:outputPanel>
 
-					<p:outputPanel id="b5" styleClass="slot" style="visibility: #{scoutCtrll.esquema.b5};">
-						<p:droppable for="b5" />
+					<p:outputPanel style="visibility: #{slotCtrl.esquema.b5};">
+						<df:slot_campo id="b5"/>
+						<p:droppable for="b5" onDrop="handleDrop" datasource="datagrid">
+							<p:ajax listener="#{slotCtrl.onDrop}" update="b5"/>		
+						</p:droppable>
 					</p:outputPanel>
 
-					<p:outputPanel id="c5" styleClass="slot" style="visibility: #{scoutCtrll.esquema.c5};">
-						<p:droppable for="c5" />
-					</p:outputPanel>				
+					<p:outputPanel style="visibility: #{slotCtrl.esquema.c5};">
+						<df:slot_campo id="c5"/>
+						<p:droppable for="c5" onDrop="handleDrop" datasource="datagrid">
+							<p:ajax listener="#{slotCtrl.onDrop}" update="c5"/>		
+						</p:droppable>
+					</p:outputPanel>		
 				</h:panelGrid>
 
 				<h:panelGrid columns="3" style="width: 220px; margin-left:60px;">
-					<p:outputPanel id="a6" styleClass="slot" style="visibility: #{scoutCtrll.esquema.a6};">
-						<p:droppable for="a6" />
+					<p:outputPanel style="visibility: #{slotCtrl.esquema.a6};">
+						<df:slot_campo id="a6"/>
+						<p:droppable for="a6" onDrop="handleDrop" datasource="datagrid">
+							<p:ajax listener="#{slotCtrl.onDrop}" update="a6"/>		
+						</p:droppable>
 					</p:outputPanel>
 
-					<p:outputPanel id="b6" styleClass="slot" style="visibility: #{scoutCtrll.esquema.b6};">
-						<p:droppable for="b6" />
+					<p:outputPanel style="visibility: #{slotCtrl.esquema.b6};">
+						<df:slot_campo id="b6"/>
+						<p:droppable for="b6" onDrop="handleDrop" datasource="datagrid">
+							<p:ajax listener="#{slotCtrl.onDrop}" update="b6"/>		
+						</p:droppable>
 					</p:outputPanel>
 
-					<p:outputPanel id="c6" styleClass="slot" style="visibility: #{scoutCtrll.esquema.c6};">
-						<p:droppable for="c6" />
+					<p:outputPanel style="visibility: #{slotCtrl.esquema.c6};">
+						<df:slot_campo id="c6"/>
+						<p:droppable for="c6" onDrop="handleDrop" datasource="datagrid">
+							<p:ajax listener="#{slotCtrl.onDrop}" update="c6"/>		
+						</p:droppable>
 					</p:outputPanel>
 				</h:panelGrid>
 
 				<h:panelGrid columns="3" style="width: 420px;">
 					<p:outputPanel id="a7" styleClass="slot" style="visibility: hidden;"/>
 					
-					<p:outputPanel id="b7" styleClass="slot">
-						<p:droppable for="b7" />
+					<p:outputPanel>
+						<df:slot_campo id="b7"/>
+						<p:droppable for="b7" onDrop="handleDrop" datasource="datagrid">
+							<p:ajax listener="#{slotCtrl.onDrop}" update="b7"/>		
+						</p:droppable>
 					</p:outputPanel>
 
 					<p:outputPanel id="c7" styleClass="slot" style="visibility: hidden"/>
@@ -161,6 +227,7 @@ padding: 4px 10px;
 			</h:panelGroup>
 		</p:panel>
 	</p:panelGrid>
+
 </h:form>
 </h:body>
 </html>

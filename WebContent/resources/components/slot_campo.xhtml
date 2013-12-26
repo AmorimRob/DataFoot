@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:composite="http://java.sun.com/jsf/composite">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<title>Insert title here</title>
+
+<style type="text/css">
+.slot {
+	background: #FF9900;
+	opacity: 0.7;
+	width: 60px;
+	height: 80px;
+	display: block;
+}
+
+.ui-panelgrid td {
+	border-width: 0px;
+	border-style: solid;
+	border-color: inherit;
+	padding: 4px 10px;
+}
+</style>
+
+</head>
+<body>
+
+	<composite:interface>
+		<composite:attribute name="id" required="true"></composite:attribute>
+		<composite:attribute name="nome" required="true"></composite:attribute>
+		<composite:attribute name="numero" required="true"></composite:attribute>
+		<composite:attribute name="obj" required="true"></composite:attribute>
+		
+	</composite:interface>
+
+	<composite:implementation>
+		<div id="#{cc.attrs.id}">
+			<p:commandLink id="panel" styleClass="slot" style="text-align:center" action="#{scoutCtrll. selecionaAtleta}">
+				<h:outputText id="nome" value="#{cc.attrs.obj.nome}" style="font-size:14pt; color:black" />
+				<br />
+				<br />
+				<h:outputText id="numero" value="#{cc.attrs.obj.numero}" style="font-size:17pt; color:black" />
+				<p:effect type="pulsate" event="click" />  
+				<f:param name="atleta" value="#{cc.attrs.obj.guidAtleta}" />
+				<f:setPropertyActionListener value="#{cc.attrs.obj}" target="#{scoutCtrll.scoutAcao}" />
+				
+			</p:commandLink>
+		</div>
+	</composite:implementation>
+</body>
+</html>

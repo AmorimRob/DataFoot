@@ -1,9 +1,11 @@
 package br.com.alesil.datafoot.model;
 
 import java.util.Date;
-import java.util.UUID;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name="df_scout_detalhes")
@@ -11,25 +13,31 @@ public class ScoutDetalhes {
 	
 	@Id
 	@Column(name="SDT_GUID_SCOUT_DETALHES")
-	private UUID guidScoutDetalhes;
+	private String guidScoutDetalhes;
+	
+	@Column(name="SDT_GUID_SCOUT")
+	private String guidScout;
 	
 	@Column(name="SDT_TEMPO_JOGO")
 	private Date tempoJogo;
 	
 	@Column(name="SDT_GUID_ACAO")
-	private UUID guidAcao;
+	private String guidAcao;
 	
 	@Column(name="SDT_GUID_ATLETA")
-	private UUID atleta;
+	private String atleta;
 	
 	@Column(name="SDT_GUID_ATLETA2")
-	private UUID atleta2;
+	private String atleta2;
+	
+	@Column(name="SDT_GUID_CLUBE")
+	private String guidClube;
 
-	public UUID getGuidScoutDetalhes() {
+	public String getGuidScoutDetalhes() {
 		return guidScoutDetalhes;
 	}
 
-	public void setGuidScoutDetalhes(UUID guidScoutDetalhes) {
+	public void setGuidScoutDetalhes(String guidScoutDetalhes) {
 		this.guidScoutDetalhes = guidScoutDetalhes;
 	}
 
@@ -41,27 +49,27 @@ public class ScoutDetalhes {
 		this.tempoJogo = tempoJogo;
 	}
 
-	public UUID getGuidAcao() {
+	public String getGuidAcao() {
 		return guidAcao;
 	}
 
-	public void setGuidAcao(UUID guidAcao) {
+	public void setGuidAcao(String guidAcao) {
 		this.guidAcao = guidAcao;
 	}
 
-	public UUID getAtleta() {
+	public String getAtleta() {
 		return atleta;
 	}
 
-	public void setAtleta(UUID atleta) {
+	public void setAtleta(String atleta) {
 		this.atleta = atleta;
 	}
 
-	public UUID getAtleta2() {
+	public String getAtleta2() {
 		return atleta2;
 	}
 
-	public void setAtleta2(UUID atleta2) {
+	public void setAtleta2(String atleta2) {
 		this.atleta2 = atleta2;
 	}
 
@@ -117,6 +125,22 @@ public class ScoutDetalhes {
 		} else if (!tempoJogo.equals(other.tempoJogo))
 			return false;
 		return true;
+	}
+
+	public String getGuidScout() {
+		return guidScout;
+	}
+
+	public void setGuidScout(String guidScout) {
+		this.guidScout = guidScout;
+	}
+
+	public String getGuidClube() {
+		return guidClube;
+	}
+
+	public void setGuidClube(String guidClube) {
+		this.guidClube = guidClube;
 	}
 	
 }

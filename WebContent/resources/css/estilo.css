@@ -50,167 +50,136 @@ body {
 	color: red;
 }
 
-/* PADRÕES DO MENU*/
-#cssmenu .has-sub {
-	z-index: 1;
-}
-
-#cssmenu ul {
-	margin: 0;
-	padding: 0;
-	position: relative;
-}
-
-#cssmenu li {
-	margin: 0;
-	padding: 0;
-	position: relative;
-}
-
+#cssmenu ul,
+#cssmenu li,
+#cssmenu span,
 #cssmenu a {
-	margin: 0;
-	padding: 0;
-	position: relative;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  position: relative;
 }
-
-#cssmenu spam {
-	margin: 0;
-	padding: 0;
-	position: relative;
-}
-
-#cssmenu ul {
-	list-style: none;
-}
-
-#cssmenu a {
-	text-decoration: none;
-}
-
 #cssmenu {
-	height: 50px;
-	border-top-style: solid;
-	border-top-color: #fa4f00;
-	background-color: #000000;
-	width: auto;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-top:3px;
+  border-top-style:solid;
+  border-top-color:#fa4f00;
+  background: #000000 100% 100%;
+  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.15);
+  -webkit-box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.15);
+  font-weight: 600;
+  height: 52px;
+  width: auto;
 }
 
-#cssmenu>ul>li {
-	float: left;
-	margin-left: 15px;
-	position: relative;
+#cssmenu:after,
+#cssmenu ul:after {
+  content: '';
+  display: block;
+  clear: both;
+}
+#cssmenu a {
+  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.15);
+  -webkit-box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.15);
+  background: #000000;
+
+  display: inline-block;
+  font-family: Verdana, 'Lucida Grande';
+  font-weight: 500;
+  font-size: 15px;
+  color: #fa4f00;
+  line-height: 52px;
+  padding: 0 28px;
+  text-decoration: none;
 }
 
-#cssmenu>ul>li>a {
-	color: #fa4f00;
-	font-family: Verdana, 'Lucida Grande';
-	font-size: 15px;
-	line-height: 50px;
-	padding: 15px 20px;
-	-webkit-transition: color .15s;
-	-moz-transition: color .15s;
-	-o-transition: color .15s;
-	transition: color .15s;
+#cssmenu ul {
+  list-style: none;
+  box-shadow: inset 0 1px 0 whitesmoke;
+  -moz-box-shadow: inset 0 1px 0 whitesmoke;
+  -webkit-box-shadow: inset 0 1px 0 whitesmoke;
+}
+#cssmenu > ul {
+  float: left;
+}
+#cssmenu > ul > li {
+  float: left;
+}
+#cssmenu > ul > li:first-child a {
+  border-radius: 5px 0 0 5px;
+  -moz-border-radius: 5px 0 0 5px;
+  -webkit-border-radius: 5px 0 0 5px;
+}
+#cssmenu > ul > li.active a,
+#cssmenu > ul > li:hover > a {
+  box-shadow: inset 0 -2px 3px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: inset 0 -2px 3px rgba(0, 0, 0, 0.15);
+  -webkit-box-shadow: inset 0 -2px 3px rgba(0, 0, 0, 0.15);
+  color: white;
+  background: #fa4f00;
+
+}
+#cssmenu .has-sub {
+  z-index: 1;
+}
+#cssmenu .has-sub:hover > ul {
+  display: block;
+}
+#cssmenu .has-sub ul {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  display: none;
+  position: absolute;
+  width: 200px;
+  top: 100%;
+  left: 0;
+}
+#cssmenu .has-sub ul li a {
+  background: #f1f1f1;
+  border-bottom: 1px solid #f1f1f1;
+  border-bottom: 1px solid #f1f1f1;
+  box-shadow: inset 0 1px 0 #f1f1f1;
+  -moz-box-shadow: inset 0 1px 0 #f1f1f1;
+  -webkit-box-shadow: inset 0 1px 0 #f1f1f1;
+ 
+  color: #000000;
+  display: block;
+  line-height: 50%;
+  padding: 15px 20px;
+  font-size: 13px;
 }
 
-#cssmenu>ul>li>a:hover {
-	color: #ffffff;
-	background-color: #fa4f00;
+#cssmenu .has-sub ul li:hover a {
+  background: #ffffff;
+  box-shadow: inset 0 0 3px 1px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: inset 0 0 3px 1px rgba(0, 0, 0, 0.15);
+  -webkit-box-shadow: inset 0 0 3px 1px rgba(0, 0, 0, 0.15);
 }
-
-#cssmenu>ul>li>ul {
-	opacity: 0;
-	visibility: hidden;
-	padding: 16px 0 20px 0;
-	background-color: #f1f1f1;
-	text-align: left;
-	position: absolute;
-	top: 55px;
-	left: 50%;
-	margin-left: -90px;
-	width: 180px;
-	-webkit-transition: all .3s .1s;
-	-moz-transition: all .3s .1s;
-	-o-transition: all .3s .1s;
-	transition: all .3s .1s;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	-webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.4);
-	-moz-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.4);
-	box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.4);
+#cssmenu .has-sub .has-sub:hover > ul {
+  display: block;
 }
-
-#cssmenu>ul>li:hover>ul {
-	opacity: 1;
-	top: 55px;
-	visibility: visible;
+#cssmenu .has-sub .has-sub ul {
+  display: none;
+  position: absolute;
+  left: 100%;
+  top: 0;
 }
-
-#cssmenu>ul>li>ul:before {
-	content: '';
-	display: block;
-	border-color: transparent transparent #f1f1f1 transparent;
-	border-style: solid;
-	border-width: 10px;
-	position: absolute;
-	top: -20px;
-	left: 50%;
-	margin-left: -10px;
+#cssmenu .has-sub .has-sub ul li a {
+  background: #f1f1f1;
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
 }
-
-#cssmenu>ul ul>li {
-	position: relative;
-}
-
-#cssmenu ul ul a {
-	color: #323232;
-	font-family: Verdana, 'Lucida Grande';
-	font-size: 13px;
-	background-color: #f1f1f1;
-	padding: 5px 8px 7px 16px;
-	display: block;
-	-webkit-transition: background-color 0.1s;
-	-moz-transition: background-color 0.1s;
-	-o-transition: background-color 0.1s;
-	transition: background-color 0.1s;
-}
-
-#cssmenu ul ul a:hover {
-	background-color: #f0f0f0;
-}
-
-#cssmenu ul ul ul {
-	visibility: hidden;
-	opacity: 0;
-	position: absolute;
-	top: -16px;
-	left: 206px;
-	padding: 16px 0 20px 0;
-	background-color: #f1f1f1;
-	text-align: left;
-	width: 180px;
-	-webkit-transition: all .3s;
-	-moz-transition: all .3s;
-	-o-transition: all .3s;
-	transition: all .3s;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	-webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.4);
-	-moz-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.4);
-	box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.4);
-}
-
-#cssmenu ul ul>li:hover>ul {
-	opacity: 1;
-	left: 190px;
-	visibility: visible;
-}
-
-#cssmenu ul ul a:hover {
-	background-color: #ffffff;
-	color: #000000;
+#cssmenu .has-sub .has-sub ul li a:hover {
+  background: #f1f1f1;
+  box-shadow: inset 0 0 3px 1px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: inset 0 0 3px 1px rgba(0, 0, 0, 0.15);
+  -webkit-box-shadow: inset 0 0 3px 1px rgba(0, 0, 0, 0.15);
 }
 
 /*PADRÕES Tela de scout */
@@ -228,6 +197,7 @@ body {
 	width:70px; 
 	height:70px;
 	background-color: red;
+	white-space: pre;
 }
 
 }

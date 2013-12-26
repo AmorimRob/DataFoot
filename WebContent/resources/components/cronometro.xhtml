@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:composite="http://java.sun.com/jsf/composite">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+</head>
+<body>
+
+	<composite:interface>
+		<composite:attribute name="id" required="true"></composite:attribute>
+		
+	</composite:interface>
+
+	<composite:implementation>
+		<form>
+			<h:outputText id="txt_count" value="#{cronometroCtrl.tempo}" style="font-size:18px" />
+			<p:poll interval="1" listener="#{cronometroCtrl.cronometro}"
+			update="txt_count" widgetVar="myPoll" autoStart="false" rendered="#{cronometroCtrl.emExecucao}"/>
+			
+			<p:commandButton icon="ui-icon-unlocked" action="#{cronometroCtrl.iniciarPoll}" onclick="PF('myPoll').start();"/>
+			<p:commandButton value="Reiniciar o tempo" action="#{cronometroCtrl.recomecarPoll}"/>
+			<p:commandButton icon="ui-icon-locked" action="#{cronometroCtrl.pararPoll}"/>
+		</form>
+	</composite:implementation>
+</body>
+</html>

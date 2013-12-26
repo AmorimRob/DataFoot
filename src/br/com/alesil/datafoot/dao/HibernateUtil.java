@@ -27,7 +27,8 @@ public class HibernateUtil {
 				.addAnnotatedClass(Estadio.class).addAnnotatedClass(Jogo.class)
 				.addAnnotatedClass(Scout.class)
 				.addAnnotatedClass(ScoutAcao.class)
-				.addAnnotatedClass(ScoutDetalhes.class);
+				.addAnnotatedClass(ScoutDetalhes.class)
+				.addAnnotatedClass(ScoutEsquema.class);
 
 		configuration.configure();
 		ServiceRegistryBuilder serviceRegistryBuilder = new ServiceRegistryBuilder()

@@ -33,6 +33,8 @@
         <mapping class = "br.com.alesil.datafoot.model.Scout"/>
         <mapping class = "br.com.alesil.datafoot.model.ScoutAcao"/>
         <mapping class = "br.com.alesil.datafoot.model.ScoutDetalhes"/>
+        <mapping class = "br.com.alesil.datafoot.model.Esquema"/>
+        <mapping class = "br.com.alesil.datafoot.model.ScoutEsquema"/>
         	
      </session-factory>
 </hibernate-configuration>

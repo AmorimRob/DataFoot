@@ -12,13 +12,30 @@
 	text-align: center;
 	float: center;
 }
+
+.slot {
+	background: #FF9900;
+	opacity: 0.7;
+	width: 60px;
+	height: 80px;
+	display: block;
+}
+
+
+.ui-panelgrid td {
+border-width: 0px;
+border-style: solid;
+border-color: inherit;
+padding: 4px 10px;
+}
+
 </style>
 
-	<script type="text/javascript">
-		function handleDrop(event, ui) {
-			var draggable = ui.draggable, helper = ui.helper, position = ui.position, offset = ui.offset;
-		}
-	</script>
+<script type="text/javascript">
+	function handleDrop(event, ui) {
+		var draggable = ui.draggable, helper = ui.helper, position = ui.position, offset = ui.offset;
+	}
+</script>
 
 </h:head>
 <h:body>

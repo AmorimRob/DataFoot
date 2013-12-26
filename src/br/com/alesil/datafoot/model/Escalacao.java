@@ -105,6 +105,9 @@ public class Escalacao{
 	private String nomeAtleta;
 	
 	@Transient
+	private byte[] fotoAtleta;
+	
+	@Transient
 	private String nomeComissao;
 	
 	public String getGuidJogo() {
@@ -196,5 +199,13 @@ public class Escalacao{
 	}
 	public void setNomeComissao(String nomeComissao) {
 		this.nomeComissao = nomeComissao;
+	}
+
+	public byte[] getFotoAtleta() {
+		return fotoAtleta;
+	}
+
+	public void setFotoAtleta(byte[] fotoAtleta) {
+		this.fotoAtleta = fotoAtleta;
 	}
 }

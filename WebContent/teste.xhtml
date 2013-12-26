@@ -3,46 +3,27 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
-<ui:composition template="/templates/template.xhtml">
-	<ui:define name="titulo">
-Datafoot Scouts Online e Notícias de Futebol
-</ui:define>
-	<ui:define name="corpo">
+<h:head>
+	<title>Datafoot Scouts Online e Notícias de Futebol</title>
+</h:head>
 
-<h:form prependId="false">
-	<p:panelGrid columns="2">
-			 	<p:row>
-					<p:column>
-						<p:panel>
-							<h:graphicImage id="player" value="resources/imagens/alesil.png" />
-							<p:draggable for="player" revert="true" />
-						</p:panel>
-					</p:column>
-					<p:column>
-						<p:panel>
-							<h:graphicImage id="player2" value="resources/imagens/alesil.png" />
-							<p:draggable for="player2" revert="true" />
-						</p:panel>
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column>
-						<p:outputPanel id="A1" styleClass="slot" />	
-						<p:droppable for="A1">
-							<p:ajax listener="#{barcelona.onDrop}"/>
-						
-						</p:droppable> 
-					</p:column>
-					<p:column>
-						<p:outputPanel id="A2" styleClass="slot2" />	
-						<p:droppable for="A2" /> 
-					</p:column>
-				</p:row>
-			</p:panelGrid>
+<h:body>
 
-	</h:form>
-</ui:define>
-</ui:composition>
+<h:form id="form">
+    <p:accordionPanel>  
+    <p:tab title="Godfather Part I">  
+        <h:panelGrid columns="2" cellpadding="10">  
+            <p:graphicImage value="/images/godfather/godfather1.jpg" />  
+            <h:outputText  
+                value="The story begins as Don Vito Corleone, the head of a New York Mafia family, oversees his daughter's wedding.   
+                His beloved son Michael has just come home from the war, but does not intend to become part of his father's business. T  
+                hrough Michael's life the nature of the family business becomes clear. The business of the family is just like the head of the family, kind and benevolent to those who give respect,   
+                but given to ruthless violence whenever anything stands against the good of the family." />  
+        	<p:commandButton value="teste" action="#{scoutCtrll.realizaAcao}"></p:commandButton>
+        </h:panelGrid>  
+    </p:tab>  
+    </p:accordionPanel>
+</h:form> 
+</h:body>
 </html>

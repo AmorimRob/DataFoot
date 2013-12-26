@@ -1,8 +1,9 @@
 package br.com.alesil.datafoot.model;
 
-import java.util.UUID;
-
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name="df_scout_acao")
@@ -10,7 +11,7 @@ public class ScoutAcao {
 
 	@Id
 	@Column(name="SCA_GUID_ACAO")
-	private UUID guidAcao;
+	private String guidAcao;
 	
 	@Column(name="SCA_DESCRICAO")
 	private String descricao;
@@ -18,14 +19,17 @@ public class ScoutAcao {
 	@Column(name="SCA_SIGLA")
 	private String sigla;
 	
+	@Column(name="SCA_ATALHO")
+	private String atalho;
+	
 	@Column(name="SCA_ATLETA2")
 	private boolean atleta2;
 
-	public UUID getGuidAcao() {
+	public String getGuidAcao() {
 		return guidAcao;
 	}
 
-	public void setGuidAcao(UUID guidAcao) {
+	public void setGuidAcao(String guidAcao) {
 		this.guidAcao = guidAcao;
 	}
 
@@ -93,6 +97,14 @@ public class ScoutAcao {
 		} else if (!sigla.equals(other.sigla))
 			return false;
 		return true;
+	}
+
+	public String getAtalho() {
+		return atalho;
+	}
+
+	public void setAtalho(String atalho) {
+		this.atalho = atalho;
 	}
 	
 }

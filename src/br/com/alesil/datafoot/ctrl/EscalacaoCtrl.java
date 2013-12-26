@@ -3,6 +3,7 @@ package br.com.alesil.datafoot.ctrl;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -39,7 +40,8 @@ public class EscalacaoCtrl {
 	private DualListModel<Atleta> listaAtletaVisitante;
 
 	private List<Atleta> source = new ArrayList<Atleta>();
-	private List<Atleta> target = new ArrayList<Atleta>();
+	private List<Atleta> targetMandante = new ArrayList<Atleta>();
+	private List<Atleta> targetVisitante = new ArrayList<Atleta>();
 
 	private List<Escalacao> escalMandante;
 	private List<Escalacao> escalVisitante;
@@ -58,13 +60,14 @@ public class EscalacaoCtrl {
 		this.escalacao = new Escalacao();
 		this.dao = new EscalacaoDao();
 
-		this.listaAtletaMandante = new DualListModel<Atleta>(source, target);
-		this.listaAtletaVisitante = new DualListModel<Atleta>(source, target);
+		this.listaAtletaMandante = new DualListModel<Atleta>(source, targetMandante);
+		this.listaAtletaVisitante = new DualListModel<Atleta>(source, targetVisitante);
 	}
 
 	public void salvarMandante() {
 
 		for (Escalacao item : escalMandante) {
+			item.setGuidJogo(jogoSelecionado);
 			item.setGuidClube(timeMandante);
 			operacao.salvar(item, dao, "FormClube");
 		}
@@ -115,7 +118,13 @@ public class EscalacaoCtrl {
 					Escalacao clone = new Escalacao(escalacao);
 					this.escalMandante.add(clone);
 				} else if (event.isRemove())
-					this.escalMandante.remove(escalacao);
+					for(int i=0; i < escalMandante.size(); i++){
+						if(escalMandante.get(i).getGuidAtleta().equals(((Atleta)item).getGuidAtleta())){
+							this.escalMandante.remove(i);	
+							operacao.excluir(escalacao, dao, "FormClube");
+						}
+						
+					}	
 			}
 
 		} else {
@@ -133,7 +142,13 @@ public class EscalacaoCtrl {
 					Escalacao clone = new Escalacao(escalacao);
 					this.escalVisitante.add(clone);
 				} else if (event.isRemove())
-					this.escalVisitante.remove(escalacao);
+					for(int i=0; i < escalVisitante.size(); i++){
+						if(escalVisitante.get(i).getGuidAtleta().equals(((Atleta)item).getGuidAtleta())){
+							this.escalVisitante.remove(i);	
+							operacao.excluir(escalacao, dao, "FormClube");
+						}
+					}
+					
 			}
 		}
 	}
@@ -166,15 +181,67 @@ public class EscalacaoCtrl {
 		timeVisitante = jogo.getGuidClubeVisitante();
 
 		FacesContext contexto = FacesContext.getCurrentInstance();
-		contexto.getExternalContext().getSessionMap()
-				.put("jogoselcionado", jogoSelecionado);
-		HttpSession sessao = (HttpSession) contexto.getExternalContext()
-				.getSession(false);
+		contexto.getExternalContext().getSessionMap().put("jogoselcionado", jogoSelecionado);
+		HttpSession sessao = (HttpSession) contexto.getExternalContext().getSession(false);
 
-		listaAtletaMandante = new DualListModel<Atleta>(
-				new AtletaDao().pesquisarAtletasPorClube(timeMandante), target);
-		listaAtletaVisitante = new DualListModel<Atleta>(
-				new AtletaDao().pesquisarAtletasPorClube(timeVisitante), target);
+//		listaAtletaMandante = new DualListModel<Atleta>(
+	//			new AtletaDao().pesquisarAtletasPorClube(timeMandante), targetMandante);
+		//listaAtletaVisitante = new DualListModel<Atleta>(
+			//	new AtletaDao().pesquisarAtletasPorClube(timeVisitante), targetVisitante);
+	}
+	
+	public void listaEscaladosMandante(){
+		//lista jogadores ja escalados
+		List<Atleta>listaNaoEscalados = new AtletaDao().pesquisarAtletasPorClube(timeMandante);
+		Collections.reverse(listaNaoEscalados);
+		escalMandante = new EscalacaoDao().atletasPorClube(timeMandante, jogoSelecionado);
+		for(Escalacao item : escalMandante){
+			Atleta atl = new Atleta();
+			atl.setGuidAtleta(item.getGuidAtleta());
+			atl = new AtletaDao().buscarAtletaPorGuid(atl.getGuidAtleta());
+			targetMandante.add(atl);
+		}
+		
+		List<Atleta> atletasEscalados = new ArrayList<Atleta>();
+		for(Atleta item : listaNaoEscalados){
+			for(Atleta item2 : targetMandante){
+				if(item.getGuidAtleta().equals(item2.getGuidAtleta())){
+					atletasEscalados.add(item);
+				}
+			}
+		}
+		
+		for(Atleta item : atletasEscalados){
+			listaNaoEscalados.remove(item);
+		}
+		listaAtletaMandante = new DualListModel<Atleta>(listaNaoEscalados, targetMandante);
+	}
+	
+	public void listaEscaladosVisitante(){
+		//lista jogadores ja escalados
+		List<Atleta>listaNaoEscalados = new AtletaDao().pesquisarAtletasPorClube(timeVisitante);
+		Collections.reverse(listaNaoEscalados);
+		escalVisitante = new EscalacaoDao().atletasPorClube(timeVisitante, jogoSelecionado);
+		for(Escalacao item : escalVisitante){
+			Atleta atl = new Atleta();
+			atl.setGuidAtleta(item.getGuidAtleta());
+			atl = new AtletaDao().buscarAtletaPorGuid(atl.getGuidAtleta());
+			targetVisitante.add(atl);
+		}
+		
+		List<Atleta> atletasEscalados = new ArrayList<Atleta>();
+		for(Atleta item : listaNaoEscalados){
+			for(Atleta item2 : targetVisitante){
+				if(item.getGuidAtleta().equals(item2.getGuidAtleta())){
+					atletasEscalados.add(item);
+				}
+			}
+		}
+		
+		for(Atleta item : atletasEscalados){
+			listaNaoEscalados.remove(item);
+		}
+		listaAtletaVisitante = new DualListModel<Atleta>(listaNaoEscalados, targetVisitante);
 	}
 
 	public DualListModel<Atleta> getListaAtletaMandante() {
